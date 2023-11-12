@@ -1,0 +1,32 @@
+import { NextApiRequest, NextApiResponse } from "next/types";
+import { verifyAuthorizationSignature } from "lnurl";
+
+import { callbackValidation } from "../validation/lnurl";
+
+import { Config } from "../config";
+
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse,
+  config: Config
+) {
+  const { k1, key: pubkey, sig } = callbackValidation.parse(req.query);
+
+  const authorize = await verifyAuthorizationSignature(sig, k1, pubkey);
+  if (!authorize) {
+    throw new Error("Error in keys");
+  }
+
+  await config.storage.update(
+    { k1, data: { pubkey, sig, success: true } },
+    req
+  );
+
+  res.send(
+    JSON.stringify({
+      status: "OK",
+      success: true,
+      k1,
+    })
+  );
+}

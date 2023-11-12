@@ -1,0 +1,62 @@
+{
+  "name": "next-auth-lightning-provider",
+  "version": "0.0.0",
+  "type": "module",
+  "description": "A light-weight and self-hosted Lightning OAuth wrapper and provider for next-auth.",
+  "homepage": "",
+  "repository": "",
+  "author": "Iain Collins <me@iaincollins.com>",
+  "contributors": [],
+  "keywords": [
+    "react",
+    "nodejs",
+    "oauth",
+    "jwt",
+    "oauth2",
+    "authentication",
+    "nextjs",
+    "nextauth",
+    "lightning",
+    "bitcoin"
+  ],
+  "files": [
+    "*.d.ts*",
+    "*.js"
+  ],
+  "license": "ISC",
+  "scripts": {
+    "build": "tsc",
+    "clean": "tsc --build --clean",
+    "dev": "tsc ./index -w",
+    "prebuild": "npm run clean"
+  },
+  "peerDependencies": {
+    "next": "^14",
+    "next-auth": "^4",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "dependencies": {
+    "@dicebear/collection": "^7.0.1",
+    "@dicebear/core": "^7.0.1",
+    "jose": "^5.1.0",
+    "lnurl": "^0.25.1",
+    "lodash.merge": "^4.6.2",
+    "qrcode": "^1.5.3",
+    "unique-names-generator": "^4.7.1",
+    "zod": "^3.22.2"
+  },
+  "devDependencies": {
+    "@types/lodash.merge": "^4.6.9",
+    "@types/node": "20.5.9",
+    "@types/qrcode": "^1.5.4",
+    "@types/react": "18.2.21",
+    "@types/react-dom": "18.2.7",
+    "eslint": "8.48.0",
+    "next": "^14",
+    "next-auth": "^4",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "typescript": "^5.2.2"
+  }
+}
