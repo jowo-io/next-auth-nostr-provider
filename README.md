@@ -3,7 +3,7 @@
 
 # About
 
-A light-weight and self-hosted Lightning ([lnurl-auth](https://fiatjaf.com/e0a35204.html)) OAuth wrapper and provider for (next-auth)[https://github.com/nextauthjs/next-auth].
+A light-weight and self-hosted Lightning / [lnurl-auth](https://fiatjaf.com/e0a35204.html) OAuth wrapper and provider for [next-auth](https://github.com/nextauthjs/next-auth).
 
 # TODO
 
