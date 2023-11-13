@@ -16,6 +16,7 @@ A light-weight and self-hosted Lightning / [lnurl-auth](https://fiatjaf.com/e0a3
 
 ### Secondary
 
+- carefully run through the auth and data flow to look for bugs or oversights
 - investigate all `// TODO ...` comments
 - add comments to functions
 - look into JWT expire time and token api response fields

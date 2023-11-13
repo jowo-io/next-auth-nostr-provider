@@ -11,7 +11,7 @@ import {
   animals,
 } from "unique-names-generator";
 
-import { Config, LnAuthConfig, OptionalConfig, ThemeStyles } from "./types.js";
+import { Config, UserConfig, OptionalConfig, ThemeStyles } from "./types.js";
 import { hardConfig } from "./hard.js";
 
 const colorSchemeLight: ThemeStyles = {
@@ -19,6 +19,8 @@ const colorSchemeLight: ThemeStyles = {
   backgroundCard: "#fff",
   text: "#000",
   error: "#c94b4b",
+  loginButtonBackground: "#24292f",
+  loginButtonText: "#fff",
 };
 
 const colorSchemeDark: ThemeStyles = {
@@ -26,6 +28,8 @@ const colorSchemeDark: ThemeStyles = {
   backgroundCard: "#0d1117",
   text: "#fff",
   error: "#c94b4b",
+  loginButtonBackground: "#24292f",
+  loginButtonText: "#fff",
 };
 
 const defaultConfig: Partial<OptionalConfig> = {
@@ -94,11 +98,11 @@ const defaultConfig: Partial<OptionalConfig> = {
   },
 };
 
-export function formatConfig(lnAuthConfig: LnAuthConfig): Config {
+export function formatConfig(userConfig: UserConfig): Config {
   const theme =
-    lnAuthConfig.theme?.colorScheme === "dark"
+    userConfig.theme?.colorScheme === "dark"
       ? colorSchemeDark
       : colorSchemeLight;
 
-  return merge(defaultConfig, { theme }, lnAuthConfig, hardConfig) as Config;
+  return merge(defaultConfig, { theme }, userConfig, hardConfig) as Config;
 }

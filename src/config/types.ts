@@ -77,6 +77,8 @@ export type ThemeStyles = {
   backgroundCard: string;
   text: string;
   error: string;
+  loginButtonBackground: string;
+  loginButtonText: string;
 };
 
 export type OptionalConfig = {
@@ -105,7 +107,7 @@ export type OptionalConfig = {
   } & Partial<ThemeStyles>;
 };
 
-export type LnAuthConfig = RequiredConfig & Partial<OptionalConfig>;
+export type UserConfig = RequiredConfig & Partial<OptionalConfig>;
 
 export type Config = HardConfig &
   RequiredConfig &
