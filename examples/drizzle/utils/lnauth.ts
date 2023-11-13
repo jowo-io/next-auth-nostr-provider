@@ -1,11 +1,13 @@
-import LnAuthAuth, { LnAuthConfig } from "next-auth-lightning-provider";
+import NextAuthLightningProvider, {
+  NextAuthLightningProviderConfig,
+} from "next-auth-lightning-provider";
 import { eq } from "drizzle-orm";
 
 import { lnAuthTable, LnAuth } from "@/schema/db";
 import db from "@/utils/db";
 import { env } from "@/env.mjs";
 
-export const config: LnAuthConfig = {
+export const config: NextAuthLightningProviderConfig = {
   // required
   siteUrl: env.NEXTAUTH_URL,
   clientId: env.LIGHTNING_CLIENT_ID,
@@ -38,4 +40,4 @@ export const config: LnAuthConfig = {
   },
 };
 
-export default LnAuthAuth(config);
+export default NextAuthLightningProvider(config);
