@@ -9,23 +9,24 @@ A light-weight and self-hosted Lightning / [lnurl-auth](https://fiatjaf.com/e0a3
 
 ### Primary
 
-- figure out how to easily symlink for local development
 - support `next-auth@4` and `next-auth@5`
+- support Next.js app directory and pages directory (if possible)
+- investigate CSRF for next-auth
 
 ### Secondary
 
 - tidy up endpoint and add validation and error handling
-- support multiple file types for avatar and qr
-- consider error handling
+- consider and improve error handling more generally. what can go wrong? how is that handled?
 - add clientId / secret back if necessary for security
-- light / dark mode
-- ability to build custom QR login pages
-- investigate CSRF for next-auth
-- decide on terminology (avatar or image or picture)
-- add readme
-- add more example repos. e.g. redis, prisma
-- add spinner to Loading component
 - tidy library: restructure files, move types if necessary, export all public api/components from index
 - finish adding pages.error / pages.signUp config options
+- ability to build custom QR login pages
+
+### Tertiary
+
+- decide on terminology (avatar or image or picture)
+- add more example repos. e.g. redis, prisma
+- add readme
+- add spinner to Loading component
 - open PR on `next-auth`
-- support Next.js app directory and pages directory (if possible)
+- support multiple file types for avatar and qr
