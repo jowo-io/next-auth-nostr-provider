@@ -14,7 +14,7 @@ export const createValidation = z.object({
 
 export type CreateValidation = z.infer<typeof callbackValidation>;
 
-export const pingValidation = z.object({
+export const pollValidation = z.object({
   k1: z.string().min(1),
 });
 

@@ -3,7 +3,7 @@ import { OAuthConfig } from "next-auth/providers/oauth";
 
 // auth apis
 import createHandler from "./handlers/create.js";
-import pingHandler from "./handlers/ping.js";
+import pollHandler from "./handlers/poll.js";
 import callbackHandler from "./handlers/callback.js";
 import tokenHandler from "./handlers/token.js";
 
@@ -60,8 +60,8 @@ export default function LnAuthAuth(lnAuthConfig: LnAuthConfig) {
   ) {
     if (req.url?.indexOf(config.apis.create) === 0) {
       return await createHandler(req, res, config);
-    } else if (req.url?.indexOf(config.apis.ping) === 0) {
-      return await pingHandler(req, res, config);
+    } else if (req.url?.indexOf(config.apis.poll) === 0) {
+      return await pollHandler(req, res, config);
     } else if (req.url?.indexOf(config.apis.callback) === 0) {
       return await callbackHandler(req, res, config);
     } else if (req.url?.indexOf(config.apis.token) === 0) {

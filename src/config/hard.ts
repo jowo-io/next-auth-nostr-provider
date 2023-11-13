@@ -6,7 +6,7 @@ export const hardConfig: HardConfig = {
   apis: {
     // apis
     create: "/api/lnauth/create",
-    ping: "/api/lnauth/ping",
+    poll: "/api/lnauth/poll",
     callback: "/api/lnauth/callback",
     token: "/api/lnauth/token",
 
@@ -26,7 +26,7 @@ export const hardConfig: HardConfig = {
     wrapper: `${idPrefix}---wrapper`,
   },
   intervals: {
-    ping: 1000,
+    poll: 1000,
     create: 5 * 60 * 1000,
   },
 };

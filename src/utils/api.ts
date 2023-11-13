@@ -1,11 +1,11 @@
 import { hardConfig } from "../config/index.js";
 
-export async function pingApiRequest(
+export async function pollApiRequest(
   k1: string,
   state: string,
   redirectUri: string
 ) {
-  const response = await fetch(hardConfig.apis.ping, {
+  const response = await fetch(hardConfig.apis.poll, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

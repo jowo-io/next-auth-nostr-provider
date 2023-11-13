@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next/types";
 
-import { pingValidation } from "../validation/lnauth.js";
+import { pollValidation } from "../validation/lnauth.js";
 
 import { Config } from "../config/index.js";
 
@@ -9,7 +9,7 @@ export default async function handler(
   res: NextApiResponse,
   config: Config
 ) {
-  const { k1 } = pingValidation.parse(req.body);
+  const { k1 } = pollValidation.parse(req.body);
 
   const { success = false } = await config.storage.get({ k1 }, req);
 

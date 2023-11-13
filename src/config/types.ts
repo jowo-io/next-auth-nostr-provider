@@ -4,7 +4,7 @@ export type HardConfig = {
   apis: {
     // apis
     create: string;
-    ping: string;
+    poll: string;
     callback: string;
     token: string;
 
@@ -24,7 +24,7 @@ export type HardConfig = {
     loading: string;
   };
   intervals: {
-    ping: number;
+    poll: number;
     create: number;
   };
 };

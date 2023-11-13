@@ -16,6 +16,9 @@ A light-weight and self-hosted Lightning / [lnurl-auth](https://fiatjaf.com/e0a3
 
 ### Secondary
 
+- investigate all `// TODO ...` comments
+- add comments to functions
+- look into JWT expire time and token api response fields
 - tidy up endpoint and add validation and error handling
 - consider and improve error handling more generally. what can go wrong? how is that handled?
 - add clientId / secret back if necessary for security

@@ -9,10 +9,10 @@ export const vanilla = function ({
 }) {
   let data: any;
 
-  function ping() {
+  function poll() {
     if (!data || !data.k1) return;
 
-    return fetch(hardConfig.apis.ping, {
+    return fetch(hardConfig.apis.poll, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -80,7 +80,7 @@ export const vanilla = function ({
       });
   }
 
-  setInterval(ping, hardConfig.intervals.ping);
+  setInterval(poll, hardConfig.intervals.poll);
   setInterval(create, hardConfig.intervals.create);
   create(); // immediately invoke it so the QR gets created
 };
