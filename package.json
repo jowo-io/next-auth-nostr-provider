@@ -1,6 +1,6 @@
 {
   "name": "next-auth-lightning-provider",
-  "version": "1.0.0-alpha.3",
+  "version": "1.0.0-alpha.4",
   "type": "module",
   "main": "index.js",
   "description": "A light-weight and self-hosted Lightning OAuth wrapper and provider for next-auth.",

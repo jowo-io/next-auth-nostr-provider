@@ -1,5 +1,4 @@
 import { NextApiRequest, NextApiResponse } from "next/types";
-import { verifyAuthorizationSignature } from "lnurl";
 
 import { callbackValidation } from "../validation/lnurl.js";
 
@@ -12,6 +11,7 @@ export default async function handler(
 ) {
   const { k1, key: pubkey, sig } = callbackValidation.parse(req.query);
 
+  const { verifyAuthorizationSignature } = require("lnurl"); // use require because doesn't support esmodules when re-packaged
   const authorize = await verifyAuthorizationSignature(sig, k1, pubkey);
   if (!authorize) {
     throw new Error("Error in keys");
