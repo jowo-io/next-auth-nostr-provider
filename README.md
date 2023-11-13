@@ -12,6 +12,7 @@ A light-weight and self-hosted Lightning / [lnurl-auth](https://fiatjaf.com/e0a3
 - support `next-auth@4` and `next-auth@5`
 - support Next.js app directory and pages directory (if possible)
 - investigate CSRF for next-auth
+- test deploy example to vercel
 
 ### Secondary
 

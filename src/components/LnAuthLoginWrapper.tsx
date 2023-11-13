@@ -1,8 +1,8 @@
 import useLnUrl from "../hooks/useLnUrl.js";
 import Loading from "./Loading.js";
-import Lightning from "./Lightning.js";
+import Lightning from "./LnAuthLogin.js";
 
-export default function AuthPage({
+export default function LnAuthLoginWrapper({
   clientId,
   redirectUri,
   state,

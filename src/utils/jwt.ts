@@ -1,6 +1,6 @@
 import * as jose from "jose";
 
-import { Config } from "../config.js";
+import { Config } from "../config/index.js";
 
 export async function generateIdToken(pubkey: string, config: Config) {
   const secret = Buffer.from(config.clientSecret);

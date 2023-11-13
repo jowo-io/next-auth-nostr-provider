@@ -1,8 +1,12 @@
-import { hardConfig } from "../config.js";
+import { HTMLAttributes } from "react";
 
-export default function Loading({}: {}) {
+import { hardConfig } from "../config/index.js";
+
+export default function Loading({
+  ...props
+}: {} & HTMLAttributes<HTMLDivElement>) {
   return (
-    <div id={hardConfig.ids.loading} style={{ textAlign: "center" }}>
+    <div id={hardConfig.ids.loading} style={{ textAlign: "center" }} {...props}>
       Loading ...
     </div>
   );

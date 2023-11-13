@@ -4,7 +4,7 @@ import { randomBytes } from "crypto";
 
 import { createValidation } from "../validation/lnauth.js";
 
-import { Config } from "../config.js";
+import { Config } from "../config/index.js";
 
 export default async function handler(
   req: NextApiRequest,

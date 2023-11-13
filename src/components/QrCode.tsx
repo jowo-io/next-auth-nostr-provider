@@ -1,7 +1,7 @@
 import { ImgHTMLAttributes } from "react";
 
 import { formatLnAuth } from "../utils/lnurl.js";
-import { hardConfig } from "../config.js";
+import { hardConfig } from "../config/index.js";
 
 export default function QrCode({
   lnurl,

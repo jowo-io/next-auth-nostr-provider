@@ -1,6 +1,6 @@
 import { HTMLAttributes } from "react";
 
-import { hardConfig } from "../config.js";
+import { hardConfig } from "../config/index.js";
 
 export default function CopyCode({
   lnurl,

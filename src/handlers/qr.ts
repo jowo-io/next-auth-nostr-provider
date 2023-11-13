@@ -1,9 +1,9 @@
 import path from "path";
 import { NextApiRequest, NextApiResponse } from "next/types";
 
-import { Config } from "../config.js";
+import { Config } from "../config/index.js";
 
-const cacheDuration = 24 * 60 * 60;
+const cacheDuration = 5 * 60; // short cache duration for the QR since it's short lived
 
 export default async function handler(
   req: NextApiRequest,
@@ -22,6 +22,6 @@ export default async function handler(
   const { qr } = await config.qr.generateQr(`lightning:${name}`, config);
 
   res.setHeader("content-type", "image/svg+xml");
-  // res.setHeader("cache-control", `public, max-age=${cacheDuration}`);
+  res.setHeader("cache-control", `public, max-age=${cacheDuration}`);
   res.end(qr);
 }

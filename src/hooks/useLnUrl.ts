@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 
 import { createApiRequest, pingApiRequest } from "../utils/api.js";
-import { hardConfig } from "../config.js";
+import { hardConfig } from "../config/index.js";
 import { formatLnAuth } from "../utils/lnurl.js";
 
 export default function useLnUrl({

@@ -1,8 +1,8 @@
 import { renderToStaticMarkup } from "react-dom/server";
 import { NextApiRequest, NextApiResponse } from "next/types";
 
-import Lightning from "../components/Lightning.js";
-import { hardConfig, Config } from "../config.js";
+import LnAuthLogin from "../components/LnAuthLogin.js";
+import { hardConfig, Config } from "../config/index.js";
 import { vanilla } from "../utils/vanilla.js";
 import { extractQuery } from "../utils/query.js";
 import Loading from "../components/Loading.js";
@@ -24,8 +24,11 @@ function AuthPage({ config }: { config: Config }) {
         color: config.theme.text,
       }}
     >
+      {/* loading component is rendered and shown initially, before window.onload is triggered */}
       <Loading />
-      <Lightning
+
+      {/* login component is rendered with display: none, after window.onload is triggered */}
+      <LnAuthLogin
         title={config.title}
         lnurl=""
         theme={{

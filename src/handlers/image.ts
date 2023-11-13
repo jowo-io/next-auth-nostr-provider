@@ -1,9 +1,9 @@
 import path from "path";
 import { NextApiRequest, NextApiResponse } from "next/types";
 
-import { Config } from "../config.js";
+import { Config } from "../config/index.js";
 
-const cacheDuration = 24 * 60 * 60;
+const cacheDuration = 24 * 60 * 60; // 1 day cache duration
 
 export default async function handler(
   req: NextApiRequest,
@@ -22,6 +22,6 @@ export default async function handler(
   const { image } = await config.generateAvatar(name, config);
 
   res.setHeader("content-type", "image/svg+xml");
-  // res.setHeader("cache-control", `public, max-age=${cacheDuration}`);
+  res.setHeader("cache-control", `public, max-age=${cacheDuration}`);
   res.send(image);
 }

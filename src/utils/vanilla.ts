@@ -1,4 +1,4 @@
-import { HardConfig } from "../config.js";
+import { HardConfig } from "../config/index.js";
 
 export const vanilla = function ({
   hardConfig,

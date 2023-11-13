@@ -3,7 +3,7 @@ import { NextApiRequest, NextApiResponse } from "next/types";
 import { tokenValidation } from "../validation/lnauth.js";
 
 import { generateIdToken } from "../utils/jwt.js";
-import { Config } from "../config.js";
+import { Config } from "../config/index.js";
 
 export default async function handler(
   req: NextApiRequest,

@@ -5,17 +5,9 @@ import QrCode from "./QrCode.js";
 import CopyCode from "./CopyCode.js";
 import Button from "./Button.js";
 
-import { hardConfig } from "../config.js";
+import { hardConfig } from "../config/index.js";
 
-/**
- *
- * siteUrl
- * theme (dark/light mode)
- *
- *
- */
-
-export default function Lightning({
+export default function LnAuthLogin({
   title,
   lnurl,
   theme,

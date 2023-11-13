@@ -12,7 +12,7 @@ export const config: LnAuthConfig = {
   clientSecret: env.LIGHTNING_CLIENT_SECRET,
   storage: {
     async set({ k1, data }) {
-      await db.insert(lnAuthTable).values({ ...data });
+      await db.insert(lnAuthTable).values(data);
     },
     async get({ k1 }) {
       const results: LnAuth[] = await db
