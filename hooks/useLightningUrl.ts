@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 
-import { createApiRequest, pingApiRequest } from "../utils/api";
-import { hardConfig } from "../config";
-import { formatLnurl } from "../utils/lnurl";
+import { createApiRequest, pingApiRequest } from "../utils/api.js";
+import { hardConfig } from "../config.js";
+import { formatLnurl } from "../utils/lnurl.js";
 
 export default function useLightningUrl({
   clientId,

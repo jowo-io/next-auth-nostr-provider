@@ -1,7 +1,7 @@
 import path from "path";
 import { NextApiRequest, NextApiResponse } from "next/types";
 
-import { Config } from "../config";
+import { Config } from "../config.js";
 
 const cacheDuration = 24 * 60 * 60;
 

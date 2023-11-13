@@ -1,11 +1,11 @@
 import { renderToStaticMarkup } from "react-dom/server";
 import { NextApiRequest, NextApiResponse } from "next/types";
 
-import Lightning from "../components/Lightning";
-import { hardConfig, Config } from "../config";
-import { vanilla } from "../utils/vanilla";
-import { extractQuery } from "../utils/query";
-import Loading from "../components/Loading";
+import Lightning from "../components/Lightning.js";
+import { hardConfig, Config } from "../config.js";
+import { vanilla } from "../utils/vanilla.js";
+import { extractQuery } from "../utils/query.js";
+import Loading from "../components/Loading.js";
 
 function AuthPage({ config }: { config: Config }) {
   return (

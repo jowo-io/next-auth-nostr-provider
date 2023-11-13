@@ -2,7 +2,7 @@
   "compilerOptions": {
     "forceConsistentCasingInFileNames": true,
     "strict": true,
-    "isolatedModules": true,
+    "isolatedModules": false,
     "lib": ["dom", "esnext"],
     "jsx": "react-jsx",
     "allowSyntheticDefaultImports": true,

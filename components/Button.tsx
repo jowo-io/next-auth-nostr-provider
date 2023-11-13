@@ -1,6 +1,7 @@
 import { AnchorHTMLAttributes } from "react";
-import { hardConfig } from "../config";
-import { formatLnurl } from "../utils/lnurl";
+
+import { formatLnurl } from "../utils/lnurl.js";
+import { hardConfig } from "../config.js";
 
 export default function Button({
   lnurl,

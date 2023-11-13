@@ -1,4 +1,4 @@
-import { hardConfig } from "../config";
+import { hardConfig } from "../config.js";
 
 export function formatLnurl(lnurl?: string | null) {
   if (!lnurl) {

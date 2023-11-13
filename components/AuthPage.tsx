@@ -1,6 +1,6 @@
-import Lightning from "./Lightning";
-import useLightningUrl from "../hooks/useLightningUrl";
-import Loading from "./Loading";
+import useLightningUrl from "../hooks/useLightningUrl.js";
+import Loading from "./Loading.js";
+import Lightning from "./Lightning.js";
 
 export default function AuthPage({
   clientId,

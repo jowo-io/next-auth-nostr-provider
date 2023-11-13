@@ -1,9 +1,9 @@
 import { NextApiRequest, NextApiResponse } from "next/types";
 
-import { tokenValidation } from "../validation/lnurl";
+import { tokenValidation } from "../validation/lnurl.js";
 
-import { generateIdToken } from "../utils/jwt";
-import { Config } from "../config";
+import { generateIdToken } from "../utils/jwt.js";
+import { Config } from "../config.js";
 
 export default async function handler(
   req: NextApiRequest,

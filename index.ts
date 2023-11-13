@@ -2,19 +2,19 @@ import { NextApiRequest, NextApiResponse } from "next/types";
 import { OAuthConfig } from "next-auth/providers/oauth";
 
 // auth apis
-import createHandler from "./handlers/create";
-import pingHandler from "./handlers/ping";
-import callbackHandler from "./handlers/callback";
-import tokenHandler from "./handlers/token";
+import createHandler from "./handlers/create.js";
+import pingHandler from "./handlers/ping.js";
+import callbackHandler from "./handlers/callback.js";
+import tokenHandler from "./handlers/token.js";
 
 // pages
-import loginHandler from "./handlers/login";
+import loginHandler from "./handlers/login.js";
 
 // misc
-import imageHandler from "./handlers/image";
-import qrHandler from "./handlers/qr";
+import imageHandler from "./handlers/image.js";
+import qrHandler from "./handlers/qr.js";
 
-import { formatConfig, LnurlAuthConfig } from "./config";
+import { formatConfig, LnurlAuthConfig } from "./config.js";
 
 export type { LnurlAuthConfig };
 

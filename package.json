@@ -1,11 +1,18 @@
 {
   "name": "next-auth-lightning-provider",
-  "version": "0.0.0",
+  "version": "1.0.0-alpha.3",
   "type": "module",
+  "main": "index.js",
   "description": "A light-weight and self-hosted Lightning OAuth wrapper and provider for next-auth.",
-  "homepage": "",
-  "repository": "",
-  "author": "Iain Collins <me@iaincollins.com>",
+  "homepage": "https://github.com/jowo-io/next-auth-lightning-provider/",
+  "bugs": {
+    "url": "https://github.com/jowo-io/next-auth-lightning-provider/issues"
+  },
+  "author": "Jowo <me@jowo.io>",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jowo-io/next-auth-lightning-provider.git"
+  },
   "contributors": [],
   "keywords": [
     "react",
@@ -20,8 +27,8 @@
     "bitcoin"
   ],
   "files": [
-    "*.d.ts*",
-    "*.js"
+    "**/*.d.ts*",
+    "**/*.js"
   ],
   "license": "ISC",
   "scripts": {

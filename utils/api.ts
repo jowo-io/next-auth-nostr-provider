@@ -1,4 +1,4 @@
-import { hardConfig } from "../config";
+import { hardConfig } from "../config.js";
 
 export async function pingApiRequest(
   k1: string,

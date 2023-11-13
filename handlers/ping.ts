@@ -1,8 +1,8 @@
 import { NextApiRequest, NextApiResponse } from "next/types";
 
-import { pingValidation } from "../validation/lnurl";
+import { pingValidation } from "../validation/lnurl.js";
 
-import { Config } from "../config";
+import { Config } from "../config.js";
 
 export default async function handler(
   req: NextApiRequest,

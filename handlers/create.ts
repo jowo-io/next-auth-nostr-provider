@@ -2,9 +2,9 @@ import { NextApiRequest, NextApiResponse } from "next/types";
 import lnurl from "lnurl";
 import { randomBytes } from "crypto";
 
-import { createValidation } from "../validation/lnurl";
+import { createValidation } from "../validation/lnurl.js";
 
-import { Config } from "../config";
+import { Config } from "../config.js";
 
 export default async function handler(
   req: NextApiRequest,

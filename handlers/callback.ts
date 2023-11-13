@@ -1,9 +1,9 @@
 import { NextApiRequest, NextApiResponse } from "next/types";
 import { verifyAuthorizationSignature } from "lnurl";
 
-import { callbackValidation } from "../validation/lnurl";
+import { callbackValidation } from "../validation/lnurl.js";
 
-import { Config } from "../config";
+import { Config } from "../config.js";
 
 export default async function handler(
   req: NextApiRequest,

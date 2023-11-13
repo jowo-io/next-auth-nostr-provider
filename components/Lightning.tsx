@@ -1,11 +1,11 @@
 import { CSSProperties } from "react";
 
-import CopyCode from "./CopyCode";
-import QrCode from "./QrCode";
-import Button from "./Button";
+import Title from "./Title.js";
+import QrCode from "./QrCode.js";
+import CopyCode from "./CopyCode.js";
+import Button from "./Button.js";
 
-import { hardConfig } from "../config";
-import Title from "./Title";
+import { hardConfig } from "../config.js";
 
 /**
  *
