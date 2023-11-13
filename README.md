@@ -8,9 +8,6 @@ A light-weight and self-hosted Lightning / [lnurl-auth](https://fiatjaf.com/e0a3
 # TODO
 
 - tidy up endpoint and add validation and error handling
-- make everything into an OSS package
-- open PR on `next-auth`
-- delete k1 after successful token issue
 - support multiple file types for avatar and qr
 - consider error handling
 - add clientId / secret back if necessary for security
@@ -20,3 +17,10 @@ A light-weight and self-hosted Lightning / [lnurl-auth](https://fiatjaf.com/e0a3
 - decide on terminology (avatar or image or picture)
 - add readme
 - add example repos
+- add spinner to Loading component
+- tidy library: restructure files, move types if necessary, export all public api/components from index
+- finish adding pages.error / pages.signUp config options
+- consider moving source to src folder and output to dist folder
+- open PR on `next-auth`
+- support `next-auth@4` and `next-auth@5`
+- support Next.js app directory and pages directory (if possible)
