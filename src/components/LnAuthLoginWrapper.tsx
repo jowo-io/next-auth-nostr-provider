@@ -1,6 +1,6 @@
 import useLnUrl from "../hooks/useLnUrl.js";
 import Loading from "./Loading.js";
-import Lightning from "./LnAuthLogin.js";
+import LnAuthLogin from "./LnAuthLogin.js";
 
 export default function LnAuthLoginWrapper({
   clientId,
@@ -19,7 +19,7 @@ export default function LnAuthLoginWrapper({
 
   return (
     <div>
-      <Lightning lnurl={lnurl} />
+      <LnAuthLogin lnurl={lnurl} />
     </div>
   );
 }
