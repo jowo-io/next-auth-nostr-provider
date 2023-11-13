@@ -26,9 +26,5 @@ export async function generateIdToken(pubkey: string, config: Config) {
     .setSubject(pubkey)
     .sign(secret, {});
 
-  const verified = await jose.compactVerify(jwt, secret).catch(() => {});
-
-  console.log(verified);
-
   return jwt;
 }
