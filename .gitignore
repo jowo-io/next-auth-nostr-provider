@@ -20,3 +20,4 @@ yarn-error.log*
 *.js
 *.d.ts
 *.d.ts.map
+!src/**/*.d.ts

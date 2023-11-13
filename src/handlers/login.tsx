@@ -62,7 +62,7 @@ function AuthPage({ config }: { config: Config }) {
             alignItems: "center",
             backgroundColor: config.theme.background,
             textDecoration: "none",
-            border: `2px solid rgba(110, 110, 110, 0.3);`,
+            border: `2px solid rgba(110, 110, 110, 0.3)`,
             borderRadius: 10,
             color: config.theme.text,
             display: "flex",
