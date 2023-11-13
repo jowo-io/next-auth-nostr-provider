@@ -5,7 +5,7 @@ export const vanilla = function ({
   query,
 }: {
   hardConfig: HardConfig;
-  query: { clientId: string; redirectUri: string; state: string };
+  query: { redirectUri: string; state: string };
 }) {
   let data: any;
 
@@ -35,7 +35,6 @@ export const vanilla = function ({
 
   function create() {
     const params = new URLSearchParams({
-      client_id: query.clientId,
       state: query.state,
     });
 

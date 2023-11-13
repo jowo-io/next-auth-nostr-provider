@@ -98,7 +98,7 @@ export default async function handler(
 
   const html = renderToStaticMarkup(<AuthPage config={config} />);
 
-  if (!query.clientId || !query.redirectUri || !query.state) {
+  if (!query.redirectUri || !query.state) {
     throw new Error("Missing required query param");
   }
 

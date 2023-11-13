@@ -10,8 +10,7 @@ import { env } from "@/env.mjs";
 export const config: NextAuthLightningProviderConfig = {
   // required
   siteUrl: env.NEXTAUTH_URL,
-  clientId: env.LIGHTNING_CLIENT_ID,
-  clientSecret: env.LIGHTNING_CLIENT_SECRET,
+  secret: env.NEXTAUTH_SECRET,
   storage: {
     async set({ k1, data }) {
       await db.insert(lnAuthTable).values(data);

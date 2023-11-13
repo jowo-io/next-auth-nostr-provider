@@ -3,7 +3,7 @@ import * as jose from "jose";
 import { Config } from "../config/index.js";
 
 export async function generateIdToken(pubkey: string, config: Config) {
-  const secret = Buffer.from(config.clientSecret);
+  const secret = Buffer.from(config.secret);
 
   const { name } = config?.generateName
     ? await config.generateName(pubkey, config)
@@ -21,7 +21,7 @@ export async function generateIdToken(pubkey: string, config: Config) {
     .setProtectedHeader({ alg: "HS256" })
     .setIssuedAt()
     .setIssuer(config.siteUrl)
-    .setAudience(config.clientId)
+    .setAudience(config.siteUrl)
     .setExpirationTime("2h")
     .setSubject(pubkey)
     .sign(secret, {});

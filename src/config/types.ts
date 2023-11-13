@@ -43,8 +43,7 @@ export type LnUrlData = {
 
 export type RequiredConfig = {
   siteUrl: string;
-  clientId: string;
-  clientSecret: string;
+  secret: string;
   storage: {
     set: (
       args: {

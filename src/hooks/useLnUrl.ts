@@ -5,11 +5,9 @@ import { hardConfig } from "../config/index.js";
 import { formatLnAuth } from "../utils/lnurl.js";
 
 export default function useLnUrl({
-  clientId,
   redirectUri,
   state,
 }: {
-  clientId: string;
   redirectUri: string;
   state: string;
 }): {
@@ -26,7 +24,7 @@ export default function useLnUrl({
       if (data.k1) await pollApiRequest(data.k1, state, redirectUri);
     };
     const create = async () => {
-      data = await createApiRequest(clientId, state);
+      data = await createApiRequest(state);
       setUrl(data.lnurl);
     };
 

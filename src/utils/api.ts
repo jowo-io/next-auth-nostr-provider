@@ -24,11 +24,8 @@ export async function pollApiRequest(
   }
 }
 
-export async function createApiRequest(clientId: string, state: string) {
-  const params = new URLSearchParams({
-    client_id: clientId,
-    state,
-  });
+export async function createApiRequest(state: string) {
+  const params = new URLSearchParams({ state });
   const response = await fetch(
     `${hardConfig.apis.create}?${params.toString()}`
   );

@@ -3,15 +3,13 @@ import Loading from "./Loading.js";
 import LnAuthLogin from "./LnAuthLogin.js";
 
 export default function LnAuthLoginWrapper({
-  clientId,
   redirectUri,
   state,
 }: {
-  clientId: string;
   redirectUri: string;
   state: string;
 }) {
-  const { lnurl } = useLnUrl({ clientId, redirectUri, state });
+  const { lnurl } = useLnUrl({ redirectUri, state });
 
   if (!lnurl) {
     return <Loading />;

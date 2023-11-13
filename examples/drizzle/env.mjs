@@ -2,41 +2,31 @@ import { z } from "zod";
 
 /** @type {Record<keyof z.infer<typeof server> | keyof z.infer<typeof client>, string | undefined>} */
 const processEnv = {
-  NEXT_PUBLIC_SITE_URL: process.env.NEXT_PUBLIC_SITE_URL,
-
   DB_HOST: process.env.DB_HOST,
   DB_USERNAME: process.env.DB_USERNAME,
   DB_PASSWORD: process.env.DB_PASSWORD,
   DB_NAME: process.env.DB_NAME,
 
   NEXTAUTH_URL: process.env.NEXTAUTH_URL,
-
-  LIGHTNING_CLIENT_ID: process.env.LIGHTNING_CLIENT_ID,
-  LIGHTNING_CLIENT_SECRET: process.env.LIGHTNING_CLIENT_SECRET,
+  NEXTAUTH_SECRET: process.env.NEXTAUTH_SECRET,
 
   NODE_ENV: process.env.NODE_ENV,
 };
 
 const client = z.object({
-  NEXT_PUBLIC_SITE_URL: z.string().min(1),
-
   NEXTAUTH_URL: z.string().min(1),
 
   NODE_ENV: z.enum(["development", "test", "production"]),
 });
 
 const server = z.object({
-  NEXT_PUBLIC_SITE_URL: z.string().min(1),
-
   DB_HOST: z.string(),
   DB_USERNAME: z.string(),
   DB_PASSWORD: z.string(),
   DB_NAME: z.string(),
 
   NEXTAUTH_URL: z.string().min(1),
-
-  LIGHTNING_CLIENT_ID: z.string(),
-  LIGHTNING_CLIENT_SECRET: z.string(),
+  NEXTAUTH_SECRET: z.string(),
 
   NODE_ENV: z.enum(["development", "test", "production"]),
 });
