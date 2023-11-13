@@ -124,7 +124,7 @@ export type OptionalConfig = {
   } & Partial<ThemeStyles>;
 };
 
-export type LnurlAuthConfig = RequiredConfig & Partial<OptionalConfig>;
+export type LnAuthConfig = RequiredConfig & Partial<OptionalConfig>;
 
 export type Config = HardConfig &
   RequiredConfig &
@@ -133,17 +133,17 @@ export type Config = HardConfig &
 export const hardConfig: HardConfig = {
   apis: {
     // apis
-    create: "/api/lnurl/create",
-    ping: "/api/lnurl/ping",
-    callback: "/api/lnurl/callback",
-    token: "/api/lnurl/token",
+    create: "/api/lnauth/create",
+    ping: "/api/lnauth/ping",
+    callback: "/api/lnauth/callback",
+    token: "/api/lnauth/token",
 
     // pages
-    signIn: "/api/lnurl/login",
+    signIn: "/api/lnauth/login",
 
     // images
-    image: "/api/lnurl/image",
-    qr: "/api/lnurl/qr",
+    image: "/api/lnauth/image",
+    qr: "/api/lnauth/qr",
   },
   ids: {
     title: `${idPrefix}---title`,
@@ -216,7 +216,7 @@ export const defaultConfig: Partial<OptionalConfig> = {
     },
   },
   pages: {
-    signIn: "/api/lnurl/login", // pre-configured qr lightning login
+    signIn: "/api/lnauth/login", // pre-configured qr lightning login
     error: "/api/auth/signin", // default next-auth error page
   },
   title: "Login with Lightning",
@@ -251,11 +251,11 @@ const colorSchemeDark = {
   error: "#c94b4b",
 };
 
-export function formatConfig(lnurlAuthConfig: LnurlAuthConfig): Config {
+export function formatConfig(lnAuthConfig: LnAuthConfig): Config {
   const theme =
-    lnurlAuthConfig.theme?.colorScheme === "dark"
+    lnAuthConfig.theme?.colorScheme === "dark"
       ? colorSchemeDark
       : colorSchemeLight;
 
-  return merge(defaultConfig, { theme }, lnurlAuthConfig, hardConfig) as Config;
+  return merge(defaultConfig, { theme }, lnAuthConfig, hardConfig) as Config;
 }

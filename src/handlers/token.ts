@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next/types";
 
-import { tokenValidation } from "../validation/lnurl.js";
+import { tokenValidation } from "../validation/lnauth.js";
 
 import { generateIdToken } from "../utils/jwt.js";
 import { Config } from "../config.js";

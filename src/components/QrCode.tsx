@@ -1,6 +1,6 @@
 import { ImgHTMLAttributes } from "react";
 
-import { formatLnurl } from "../utils/lnurl.js";
+import { formatLnAuth } from "../utils/lnurl.js";
 import { hardConfig } from "../config.js";
 
 export default function QrCode({
@@ -9,7 +9,7 @@ export default function QrCode({
 }: {
   lnurl: string;
 } & ImgHTMLAttributes<HTMLImageElement>) {
-  const { qr } = formatLnurl(lnurl);
+  const { qr } = formatLnAuth(lnurl);
 
   return (
     <img

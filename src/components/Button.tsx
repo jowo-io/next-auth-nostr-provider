@@ -1,6 +1,6 @@
 import { AnchorHTMLAttributes } from "react";
 
-import { formatLnurl } from "../utils/lnurl.js";
+import { formatLnAuth } from "../utils/lnurl.js";
 import { hardConfig } from "../config.js";
 
 export default function Button({
@@ -9,7 +9,7 @@ export default function Button({
 }: {
   lnurl: string;
 } & AnchorHTMLAttributes<HTMLAnchorElement>) {
-  const { button } = formatLnurl(lnurl);
+  const { button } = formatLnAuth(lnurl);
 
   return (
     <a {...props} id={hardConfig.ids.button} href={button}>

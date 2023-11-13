@@ -1,1 +1,1 @@
-export * from "./lnurl";
+export * from "./lnauth";

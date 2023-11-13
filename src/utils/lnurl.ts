@@ -1,6 +1,6 @@
 import { hardConfig } from "../config.js";
 
-export function formatLnurl(lnurl?: string | null) {
+export function formatLnAuth(lnurl?: string | null) {
   if (!lnurl) {
     return { lnurl, qr: "", button: "" };
   }

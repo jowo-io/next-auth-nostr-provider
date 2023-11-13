@@ -1,9 +1,9 @@
 import NextAuth, { AuthOptions } from "next-auth";
 
-import lnurl from "@/utils/lnurl";
+import lnAuth from "@/utils/lnauth";
 
 export const authOptions: AuthOptions = {
-  providers: [lnurl.provider],
+  providers: [lnAuth.provider],
 };
 
 export default NextAuth(authOptions);

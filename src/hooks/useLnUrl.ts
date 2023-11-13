@@ -2,9 +2,9 @@ import { useState, useEffect } from "react";
 
 import { createApiRequest, pingApiRequest } from "../utils/api.js";
 import { hardConfig } from "../config.js";
-import { formatLnurl } from "../utils/lnurl.js";
+import { formatLnAuth } from "../utils/lnurl.js";
 
-export default function useLightningUrl({
+export default function useLnUrl({
   clientId,
   redirectUri,
   state,
@@ -40,7 +40,7 @@ export default function useLightningUrl({
     };
   }, []);
 
-  const { qr, button } = formatLnurl(lnurl);
+  const { qr, button } = formatLnAuth(lnurl);
 
   return { lnurl, qr, button };
 }

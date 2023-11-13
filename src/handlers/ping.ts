@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next/types";
 
-import { pingValidation } from "../validation/lnurl.js";
+import { pingValidation } from "../validation/lnauth.js";
 
 import { Config } from "../config.js";
 

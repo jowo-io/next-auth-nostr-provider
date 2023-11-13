@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next/types";
 import lnurl from "lnurl";
 
-import { callbackValidation } from "../validation/lnurl.js";
+import { callbackValidation } from "../validation/lnauth.js";
 
 import { Config } from "../config.js";
 

@@ -1,4 +1,4 @@
-import useLightningUrl from "../hooks/useLightningUrl.js";
+import useLnUrl from "../hooks/useLnUrl.js";
 import Loading from "./Loading.js";
 import Lightning from "./Lightning.js";
 
@@ -11,7 +11,7 @@ export default function AuthPage({
   redirectUri: string;
   state: string;
 }) {
-  const { lnurl } = useLightningUrl({ clientId, redirectUri, state });
+  const { lnurl } = useLnUrl({ clientId, redirectUri, state });
 
   if (!lnurl) {
     return <Loading />;
