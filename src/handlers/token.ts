@@ -18,9 +18,6 @@ export default async function handler(
 
   if (!success) throw new Error("Login was not successful");
 
-  // TODO check if db item has been used already
-  // TODO check successAt is within a 5 min time limit
-
   const idToken = await generateIdToken(pubkey, config);
 
   await config.storage.delete({ k1 }, req);
