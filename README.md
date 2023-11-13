@@ -3,7 +3,9 @@
 
 # About
 
-A light-weight and self-hosted Lightning / [lnurl-auth](https://fiatjaf.com/e0a35204.html) OAuth wrapper and provider for [next-auth](https://github.com/nextauthjs/next-auth).
+This package provides a plug and play solution for enabling Lightning auth in your Next.js app!
+
+It's a light-weight and self-hosted Lightning / [lnurl-auth](https://fiatjaf.com/e0a35204.html) OAuth wrapper and [next-auth](https://github.com/nextauthjs/next-auth) provider.
 
 # TODO
 

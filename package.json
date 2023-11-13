@@ -3,7 +3,7 @@
   "version": "1.0.0-alpha.6",
   "type": "module",
   "main": "dist/index.js",
-  "description": "A light-weight and self-hosted Lightning OAuth wrapper and provider for next-auth.",
+  "description": "A light-weight and self-hosted Lightning / OAuth wrapper and next-auth provider.",
   "homepage": "https://github.com/jowo-io/next-auth-lightning-provider/",
   "bugs": {
     "url": "https://github.com/jowo-io/next-auth-lightning-provider/issues"
