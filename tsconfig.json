@@ -19,5 +19,5 @@
     "declarationMap": true,
     "declaration": true
   },
-  "exclude": ["*.js", "*.d.ts"]
+  "exclude": ["*.js", "*.d.ts", "dist", "examples"]
 }
