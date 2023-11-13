@@ -20,4 +20,3 @@ yarn-error.log*
 *.js
 *.d.ts
 *.d.ts.map
-!lnurl.d.ts
