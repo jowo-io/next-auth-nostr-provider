@@ -34,7 +34,7 @@
   "scripts": {
     "build": "tsc",
     "clean": "rm -rf dist",
-    "dev": "tsc ./index -w",
+    "dev": "tsc -w",
     "prebuild": "npm run clean"
   },
   "peerDependencies": {
