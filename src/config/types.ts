@@ -29,7 +29,7 @@ export type HardConfig = {
   };
 };
 
-export type LnUrlData = {
+export type LnAuthData = {
   k1: string;
   state: string;
 
@@ -55,7 +55,7 @@ export type RequiredConfig = {
       },
       req: NextApiRequest
     ) => Promise<undefined>;
-    get: (args: { k1: string }, req: NextApiRequest) => Promise<LnUrlData>;
+    get: (args: { k1: string }, req: NextApiRequest) => Promise<LnAuthData>;
     update: (
       args: {
         k1: string;

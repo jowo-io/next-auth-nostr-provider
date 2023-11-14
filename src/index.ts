@@ -14,12 +14,12 @@ import loginHandler from "./handlers/login.js";
 import imageHandler from "./handlers/image.js";
 import qrHandler from "./handlers/qr.js";
 
-import { formatConfig, UserConfig } from "./config/index.js";
+import { formatConfig, LnAuthData, UserConfig } from "./config/index.js";
 
 // expose use components, utils and types to public api
 export { default as useLnUrl } from "./hooks/useLnUrl.js";
 export * from "./components/index.js";
-export type { UserConfig as NextAuthLightningProviderConfig };
+export type { LnAuthData, UserConfig as NextAuthLightningProviderConfig };
 
 export default function NextAuthLightningProvider(userConfig: UserConfig) {
   const config = formatConfig(userConfig);
