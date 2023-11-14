@@ -41,7 +41,6 @@
 - custom login pages using `LnAuthLoginWrapper` and `LnAuthLogin`
 - improve the basic description in the About section
 - explain what the secret is used for
-- add a basic readme to the `examples/` folder
 
 # About
 
