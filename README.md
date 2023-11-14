@@ -28,11 +28,12 @@
 ### Tertiary
 
 - decide on terminology (avatar or image or picture)
-- add more example repos. e.g. redis, prisma
+- add more example repos. e.g. prisma, custom login pages
 - add readme
 - add spinner to Loading component
 - open PR on `next-auth`
 - support multiple file types for avatar and qr
+- make the `storage.update` method optional
 
 ### Readme
 
@@ -41,6 +42,7 @@
 - custom login pages using `LnAuthLoginWrapper` and `LnAuthLogin`
 - improve the basic description in the About section
 - explain what the secret is used for
+- add info about deterministic generation of image and name
 
 # About
 
