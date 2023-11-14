@@ -1,9 +1,9 @@
 import NextAuth, { AuthOptions } from "next-auth";
 
-import lnAuth from "@/utils/lnauth";
+import { lightningProvider } from "../lnauth/[...lnauth]";
 
 export const authOptions: AuthOptions = {
-  providers: [lnAuth.provider],
+  providers: [lightningProvider],
 };
 
 export default NextAuth(authOptions);

@@ -86,18 +86,19 @@ You can quickly create a good value for `NEXTAUTH_SECRET` on the command line vi
 openssl rand -base64 32
 ```
 
-### Configure
+### Api
 
-Configure `next-auth-lightning-provider` somewhere that makes sense. For this example we'll use `/utils/lnauth.ts`
+Configure `next-auth-lightning-provider` and create a new API route under `pages/api/lnauth/[...lnauth].ts`.
 
 ```typescript
-// @/utils/lnauth.ts
+// @/pages/api/lnauth/[...lnauth].ts
 
 import NextAuthLightningProvider, {
+  LnAuthData,
   NextAuthLightningProviderConfig,
 } from "next-auth-lightning-provider";
 
-export const config: NextAuthLightningProviderConfig = {
+const config: NextAuthLightningProviderConfig = {
   // required
   siteUrl: process.env.NEXTAUTH_URL,
   secret: process.env.NEXTAUTH_SECRET,
@@ -122,8 +123,14 @@ export const config: NextAuthLightningProviderConfig = {
   },
 };
 
-export default NextAuthLightningProvider(config);
+const { provider, handler } = NextAuthLightningProvider(config);
+
+export const lightningProvider = provider;
+
+export default handler;
 ```
+
+This API will handle all of the custom lightning related API requests, such as generating QRs, handling callbacks, polling and signing tokens.
 
 ### Provider
 
@@ -132,32 +139,16 @@ In your `pages/api/auth/[...nextauth].ts` file add the Lightning provider to you
 ```typescript
 // @/pages/api/auth/[...nextauth].ts
 
-import NextAuth, { AuthOptions } from "next-auth";
-
-import lnauth from "@/utils/lnauth"; // <--- import the file you created above
+import { lightningProvider } from "../lnauth/[...lnauth]"; // <--- import the provider that's exported from the lnauth API route
 
 export const authOptions: AuthOptions = {
   providers: [
-    lnauth.provider, // <--- and add the provider to the providers array
+    lightningProvider, // <--- and add the provider to the providers array
   ],
 };
 
 export default NextAuth(authOptions);
 ```
-
-### Api
-
-Create a new API route under `pages/api/lnauth/[...lnauth].ts`.
-
-```typescript
-// @/pages/api/lnauth/[...lnauth].ts
-
-import lnAuth from "@/utils/lnauth";
-
-export default lnAuth.handler;
-```
-
-This API will handle all of the custom lightning related API requests, such as generating QRs, handling callbacks, polling and signing tokens.
 
 # Examples
 
