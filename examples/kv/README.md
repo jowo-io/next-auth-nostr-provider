@@ -1,6 +1,6 @@
 ## About
 
-This example uses the Drizzle ORM to connect to a MySql database which is used for storage of lnurl auth session data.
+This example uses the Vercel KV (Redis) for storage of lnurl auth session data.
 
 ## Getting Started
 
@@ -17,9 +17,5 @@ Along side the `.env.example` file, create a `.env` file with the same contents 
 #### Running this examples
 
 Run `npm i` to install dependencies
-
-Run `npm run db:generate` to generate the new database schema.
-
-Run the generated queries in your mysql environment of choice.
 
 Run `npm run dev` to launch the dev server and visit `localhost:3000` to view the app.
