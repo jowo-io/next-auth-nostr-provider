@@ -1,12 +1,12 @@
-import NextAuthLightningProvider, {
+import NextAuthLightning, {
   LnAuthData,
-  NextAuthLightningProviderConfig,
+  NextAuthLightningConfig,
 } from "next-auth-lightning-provider";
 import { kv } from "@vercel/kv";
 
 import { env } from "@/env.mjs";
 
-const config: NextAuthLightningProviderConfig = {
+const config: NextAuthLightningConfig = {
   // required
   siteUrl: env.NEXTAUTH_URL,
   secret: env.NEXTAUTH_SECRET,
@@ -35,7 +35,7 @@ const config: NextAuthLightningProviderConfig = {
   },
 };
 
-const { provider, handler } = NextAuthLightningProvider(config);
+const { provider, handler } = NextAuthLightning(config);
 
 export const lightningProvider = provider;
 

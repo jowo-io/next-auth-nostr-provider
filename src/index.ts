@@ -19,9 +19,9 @@ import { formatConfig, LnAuthData, UserConfig } from "./config/index.js";
 // expose use components, utils and types to public api
 export { default as useLnUrl } from "./hooks/useLnUrl.js";
 export * from "./components/index.js";
-export type { LnAuthData, UserConfig as NextAuthLightningProviderConfig };
+export type { LnAuthData, UserConfig as NextAuthLightningConfig };
 
-export default function NextAuthLightningProvider(userConfig: UserConfig) {
+export default function NextAuthLightning(userConfig: UserConfig) {
   const config = formatConfig(userConfig);
 
   const provider: OAuthConfig<any> = {
