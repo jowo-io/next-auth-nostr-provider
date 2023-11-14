@@ -18,6 +18,7 @@ Below is a TODO list for further development of `next-auth-lightning-provider`
 - consider and improve error handling more generally. what can go wrong? how is that handled?
 - finish adding pages.error / pages.signUp config options
 - add an example of custom login pages using `LnAuthLoginWrapper` and `LnAuthLogin`
+- rename package to `next-auth-lightning` and point the `next-auth-lightning-provider` github to the renamed version
 
 ### Tertiary
 
@@ -28,6 +29,7 @@ Below is a TODO list for further development of `next-auth-lightning-provider`
 - open PR on `next-auth`
 - support multiple file types for avatar and qr
 - make the `storage.update` method optional
+- consider cleaning up old and unused lnauth session data that was created but never reached success state
 
 ### Readme
 

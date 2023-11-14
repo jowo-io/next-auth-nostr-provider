@@ -50,32 +50,32 @@ openssl rand -base64 32
 
 ### Api
 
-Configure `next-auth-lightning-provider` and create a new API route under `pages/api/lnauth/[...lnauth].ts`.
+Create a new API route under `pages/api/lnauth/[...lnauth].ts` and configure `next-auth-lightning-provider`.
 
 ```typescript
 // @/pages/api/lnauth/[...lnauth].ts
 
-import NextAuthLightningProvider, {
+import NextAuthLightning, {
   LnAuthData,
-  NextAuthLightningProviderConfig,
+  NextAuthLightningConfig,
 } from "next-auth-lightning-provider";
 
-const config: NextAuthLightningProviderConfig = {
+const config: NextAuthLightningConfig = {
   // required
   siteUrl: process.env.NEXTAUTH_URL,
   secret: process.env.NEXTAUTH_SECRET,
   storage: {
     async set({ k1, data }) {
-      // save data based on k1 id
+      // save lnurl auth session data based on k1 id
     },
     async get({ k1 }) {
-      // lookup and return data based on k1 id
+      // lookup and return lnurl auth session data based on k1 id
     },
     async update({ k1, data }) {
-      // lookup and update data based on k1 id
+      // update lnurl auth session data based on k1 id
     },
     async delete({ k1 }) {
-      // delete data based on k1 id
+      // delete lnurl auth session data based on k1 id
     },
   },
 
@@ -85,18 +85,18 @@ const config: NextAuthLightningProviderConfig = {
   },
 };
 
-const { provider, handler } = NextAuthLightningProvider(config);
+const { provider, handler } = NextAuthLightning(config);
 
 export const lightningProvider = provider;
 
 export default handler;
 ```
 
-This API will handle all of the custom lightning related API requests, such as generating QRs, handling callbacks, polling and signing tokens.
+This API will handle all of the custom lightning related API requests, such as generating QRs, handling callbacks, polling and encrypting JWT auth tokens.
 
 ### Provider
 
-In your `pages/api/auth/[...nextauth].ts` file add the Lightning provider to your `next-auth` config.
+In your existing `pages/api/auth/[...nextauth].ts` config file, import and add the Lightning provider to the provider array.
 
 ```typescript
 // @/pages/api/auth/[...nextauth].ts
