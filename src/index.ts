@@ -1,4 +1,3 @@
-export { extractQuery } from "./main/utils/query.js";
 export type {
   LnAuthData,
   UserConfig as NextAuthLightningConfig,

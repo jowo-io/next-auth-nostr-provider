@@ -14,7 +14,14 @@ export function LnAuthLogin({
 }: {
   title?: string | null;
   lnurl: string;
-  theme?: { [key: string]: CSSProperties | undefined };
+  theme?: {
+    loading?: CSSProperties;
+    wrapper?: CSSProperties;
+    title?: CSSProperties;
+    qr?: CSSProperties;
+    copy?: CSSProperties;
+    button?: CSSProperties;
+  };
 }) {
   return (
     <div id={hardConfig.ids.wrapper} style={theme?.wrapper}>
@@ -22,7 +29,7 @@ export function LnAuthLogin({
 
       <QrCode lnurl={lnurl} style={theme?.qr} />
 
-      <CopyCode lnurl={lnurl} style={theme?.input} />
+      <CopyCode lnurl={lnurl} style={theme?.copy} />
 
       <Button lnurl={lnurl} style={theme?.button} />
     </div>

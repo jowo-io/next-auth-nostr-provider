@@ -3,8 +3,7 @@ import { NextApiRequest, NextApiResponse } from "next/types";
 
 import { hardConfig, Config } from "../config/index.js";
 import { vanilla } from "../utils/vanilla.js";
-import { extractQuery } from "../utils/query.js";
-import { LnAuthLogin, Loading } from "../../react/index.js";
+import { LnAuthLogin, Loading, extractQuery } from "../../react/index.js";
 
 function AuthPage({ config }: { config: Config }) {
   return (
@@ -53,7 +52,7 @@ function AuthPage({ config }: { config: Config }) {
             width: "100%",
             height: "auto",
           },
-          input: {
+          copy: {
             wordBreak: "break-all",
             whiteSpace: "pre-wrap",
             userSelect: "all",
@@ -74,7 +73,6 @@ function AuthPage({ config }: { config: Config }) {
             minHeight: "30px",
             padding: ".75rem 1rem",
             position: "relative",
-            transition: "all .1s ease-in-out",
           },
         }}
       />
