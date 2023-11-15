@@ -17,14 +17,12 @@ Below is a TODO list for further development of `next-auth-lightning-provider`
 - tidy up endpoint and add validation and error handling
 - consider and improve error handling more generally. what can go wrong? how is that handled?
 - finish adding pages.error / pages.signUp config options
-- add an example of custom login pages using `LnAuthLoginWrapper` and `LnAuthLogin`
 - rename package to `next-auth-lightning` and point the `next-auth-lightning-provider` github to the renamed version
 
 ### Tertiary
 
 - decide on terminology (avatar or image or picture)
-- add more example repos. e.g. prisma, custom login pages
-- add readme
+- add more example repos
 - add spinner to Loading component
 - open PR on `next-auth`
 - support multiple file types for avatar and qr
