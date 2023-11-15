@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 
 import { createApiRequest, pollApiRequest } from "../utils/api.js";
-import { hardConfig } from "../config/hard.js";
+import { hardConfig } from "../../main/config/hard.js";
 import { formatLnAuth } from "../utils/lnurl.js";
 
 export function useLnUrl({

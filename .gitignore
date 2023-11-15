@@ -16,4 +16,7 @@ yarn-debug.log*
 yarn-error.log*
 
 # build
-dist
+/main
+/react
+/index.d.ts*
+/index.js

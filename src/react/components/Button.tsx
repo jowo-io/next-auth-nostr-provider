@@ -1,14 +1,14 @@
-import * as React from "react";
+import { AnchorHTMLAttributes } from "react";
 
 import { formatLnAuth } from "../utils/lnurl.js";
-import { hardConfig } from "../config/index.js";
+import { hardConfig } from "../../main/config/hard.js";
 
 export function Button({
   lnurl,
   ...props
 }: {
   lnurl: string;
-} & React.AnchorHTMLAttributes<HTMLAnchorElement>) {
+} & AnchorHTMLAttributes<HTMLAnchorElement>) {
   const { button } = formatLnAuth(lnurl);
 
   return (

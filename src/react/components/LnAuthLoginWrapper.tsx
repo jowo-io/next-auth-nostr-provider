@@ -1,5 +1,3 @@
-import * as React from "react";
-
 import { useLnUrl } from "../hooks/useLnUrl.js";
 import { Loading } from "./Loading.js";
 import { LnAuthLogin } from "./LnAuthLogin.js";

@@ -1,11 +1,11 @@
-import * as React from "react";
+import { CSSProperties } from "react";
 
 import { Title } from "./Title.js";
 import { QrCode } from "./QrCode.js";
 import { CopyCode } from "./CopyCode.js";
 import { Button } from "./Button.js";
 
-import { hardConfig } from "../config/index.js";
+import { hardConfig } from "../../main/config/hard.js";
 
 export function LnAuthLogin({
   title,
@@ -14,7 +14,7 @@ export function LnAuthLogin({
 }: {
   title?: string | null;
   lnurl: string;
-  theme?: { [key: string]: React.CSSProperties | undefined };
+  theme?: { [key: string]: CSSProperties | undefined };
 }) {
   return (
     <div id={hardConfig.ids.wrapper} style={theme?.wrapper}>

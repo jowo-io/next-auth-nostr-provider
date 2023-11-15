@@ -1,4 +1,4 @@
-import { hardConfig } from "../config/index.js";
+import { hardConfig } from "../../main/config/hard.js";
 
 export async function pollApiRequest(
   k1: string,

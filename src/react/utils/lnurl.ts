@@ -1,4 +1,4 @@
-import { hardConfig } from "../config/index.js";
+import { hardConfig } from "../../main/config/hard.js";
 
 export function formatLnAuth(lnurl?: string | null) {
   if (!lnurl) {
