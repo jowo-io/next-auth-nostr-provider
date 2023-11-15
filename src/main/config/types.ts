@@ -97,7 +97,7 @@ export type OptionalConfig = {
     generateQr?:
       | ((data: string, config: Config) => Promise<{ qr: string }>)
       | null;
-    color?: {} | null;
+    color?: { dark?: string; light: string } | null;
     margin?: number | null;
   };
 
