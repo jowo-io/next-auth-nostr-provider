@@ -1,7 +1,7 @@
-import * as React from "react";
+import { useState, useEffect } from "react";
 
 import { createApiRequest, pollApiRequest } from "../utils/api.js";
-import { hardConfig } from "../config/index.js";
+import { hardConfig } from "../config/hard.js";
 import { formatLnAuth } from "../utils/lnurl.js";
 
 export function useLnUrl({
@@ -15,17 +15,17 @@ export function useLnUrl({
   qr: string;
   button: string;
 } {
-  const [lnurl, setUrl] = React.useState<string | null>(null);
+  const [lnurl, setUrl] = useState<string | null>(null);
 
-  React.useEffect(() => {
-    let data: any;
+  useEffect(() => {
+    let data: { k1?: string; lnurl?: string } | null;
 
     const poll = async () => {
-      if (data.k1) await pollApiRequest(data.k1, state, redirectUri);
+      if (data?.k1) await pollApiRequest(data.k1, state, redirectUri);
     };
     const create = async () => {
       data = await createApiRequest(state);
-      setUrl(data.lnurl);
+      setUrl(data?.lnurl || null);
     };
 
     const pollIntervalId = setInterval(poll, hardConfig.intervals.poll);

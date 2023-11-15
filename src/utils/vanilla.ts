@@ -45,6 +45,8 @@ export const vanilla = function ({
       .then(function (d) {
         data = d;
 
+        if (!data || !data.lnurl) return;
+
         // show wrapper
         var wrapper = document.getElementById(hardConfig.ids.wrapper);
         if (wrapper) {
