@@ -2,7 +2,7 @@
 
 ### Custom Login screen
 
-> COMING SOON
+The [examples/login-page/](https://github.com/jowo-io/next-auth-lightning-provider/tree/main/examples/login-page) example demonstrates how to configure a custom Lightning login page UI.
 
 ### KV
 
