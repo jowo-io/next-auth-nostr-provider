@@ -1,11 +1,11 @@
-import { HTMLAttributes } from "react";
+import * as React from "react";
 
 import { hardConfig } from "../config/index.js";
 
-export default function CopyCode({
+export function CopyCode({
   lnurl,
   ...props
-}: { lnurl: string } & HTMLAttributes<HTMLPreElement>) {
+}: { lnurl: string } & React.HTMLAttributes<HTMLPreElement>) {
   return (
     <pre {...props} id={hardConfig.ids.copy}>
       {lnurl}

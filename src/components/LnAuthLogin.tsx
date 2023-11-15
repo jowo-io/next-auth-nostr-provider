@@ -1,20 +1,20 @@
-import { CSSProperties } from "react";
+import * as React from "react";
 
-import Title from "./Title.js";
-import QrCode from "./QrCode.js";
-import CopyCode from "./CopyCode.js";
-import Button from "./Button.js";
+import { Title } from "./Title.js";
+import { QrCode } from "./QrCode.js";
+import { CopyCode } from "./CopyCode.js";
+import { Button } from "./Button.js";
 
 import { hardConfig } from "../config/index.js";
 
-export default function LnAuthLogin({
+export function LnAuthLogin({
   title,
   lnurl,
   theme,
 }: {
   title?: string | null;
   lnurl: string;
-  theme?: { [key: string]: CSSProperties | undefined };
+  theme?: { [key: string]: React.CSSProperties | undefined };
 }) {
   return (
     <div id={hardConfig.ids.wrapper} style={theme?.wrapper}>

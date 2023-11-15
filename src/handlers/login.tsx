@@ -1,11 +1,10 @@
-import { renderToStaticMarkup } from "react-dom/server";
+import { renderToString } from "preact-render-to-string";
 import { NextApiRequest, NextApiResponse } from "next/types";
 
-import LnAuthLogin from "../components/LnAuthLogin.js";
 import { hardConfig, Config } from "../config/index.js";
 import { vanilla } from "../utils/vanilla.js";
 import { extractQuery } from "../utils/query.js";
-import Loading from "../components/Loading.js";
+import { LnAuthLogin, Loading } from "../components/index.js";
 
 function AuthPage({ config }: { config: Config }) {
   return (
@@ -96,7 +95,7 @@ export default async function handler(
 
   const query = extractQuery(req.query);
 
-  const html = renderToStaticMarkup(<AuthPage config={config} />);
+  const html = renderToString(<AuthPage config={config} />);
 
   if (!query.redirectUri || !query.state) {
     throw new Error("Missing required query param");

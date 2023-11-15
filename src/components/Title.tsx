@@ -1,10 +1,8 @@
-import { HTMLAttributes } from "react";
+import * as React from "react";
 
 import { hardConfig } from "../config/index.js";
 
-export default function Title({
-  ...props
-}: HTMLAttributes<HTMLHeadingElement>) {
+export function Title({ ...props }: React.HTMLAttributes<HTMLHeadingElement>) {
   if (!props.children) return null;
 
   return (

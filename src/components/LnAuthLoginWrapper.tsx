@@ -1,8 +1,10 @@
-import useLnUrl from "../hooks/useLnUrl.js";
-import Loading from "./Loading.js";
-import LnAuthLogin from "./LnAuthLogin.js";
+import * as React from "react";
 
-export default function LnAuthLoginWrapper({
+import { useLnUrl } from "../hooks/useLnUrl.js";
+import { Loading } from "./Loading.js";
+import { LnAuthLogin } from "./LnAuthLogin.js";
+
+export function LnAuthLoginWrapper({
   redirectUri,
   state,
 }: {
