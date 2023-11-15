@@ -7,17 +7,20 @@ export const vanilla = function ({
   hardConfig: HardConfig;
   query: { redirectUri: string; state: string };
 }) {
-  let data: any;
+  let data: { k1?: string; lnurl?: string } | null;
+  let pollIntervalId: NodeJS.Timeout | undefined;
+  let createIntervalId: NodeJS.Timeout | undefined;
 
   function poll() {
     if (!data || !data.k1) return;
+    const k1 = data.k1;
 
     return fetch(hardConfig.apis.poll, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ k1: data.k1 }),
+      body: JSON.stringify({ k1 }),
       cache: "default",
     })
       .then(function (response) {
@@ -25,9 +28,11 @@ export const vanilla = function ({
       })
       .then(function (d) {
         if (d.success) {
+          clearInterval(pollIntervalId);
+          clearInterval(createIntervalId);
           let url = new URL(query.redirectUri);
           url.searchParams.append("state", query.state);
-          url.searchParams.append("code", data.k1);
+          url.searchParams.append("code", k1);
           window.location.replace(url);
         }
       });
@@ -44,7 +49,6 @@ export const vanilla = function ({
       })
       .then(function (d) {
         data = d;
-
         if (!data || !data.lnurl) return;
 
         // show wrapper
@@ -81,7 +85,7 @@ export const vanilla = function ({
       });
   }
 
-  setInterval(poll, hardConfig.intervals.poll);
-  setInterval(create, hardConfig.intervals.create);
+  pollIntervalId = setInterval(poll, hardConfig.intervals.poll);
+  createIntervalId = setInterval(create, hardConfig.intervals.create);
   create(); // immediately invoke it so the QR gets created
 };

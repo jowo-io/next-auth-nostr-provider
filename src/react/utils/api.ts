@@ -1,10 +1,6 @@
 import { hardConfig } from "../../main/config/hard.js";
 
-export async function pollApiRequest(
-  k1: string,
-  state: string,
-  redirectUri: string
-) {
+export async function pollApiRequest(k1: string) {
   const response = await fetch(hardConfig.apis.poll, {
     method: "POST",
     headers: {
@@ -14,14 +10,7 @@ export async function pollApiRequest(
     cache: "default",
   });
 
-  const data = await response.json();
-
-  if (data.success) {
-    let url = new URL(redirectUri);
-    url.searchParams.append("state", state);
-    url.searchParams.append("code", k1);
-    window.location.replace(url);
-  }
+  return await response.json();
 }
 
 export async function createApiRequest(state: string) {
