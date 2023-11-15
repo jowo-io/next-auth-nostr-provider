@@ -7,7 +7,6 @@ Below is a TODO list for further development of `next-auth-lightning-provider`
 - support `next-auth@4` and `next-auth@5`
 - support Next.js app directory and pages directory (if possible)
 - investigate CSRF for next-auth
-- test deploy example app to vercel
 
 ### Secondary
 
