@@ -13,8 +13,8 @@ Below is a TODO list for further development of `next-auth-lightning-provider`
 - tidy up endpoint and add validation and error handling
 - consider and improve error handling more generally. what can go wrong? how is that handled?
 - finish adding `pages.error` config options
-- look into JWT expire time and token api response fields
 - carefully run through the auth and data flow to look for bugs or oversights
+- ensure that peer dependencies are met and npm throws errors if not
 
 ### Tertiary
 

@@ -13,6 +13,8 @@ export async function generateIdToken(pubkey: string, config: Config) {
     ? `${config.siteUrl}${config.apis.image}/${pubkey}.svg`
     : null;
 
+  const expires = Math.floor(Date.now() / 1000 + config.intervals.idToken);
+
   const jwt = await new jose.SignJWT({
     id: pubkey,
     name,
@@ -22,9 +24,48 @@ export async function generateIdToken(pubkey: string, config: Config) {
     .setIssuedAt()
     .setIssuer(config.siteUrl)
     .setAudience(config.siteUrl)
-    .setExpirationTime("2h")
+    .setExpirationTime(expires)
     .setSubject(pubkey)
     .sign(secret, {});
 
   return jwt;
+}
+
+export async function generateRefreshToken(pubkey: string, config: Config) {
+  const secret = Buffer.from(config.secret);
+
+  const expires = Math.floor(Date.now() / 1000 + config.intervals.refreshToken);
+
+  const jwt = await new jose.SignJWT({
+    id: pubkey,
+  })
+    .setProtectedHeader({ alg: "HS256" })
+    .setIssuedAt()
+    .setIssuer(config.siteUrl)
+    .setAudience(config.siteUrl)
+    .setExpirationTime(expires)
+    .setSubject(pubkey)
+    .sign(secret, {});
+
+  return jwt;
+}
+
+export async function verifyRefreshToken(
+  refreshToken: string,
+  config: Config
+): Promise<{
+  pubkey: string;
+  jwt: any;
+}> {
+  const secret = Buffer.from(config.secret);
+
+  const jwt = await jose.jwtVerify(refreshToken, secret);
+
+  const pubkey = jwt.payload?.id;
+  if (!pubkey || typeof pubkey !== "string") throw new Error("Missing pubkey");
+
+  return {
+    pubkey,
+    jwt: jwt.payload,
+  };
 }

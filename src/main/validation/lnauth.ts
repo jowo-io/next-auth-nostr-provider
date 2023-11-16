@@ -21,7 +21,12 @@ export const pollValidation = z.object({
 export type PingValidation = z.infer<typeof callbackValidation>;
 
 export const tokenValidation = z.object({
-  code: z.string().min(1),
+  grant_type: z.union([
+    z.literal("authorization_code"),
+    z.literal("refresh_token"),
+  ]),
+  code: z.string().optional(),
+  refresh_token: z.string().optional(),
 });
 
 export type TokenValidation = z.infer<typeof callbackValidation>;

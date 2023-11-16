@@ -24,6 +24,8 @@ export type HardConfig = {
     loading: string;
   };
   intervals: {
+    refreshToken: number;
+    idToken: number;
     poll: number;
     create: number;
   };
