@@ -10,16 +10,24 @@ Below is a TODO list for further development of `next-auth-lightning-provider`
 
 ### Secondary
 
-- tidy up endpoint and add validation and error handling
-- consider and improve error handling more generally. what can go wrong? how is that handled?
 - finish adding `pages.error` config options
+- consider and improve error handling more generally. what can go wrong? how is that handled?
+  - zod errors
+  - error in the `next-auth` api's (e.g. when the `/token` endpoint is pinged)
+  - error on ssr lightning login api request - trigger page redirect
+  - error on callback made via lightning wallet
+  - error in qr / avatar handler
+  - error in config object
+  - error in storage methods or avatar/name/qr generators
+  - error on custom login page
 - carefully run through the auth and data flow to look for bugs or oversights
 - ensure that peer dependencies are met and npm throws errors if not
 
 ### Tertiary
 
-- add comments to functions
-- rename package to `next-auth-lightning` and point the `next-auth-lightning-provider` github to the renamed version
+- add jest tests for all utils
+- consider using zod on user config input
+- add JSDocs comments to functions / hooks etc
 - decide on terminology (avatar or image or picture)
 - add more example repos
 - add spinner to Loading component
@@ -32,9 +40,5 @@ Below is a TODO list for further development of `next-auth-lightning-provider`
 ### Readme
 
 - explain the flow / add a diagram showing user/api/wallet flow.
-- document the `UserConfig` options
-- explain how the storage methods work
-- custom login pages using `LnAuthLoginWrapper` and `LnAuthLogin`
 - improve the basic description in the About section
-- explain what the secret is used for
 - add info about deterministic generation of image and name
