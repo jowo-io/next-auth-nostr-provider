@@ -24,8 +24,6 @@ Below is a TODO list for further development of `next-auth-lightning-provider`
 - support multiple file types for avatar and qr
 - consider how to clean up old and unused lnauth session data that was created but never reached success state
 - add `auto` color scheme that uses browsers dark/light settings
-- check if `theme.error` is used anywhere
-- consider empty values in JWT token. should be be: null / undefined / empty string ?
 - add jest tests for all utils
 - cancel inflight api requests if hook unmounts
 

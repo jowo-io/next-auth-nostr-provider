@@ -7,11 +7,11 @@ export async function generateIdToken(pubkey: string, config: Config) {
 
   const { name } = config?.generateName
     ? await config.generateName(pubkey, config)
-    : { name: null };
+    : { name: "" };
 
   const image = config?.generateAvatar
     ? `${config.siteUrl}${config.apis.image}/${pubkey}.svg`
-    : null;
+    : "";
 
   const expires = Math.floor(Date.now() / 1000 + config.intervals.idToken);
 
