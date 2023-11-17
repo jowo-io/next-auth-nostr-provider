@@ -26,10 +26,10 @@ Below is a TODO list for further development of `next-auth-lightning-provider`
 - add `auto` color scheme that uses browsers dark/light settings
 - add jest tests for all utils
 - cancel inflight api requests if hook unmounts
+- add new "about description" to github description
 
 ### Readme
 
 - explain the flow / add a diagram showing user/api/wallet flow.
-- improve the basic description in the About section
 - add info about deterministic generation of image and name
 - carefully scan for errors and typos

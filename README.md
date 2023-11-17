@@ -8,11 +8,19 @@
 
 # About
 
-This package provides a plug and play solution for enabling Lightning auth in your Next.js app!
-
-It's a light-weight and self-hosted Lightning / [lnurl-auth](https://fiatjaf.com/e0a35204.html) OAuth wrapper and [next-auth](https://github.com/nextauthjs/next-auth) provider.
+A light-weight Lightning auth provider for your Next.js app that's entirely self-hosted and plugs seamlessly into the [next-auth](https://github.com/nextauthjs/next-auth) framework.
 
 > This package is built for Next.js apps that use [next-auth](https://github.com/nextauthjs/next-auth). It's not compatible with other authentication libraries.
+
+# How it works
+
+Install the package and add two code snippets to your app (as shown below). It's that simple.
+
+Your users will then be shown an additional login option in the `next-auth` login page. When they click the new option they'll be presented with a QR code. The QR code can be scanned with any Bitcoin Lightning wallet that supports `lnurl-auth`. After scanning, they'll be securely logged in! No username or password required.
+
+Behind the scenes `next-auth-lightning-provider` sets up several API endpoint which act as a basic OAuth server. These API will authorize users using [lnurl-auth](https://fiatjaf.com/e0a35204.html) as well as issue JWT tokens and more.
+
+As well as providing the basic authentication functionality that you'd expect, `next-auth-lightning-provider` also offers some extra cool functionality such as generating deterministic avatar images and usernames for authenticated users!
 
 # Compatibility
 
@@ -29,11 +37,11 @@ npm i next-auth-lightning-provider
 
 ### Env
 
-You'll need to set a couple of env vars in your project's `.env` file. You may already have them defined as part of your `next-auth` configuration. This package also requires them.
+You'll need to setup a couple of env vars in your project's `.env` file. You may already have them defined as part of your `next-auth` configuration. This package also requires them.
 
 ---
 
-The `NEXTAUTH_URL` environment variable must be defined as the canonical URL of your site.
+The `NEXTAUTH_URL` env var must be defined as the canonical URL of your site.
 
 ```bash
 NEXTAUTH_URL=http://localhost:3000
@@ -41,7 +49,7 @@ NEXTAUTH_URL=http://localhost:3000
 
 ---
 
-The `NEXTAUTH_SECRET` encrypts the JWT that authenticates users who have logged in with Lightning.
+The `NEXTAUTH_SECRET` env var must be defined as a securely generated random string.
 
 ```bash
 NEXTAUTH_SECRET="<super-secret-random-string>"
@@ -53,9 +61,9 @@ You can quickly create a good value for `NEXTAUTH_SECRET` on the command line vi
 openssl rand -base64 32
 ```
 
-### Api
+### API
 
-Create a new API route under `pages/api/lnauth/[...lnauth].ts` and configure `next-auth-lightning-provider`.
+Create a new API route under `pages/api/lnauth/[...lnauth].ts`
 
 ```typescript
 // @/pages/api/lnauth/[...lnauth].ts
@@ -97,7 +105,7 @@ export const lightningProvider = provider;
 export default handler;
 ```
 
-This API will handle all of the custom lightning related API requests, such as generating QRs, handling callbacks, polling and encrypting JWT auth tokens.
+This API will handle all of the Lightning auth API requests, such as generating QRs, handling callbacks, polling and issuing JWT auth tokens.
 
 ### Provider
 
@@ -126,37 +134,39 @@ There are various configurations available to you. Some are required, some are o
 ```typescript
 
 const config: NextAuthLightningConfig = {
-  // required
-
   /**
    * @param {string} siteUrl
-   * Must be defined as the canonical URL of your site. This URL is used in
+   *
+   * Must be defined as the canonical URL of your site. It's used in
    * various places under the hood, such as for generating callback URLs and
-   * to validate the JWT that authenticates users who have logged in with Lightning.
+   * in the headers of JWT tokens that are issued to logged in user.
    */
   siteUrl: process.env.NEXTAUTH_URL,
 
   /**
    * @param {string} siteUrl
-   * Must be defined as a securely generated random string.
-   * Used to encrypt the JWT that authenticates users who have
-   * logged in with Lightning.
+   *
+   * Must be defined as a securely generated random string. Used to sign the
+   * JWT that authenticates users who have logged in with Lightning.
    */
   secret: process.env.NEXTAUTH_SECRET,
 
   /**
    * @param {object} storage
-   * Because lnurl-auth requires that a user's Lightning wallet to trigger a
-   * callback API and authenticate them, we also require session storage to
+   *
+   * `lnurl-auth` requires that a user's Lightning wallet triggers a
+   * callback to authenticate them. So, we require session storage to
    * persist some data and ensure it's available when the callback is triggered.
-   * Data can be stored in a medium of your choice, for example:
-   * in a database, document store, or session store.
+   * Data can be stored in a medium of your choice.
+   *
+   * @see https://github.com/jowo-io/next-auth-lightning-provider/tree/main/examples/
    */
   storage: {
     /**
      * @param {function} set
+     *
      * An async function that receives a k1 and data arguments.
-     * The k1 is used to as a unique key under which to store the data for later use.
+     * The k1 is a unique key that's used to store the data for later use.
      */
     async set({ k1, data }) {
       // save lnurl auth session data based on k1 id
@@ -164,8 +174,9 @@ const config: NextAuthLightningConfig = {
 
     /**
      * @param {function} get
+     *
      * An async function that receives a k1 argument.
-     * The k1 is used to as a unique key to find and return data stored under it.
+     * The k1 is used to find and return data previously stored under it.
      */
     async get({ k1 }) {
       // lookup and return lnurl auth session data based on k1 id
@@ -173,9 +184,9 @@ const config: NextAuthLightningConfig = {
 
     /**
      * @param {function} update
+     *
      * An async function that receives a k1 and data arguments.
-     * The k1 is used to as a unique key to find and update data stored under it.
-     * Only triggered if data is expected to already exist in your database.
+     * The k1 is used to find and update data previously stored under it.
      */
     async update({ k1, data }) {
       // update lnurl auth session data based on k1 id
@@ -183,8 +194,9 @@ const config: NextAuthLightningConfig = {
 
     /**
      * @param {function} delete
+     *
      * An async function that receives a k1.
-     * The k1 is used to as a unique key to find and delete data previously saved data.
+     * The k1 is a unique key that's used to find and delete data previously saved data.
      */
     async delete({ k1 }) {
       // delete lnurl auth session data based on k1 id
@@ -195,39 +207,43 @@ const config: NextAuthLightningConfig = {
   pages: {
     /**
      * @param {string} signIn
-     * override the default Lightning login screen.
-     * A Lightning login page will be automatically generated unless the
-     * `signIn` path is specified. It lets you define your own page where you can
-     * configure a custom Lightning login screen.
      *
-     * see examples code here:
-     * https://github.com/jowo-io/next-auth-lightning-provider/tree/main/examples/login-page/pages/login.tsx
+     * A Lightning login page will be automatically generated unless the
+     * `signIn` path is specified. It lets you define your own page where
+     * you can configure a custom Next.js page and customize the UI.
+     *
+     * @see https://github.com/jowo-io/next-auth-lightning-provider/tree/main/examples/login-page/pages/login.tsx
      */
     signIn: "/login"
 
     /**
      * @param {string} error
-     * override the default error screen.
-     * By default the user will be redirected to the `next-auth` login page if something goes wrong.
-     * If you want to build a custom error screen you can specify the path here.
+     *
+     * By default users will be redirected to the `next-auth` login page
+     * and shown an error message there. If you want a custom error page,
+     * you can define the path here.
      */
     error: "/error"
   },
 
   /**
    * @param {string | null} title
-   * override the default title, set to null to hide the title.
+   *
+   * Override the default title shown above the QR code in the
+   * Lighting Login page. Or, it can be set to null to hide the title.
    */
   title: "Lightning Login",
 
   /**
    * @param {function | null} generateAvatar
-   * override the default deterministic avatar generator.
-   * It must return a correctly string containing svg XML markup.
-   * set to null to disable avatars.
    *
-   * the default library used is:
-   * https://www.dicebear.com/styles/bottts/
+   * Override the default deterministic avatar generator.
+   * It must return a correctly formatted string containing svg XML markup.
+   * Or, it can be set to null to disable avatars.
+   *
+   * The default avatar generation library that's used is dicebear's bottts style.
+   *
+   * @see https://www.dicebear.com/styles/bottts/
    */
   async generateAvatar(seed) {
     return {
@@ -237,11 +253,13 @@ const config: NextAuthLightningConfig = {
 
   /**
    * @param {function | null} generateName
-   * override the default deterministic name generator.
-   * set to null to disable names.
    *
-   * the default library used is:
-   * https://www.npmjs.com/package/unique-names-generator
+   * Override the default deterministic name generator.
+   * Or, it can be set to null to disable names.
+   *
+   * The default name generation library used is `unique-names-generator`
+   *
+   * @see https://www.npmjs.com/package/unique-names-generator
    */
   async generateName(seed) {
     return {
@@ -249,11 +267,16 @@ const config: NextAuthLightningConfig = {
     };
   },
 
+
+  /**
+   * Control the QR code generation and styling.
+   */
   qr: {
     /**
      * @param {function} qr.generateQr
-     * override the default QR code generator.
-     * it must return a correctly string containing svg XML markup.
+     *
+     * Override the default QR code generator.
+     * It must return a correctly formatted string containing svg XML markup.
      *
      * the default library used is:
      * https://www.npmjs.com/package/qrcode
@@ -266,53 +289,63 @@ const config: NextAuthLightningConfig = {
 
     /**
      * @param {object} color
-     * override the default qrcode colors.
+     *
+     * Override the default QR code colors. If left undefined, the
+     * QR will be styled based on the theme styles.
      */
     color: { dark: "#000000", light: "#ffffff" },
 
     /**
      * @param {number} margin
-     * override the default qrcode margin.
+     *
+     * Override the default QR code margin.
      */
     margin: 2,
   },
 
+  /**
+   * Control the color scheme of the "Login with Lightning" page and button.
+   */
   theme: {
     /**
      * @param {string} colorScheme - e.g. "#000000"
-     * sets a color scheme for the Lightning login page's UI, white by default.
+     *
+     * Sets a color scheme for the "Login with Lightning" UI.
      */
     colorScheme: "auto" | "dark" | "light";
+
     /**
      * @param {string} background
-     * The background color of the Lightning login page.
+     *
+     * Override the theme's background color.
      */
     background: "#ececec",
+
     /**
      * @param {string} backgroundCard
-     * The background color of main content card in the Lightning login page.
+     *
+     * Override the theme's main content card background color.
      */
     backgroundCard: "#ffffff",
+
     /**
      * @param {string} text
-     * The color of text in the Lightning login page.
+     *
+     * Override the theme's main text color.
      */
     text: "#000000",
-    /**
-     * @param {string} error
-     * The color of error messages shown in the Lightning login page.
-     */
-    error: "#c94b4b",
+
     /**
      * @param {string} loginButtonBackground
-     * The color of background of the initial "Login with Lightning" button that
-     * users are shown in the `next-auth` login screen.
+     *
+     * Override the theme's button background color. This is the button that's shown in the `next-auth` login screen.
      */
     loginButtonBackground: "#24292f",
+
     /**
      * @param {string} loginButtonText
-     * The color of text in the initial "Login with Lightning" button that
-     * users are shown in the `next-auth` login screen.
+     *
+     * Override the theme's button text color. This is the button that's shown in the `next-auth` login screen.
      */
     loginButtonText: "#ffffff",
   },

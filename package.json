@@ -2,7 +2,7 @@
   "name": "next-auth-lightning-provider",
   "version": "1.0.0-alpha.11",
   "type": "module",
-  "description": "A light-weight and self-hosted Lightning / OAuth wrapper and next-auth provider.",
+  "description": "A light-weight Lightning auth provider for your Next.js app that's entirely self-hosted and plugs seamlessly into the next-auth framework.",
   "license": "ISC",
   "homepage": "https://github.com/jowo-io/next-auth-lightning-provider/",
   "bugs": {
