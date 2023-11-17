@@ -7,11 +7,13 @@ import { LnAuthLogin } from "./LnAuthLogin.js";
 export function LnAuthLoginWrapper({
   title,
   redirectUri,
+  errorUri,
   state,
   theme,
 }: {
   title?: string | null;
   redirectUri: string;
+  errorUri?: string;
   state: string;
   theme?: {
     loading?: CSSProperties;
@@ -22,7 +24,7 @@ export function LnAuthLoginWrapper({
     button?: CSSProperties;
   };
 }) {
-  const { lnurl } = useLnUrl({ redirectUri, state });
+  const { lnurl } = useLnUrl({ redirectUri, errorUri, state });
 
   if (!lnurl) {
     return <Loading style={theme?.loading} />;

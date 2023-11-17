@@ -195,14 +195,23 @@ const config: NextAuthLightningConfig = {
   pages: {
     /**
      * @param {string} signIn
-     * override the default Lightning login and customize your own UI screen
+     * override the default Lightning login screen.
+     * A Lightning login page will be automatically generated unless the
+     * `signIn` path is specified. It lets you define your own page where you can
+     * configure a custom Lightning login screen.
      *
      * see examples code here:
      * https://github.com/jowo-io/next-auth-lightning-provider/tree/main/examples/login-page/pages/login.tsx
      */
     signIn: "/login"
 
-    // error: "/error" // TODO needs adding
+    /**
+     * @param {string} error
+     * override the default error screen.
+     * By default the user will be redirected to the `next-auth` login page if something goes wrong.
+     * If you want to build a custom error screen you can specify the path here.
+     */
+    error: "/error"
   },
 
   /**

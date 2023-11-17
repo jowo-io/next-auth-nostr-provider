@@ -77,7 +77,6 @@ export type ThemeStyles = {
   background: string;
   backgroundCard: string;
   text: string;
-  error: string;
   loginButtonBackground: string;
   loginButtonText: string;
 };

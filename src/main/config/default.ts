@@ -1,4 +1,5 @@
 import merge from "lodash.merge";
+import { z } from "zod";
 
 import { createAvatar } from "@dicebear/core";
 import { bottts } from "@dicebear/collection";
@@ -18,7 +19,6 @@ const colorSchemeLight: ThemeStyles = {
   background: "#ececec",
   backgroundCard: "#fff",
   text: "#000",
-  error: "#c94b4b",
   loginButtonBackground: "#24292f",
   loginButtonText: "#fff",
 };
@@ -27,7 +27,6 @@ const colorSchemeDark: ThemeStyles = {
   background: "#161b22",
   backgroundCard: "#0d1117",
   text: "#fff",
-  error: "#c94b4b",
   loginButtonBackground: "#24292f",
   loginButtonText: "#fff",
 };
@@ -98,11 +97,65 @@ const defaultConfig: Partial<OptionalConfig> = {
   },
 };
 
+const configValidation = z
+  .object({
+    // required
+    siteUrl: z.string(),
+    secret: z.string(),
+    storage: z.object({
+      set: z.function(),
+      get: z.function(),
+      update: z.function(),
+      delete: z.function(),
+    }),
+
+    // optional
+    generateAvatar: z.function().nullable().optional(),
+    generateName: z.function().nullable().optional(),
+    qr: z
+      .object({
+        generateQr: z.function().optional(),
+        color: z
+          .object({
+            dark: z.string().optional(),
+            light: z.string().optional(),
+          })
+          .nullish(),
+        margin: z.number().optional(),
+      })
+      .nullish(),
+    pages: z
+      .object({
+        signIn: z.string().optional(),
+        error: z.string().optional(),
+      })
+      .nullish(),
+    title: z.string().nullable().optional(),
+    theme: z
+      .object({
+        colorScheme: z.string().optional(),
+        background: z.string().optional(),
+        backgroundCard: z.string().optional(),
+        text: z.string().optional(),
+        error: z.string().optional(),
+        loginButtonBackground: z.string().optional(),
+        loginButtonText: z.string().optional(),
+      })
+      .nullish(),
+  })
+  .strict();
+
 export function formatConfig(userConfig: UserConfig): Config {
   const theme =
     userConfig.theme?.colorScheme === "dark"
       ? colorSchemeDark
       : colorSchemeLight;
+
+  configValidation.parse(userConfig, {
+    errorMap: (issue) => {
+      return { message: `Config option ${issue.path} of ${issue.code}` };
+    },
+  });
 
   return merge(defaultConfig, { theme }, userConfig, hardConfig) as Config;
 }

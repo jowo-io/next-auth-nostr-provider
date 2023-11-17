@@ -90,6 +90,7 @@ export default async function handler(
   }
 
   const title = config.title || config.siteUrl;
+  const errorUrl = config.siteUrl + config.pages.error;
 
   const query = extractQuery(req.query);
 
@@ -109,7 +110,7 @@ export default async function handler(
     <script>
       var init = ${vanilla.toString()};
       window.onload = function(){
-        init(${JSON.stringify({ hardConfig, query })})
+        init(${JSON.stringify({ hardConfig, query, errorUrl })})
       };
     </script>
     </html>`

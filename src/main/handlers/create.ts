@@ -2,7 +2,11 @@ import { NextApiRequest, NextApiResponse } from "next/types";
 import lnurl from "lnurl";
 import { randomBytes } from "crypto";
 
-import { createValidation } from "../validation/lnauth.js";
+import {
+  createValidation,
+  errorMap,
+  formatErrorMessage,
+} from "../validation/lnauth.js";
 
 import { Config } from "../config/index.js";
 
@@ -11,24 +15,28 @@ export default async function handler(
   res: NextApiResponse,
   config: Config
 ) {
-  const { state } = createValidation.parse(req.query);
+  try {
+    const { state } = createValidation.parse(req.query, { errorMap });
 
-  const k1 = randomBytes(32).toString("hex");
+    const k1 = randomBytes(32).toString("hex");
 
-  let inputUrl = new URL(config.siteUrl + config.apis.callback);
-  inputUrl.searchParams.append("k1", k1);
-  inputUrl.searchParams.append("tag", "login");
+    let inputUrl = new URL(config.siteUrl + config.apis.callback);
+    inputUrl.searchParams.append("k1", k1);
+    inputUrl.searchParams.append("tag", "login");
 
-  const encoded = lnurl.encode(inputUrl.toString()).toUpperCase();
+    const encoded = lnurl.encode(inputUrl.toString()).toUpperCase();
 
-  await config.storage.set({ k1, data: { k1, state } }, req);
+    await config.storage.set({ k1, data: { k1, state } }, req);
 
-  res.send(
-    JSON.stringify({
-      status: "OK",
-      success: true,
-      k1,
-      lnurl: encoded,
-    })
-  );
+    res.send(
+      JSON.stringify({
+        status: "OK",
+        success: true,
+        k1,
+        lnurl: encoded,
+      })
+    );
+  } catch (e: any) {
+    res.status(500).send(formatErrorMessage(e));
+  }
 }

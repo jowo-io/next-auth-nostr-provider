@@ -32,11 +32,10 @@ const config: NextAuthLightningConfig = {
     },
   },
 
+  // optional
   pages: {
     signIn: "/login",
   },
-
-  // optional
   theme: {
     colorScheme: "dark",
   },

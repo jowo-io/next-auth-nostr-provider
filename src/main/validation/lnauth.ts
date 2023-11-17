@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { IssueData, z } from "zod";
 
 export const callbackValidation = z.object({
   k1: z.string().min(1),
@@ -36,3 +36,35 @@ export const userValidation = z.object({
 });
 
 export type UserValidation = z.infer<typeof callbackValidation>;
+
+export function errorMap(issue: IssueData) {
+  return {
+    message: `Body argument ${issue.path} of ${issue.code}`,
+  };
+}
+
+export function formatErrorMessage(e: any): { message: string } {
+  console.error(e);
+
+  let message;
+
+  if (typeof e?.message === "string") {
+    // regular Error type
+    message = e.message;
+
+    try {
+      // zod errors are thrown as stringified json array, so decode array if detected
+      if (e.message[0] === "[") {
+        const zodError = JSON.parse(e.message);
+        if (typeof zodError?.[0]?.message === "string") {
+          // Zod error type
+          message = zodError[0].message;
+        }
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  }
+
+  return { message: message || "Something went wrong" };
+}

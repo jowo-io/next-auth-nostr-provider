@@ -10,23 +10,12 @@ Below is a TODO list for further development of `next-auth-lightning-provider`
 
 ### Secondary
 
-- finish adding `pages.error` config options
-- consider and improve error handling more generally. what can go wrong? how is that handled?
-  - zod errors
-  - error in the `next-auth` api's (e.g. when the `/token` endpoint is pinged)
-  - error on ssr lightning login api request - trigger page redirect
-  - error on callback made via lightning wallet
-  - error in qr / avatar handler
-  - error in config object
-  - error in storage methods or avatar/name/qr generators
-  - error on custom login page
 - carefully run through the auth and data flow to look for bugs or oversights
 - ensure that peer dependencies are met and npm throws errors if not
 
 ### Tertiary
 
-- add jest tests for all utils
-- consider using zod on user config input
+- consider future proofing qr/name/avatar user config. move all generators into nested object?
 - add JSDocs comments to functions / hooks etc
 - decide on terminology (avatar or image or picture)
 - add more example repos
@@ -36,9 +25,13 @@ Below is a TODO list for further development of `next-auth-lightning-provider`
 - consider how to clean up old and unused lnauth session data that was created but never reached success state
 - add `auto` color scheme that uses browsers dark/light settings
 - check if `theme.error` is used anywhere
+- consider empty values in JWT token. should be be: null / undefined / empty string ?
+- add jest tests for all utils
+- cancel inflight api requests if hook unmounts
 
 ### Readme
 
 - explain the flow / add a diagram showing user/api/wallet flow.
 - improve the basic description in the About section
 - add info about deterministic generation of image and name
+- carefully scan for errors and typos
