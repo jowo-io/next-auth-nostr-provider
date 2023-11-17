@@ -24,7 +24,10 @@
     "nextjs",
     "nextauth",
     "lightning",
-    "bitcoin"
+    "lightning-network",
+    "bitcoin",
+    "lnurl",
+    "lnurl-auth"
   ],
   "files": [
     "react/**/*.d.ts*",
