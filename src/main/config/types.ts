@@ -71,12 +71,16 @@ export type RequiredConfig = {
     ) => Promise<undefined>;
     delete: (args: { k1: string }, req: NextApiRequest) => Promise<undefined>;
   };
+  generateQr: (data: string, config: Config) => Promise<{ qr: string }>;
 };
 
 export type ThemeStyles = {
   background: string;
   backgroundCard: string;
   text: string;
+  qrBackground: string;
+  qrForeground: string;
+  qrMargin: number;
   loginButtonBackground: string;
   loginButtonText: string;
 };
@@ -93,14 +97,6 @@ export type OptionalConfig = {
   generateName:
     | ((seed: string, config: Config) => Promise<{ name: string }>)
     | null;
-
-  qr: {
-    generateQr?:
-      | ((data: string, config: Config) => Promise<{ qr: string }>)
-      | null;
-    color?: { dark?: string; light: string } | null;
-    margin?: number | null;
-  };
 
   theme: {
     colorScheme?: "auto" | "dark" | "light";

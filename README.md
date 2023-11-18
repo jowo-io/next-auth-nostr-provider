@@ -72,6 +72,9 @@ import NextAuthLightning, {
   LnAuthData,
   NextAuthLightningConfig,
 } from "next-auth-lightning-provider";
+import { generateQr } from "next-auth-lightning-provider/generators/qr";
+import { generateName } from "next-auth-lightning-provider/generators/name";
+import { generateAvatar } from "next-auth-lightning-provider/generators/avatar";
 
 const config: NextAuthLightningConfig = {
   // required
@@ -91,8 +94,11 @@ const config: NextAuthLightningConfig = {
       // delete lnurl auth session data based on k1 id
     },
   },
+  generateQr,
 
   // optional
+  generateName,
+  generateAvatar,
   theme: {
     colorScheme: "dark",
   },
@@ -124,6 +130,18 @@ export const authOptions: AuthOptions = {
 
 export default NextAuth(authOptions);
 ```
+
+# Generators
+
+This package provides several generator functions that can be used to deterministically generate avatars and usernames as well as a generic QR code generator. The generators are tree-shakeable. If you don't need them, simply don't import them and they'll not be included in your app's bundle.
+
+```typescript
+import { generateQr } from "next-auth-lightning-provider/generators/qr";
+import { generateName } from "next-auth-lightning-provider/generators/name";
+import { generateAvatar } from "next-auth-lightning-provider/generators/avatar";
+```
+
+> Note: you can also write your own generator functions if those provided don't suit your needs!
 
 # Configuration
 
@@ -202,6 +220,23 @@ const config: NextAuthLightningConfig = {
       // delete lnurl auth session data based on k1 id
     },
   },
+  /**
+   * @param {function} qr.generateQr
+   *
+   * Set the QR code generator function.
+   * It must return a correctly formatted string containing svg XML markup.
+   *
+   * A default QR code generator is provided. It can be imported from:
+   * `import { generateQr } from "next-auth-lightning-provider/generators/qr";`
+   *
+   * the default library used is:
+   * @see https://www.npmjs.com/package/qrcode
+   */
+  async generateQr(data, config) {
+    return {
+      qr: '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 394 80">...........</svg>'
+    };
+  },
 
   // optional
   pages: {
@@ -268,40 +303,7 @@ const config: NextAuthLightningConfig = {
   },
 
 
-  /**
-   * Control the QR code generation and styling.
-   */
-  qr: {
-    /**
-     * @param {function} qr.generateQr
-     *
-     * Override the default QR code generator.
-     * It must return a correctly formatted string containing svg XML markup.
-     *
-     * the default library used is:
-     * https://www.npmjs.com/package/qrcode
-     */
-    async generateQr(data, config) {
-      return {
-        qr: '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 394 80">...........</svg>'
-      };
-    },
 
-    /**
-     * @param {object} color
-     *
-     * Override the default QR code colors. If left undefined, the
-     * QR will be styled based on the theme styles.
-     */
-    color: { dark: "#000000", light: "#ffffff" },
-
-    /**
-     * @param {number} margin
-     *
-     * Override the default QR code margin.
-     */
-    margin: 2,
-  },
 
   /**
    * Control the color scheme of the "Login with Lightning" page and button.
@@ -334,6 +336,29 @@ const config: NextAuthLightningConfig = {
      * Override the theme's main text color.
      */
     text: "#000000",
+
+    /**
+     * @param {object} color
+     *
+     * Override the default QR code background color. If left undefined,
+     * the QR will be styled based on the theme styles.
+     */
+    qrBackground: "#ffffff",
+
+    /**
+     * @param {object} color
+     *
+     * Override the default QR code foreground color. If left undefined,
+     * the QR will be styled based on the theme styles.
+     */
+    qrForeground: "#000000",
+
+    /**
+     * @param {number} margin
+     *
+     * Override the default QR code margin.
+     */
+    qrMargin: 2,
 
     /**
      * @param {string} loginButtonBackground

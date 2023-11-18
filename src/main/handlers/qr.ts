@@ -10,7 +10,7 @@ export default async function handler(
   res: NextApiResponse,
   config: Config
 ) {
-  if (!config.qr.generateQr) throw new Error("Avatars are not enabled");
+  if (!config.generateQr) throw new Error("QRs are not enabled");
 
   const url = req.url?.toString();
   if (!url) throw new Error("Invalid url");
@@ -19,7 +19,7 @@ export default async function handler(
   if (!name) throw new Error("Invalid file name");
   if (ext !== ".svg") throw new Error("Invalid file type");
 
-  const { qr } = await config.qr.generateQr(`lightning:${name}`, config);
+  const { qr } = await config.generateQr(`lightning:${name}`, config);
 
   res.setHeader("content-type", "image/svg+xml");
   res.setHeader("cache-control", `public, max-age=${cacheDuration}`);

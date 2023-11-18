@@ -1,6 +1,10 @@
 import NextAuthLightning, {
   NextAuthLightningConfig,
 } from "next-auth-lightning-provider";
+import { generateQr } from "next-auth-lightning-provider/generators/qr";
+import { generateName } from "next-auth-lightning-provider/generators/name";
+import { generateAvatar } from "next-auth-lightning-provider/generators/avatar";
+
 import { eq } from "drizzle-orm";
 
 import { lnAuthTable, LnAuth } from "@/schema/db";
@@ -32,8 +36,11 @@ const config: NextAuthLightningConfig = {
       await db.delete(lnAuthTable).where(eq(lnAuthTable.k1, k1));
     },
   },
+  generateQr,
 
   // optional
+  generateName,
+  generateAvatar,
   theme: {
     colorScheme: "dark",
   },

@@ -13,8 +13,9 @@ function AuthPage({ config }: { config: Config }) {
         alignItems: "center",
         justifyContent: "center",
         height: "100vh",
+        boxSizing: "border-box",
         margin: 0,
-        padding: 0,
+        padding: 20,
 
         fontFamily: `ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Arial,Noto Sans,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol,Noto Color Emoji`,
 
@@ -22,60 +23,62 @@ function AuthPage({ config }: { config: Config }) {
         color: config.theme.text,
       }}
     >
-      {/* loading component is rendered and shown initially, before window.onload is triggered */}
-      <Loading />
+      <div>
+        {/* loading component is rendered and shown initially, before window.onload is triggered */}
+        <Loading />
 
-      {/* login component is rendered with display: none, after window.onload is triggered */}
-      <LnAuthLogin
-        title={config.title}
-        lnurl=""
-        theme={{
-          wrapper: {
-            display: "none", // initially hidden
-            textAlign: "center",
-            maxWidth: 500,
-            background: config.theme.backgroundCard,
-            color: config.theme.text,
-            padding: "20px 30px",
-            borderRadius: 20,
-          },
-          title: {
-            fontSize: 25,
-            color: config.theme.text,
-            marginTop: 0,
-            marginBottom: 15,
-          },
-          qr: {
-            display: "block",
-            overflow: "hidden",
-            borderRadius: 5,
-            width: "100%",
-            height: "auto",
-          },
-          copy: {
-            wordBreak: "break-all",
-            whiteSpace: "pre-wrap",
-            userSelect: "all",
-            marginTop: 10,
-            marginBottom: 10,
-          },
-          button: {
-            alignItems: "center",
-            backgroundColor: config.theme.background,
-            textDecoration: "none",
-            border: `2px solid rgba(110, 110, 110, 0.3)`,
-            borderRadius: 10,
-            color: config.theme.text,
-            display: "flex",
-            fontSize: "1.1rem",
-            fontWeight: "500",
-            justifyContent: "center",
-            minHeight: "30px",
-            padding: ".75rem 1rem",
-            position: "relative",
-          },
-        }}
-      />
+        {/* login component is rendered with display: none, after window.onload is triggered */}
+        <LnAuthLogin
+          title={config.title}
+          lnurl=""
+          theme={{
+            wrapper: {
+              display: "none", // initially hidden
+              textAlign: "center",
+              maxWidth: 400,
+              background: config.theme.backgroundCard,
+              color: config.theme.text,
+              padding: "20px 30px",
+              borderRadius: 20,
+            },
+            title: {
+              fontSize: 25,
+              color: config.theme.text,
+              marginTop: 0,
+              marginBottom: 15,
+            },
+            qr: {
+              display: "block",
+              overflow: "hidden",
+              borderRadius: 5,
+              width: "100%",
+              height: "auto",
+            },
+            copy: {
+              wordBreak: "break-all",
+              whiteSpace: "pre-wrap",
+              userSelect: "all",
+              marginTop: 10,
+              marginBottom: 10,
+            },
+            button: {
+              alignItems: "center",
+              backgroundColor: config.theme.background,
+              textDecoration: "none",
+              border: `2px solid rgba(110, 110, 110, 0.3)`,
+              borderRadius: 10,
+              color: config.theme.text,
+              display: "flex",
+              fontSize: "1.1rem",
+              fontWeight: "500",
+              justifyContent: "center",
+              minHeight: "30px",
+              padding: ".75rem 1rem",
+              position: "relative",
+            },
+          }}
+        />
+      </div>
     </body>
   );
 }

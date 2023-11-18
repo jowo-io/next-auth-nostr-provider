@@ -2,6 +2,9 @@ import NextAuthLightning, {
   LnAuthData,
   NextAuthLightningConfig,
 } from "next-auth-lightning-provider";
+import { generateQr } from "next-auth-lightning-provider/generators/qr";
+import { generateName } from "next-auth-lightning-provider/generators/name";
+import { generateAvatar } from "next-auth-lightning-provider/generators/avatar";
 
 import { env } from "@/env.mjs";
 
@@ -31,8 +34,11 @@ const config: NextAuthLightningConfig = {
       await storage.removeItem(`k1:${k1}`);
     },
   },
+  generateQr,
 
   // optional
+  generateName,
+  generateAvatar,
   pages: {
     signIn: "/login",
   },

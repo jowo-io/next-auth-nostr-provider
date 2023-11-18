@@ -2,6 +2,10 @@ import NextAuthLightning, {
   LnAuthData,
   NextAuthLightningConfig,
 } from "next-auth-lightning-provider";
+import { generateQr } from "next-auth-lightning-provider/generators/qr";
+import { generateName } from "next-auth-lightning-provider/generators/name";
+import { generateAvatar } from "next-auth-lightning-provider/generators/avatar";
+
 import { kv } from "@vercel/kv";
 
 import { env } from "@/env.mjs";
@@ -28,8 +32,11 @@ const config: NextAuthLightningConfig = {
       await kv.del(`k1:${k1}`);
     },
   },
+  generateQr,
 
   // optional
+  generateName,
+  generateAvatar,
   theme: {
     colorScheme: "dark",
   },
