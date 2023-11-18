@@ -133,7 +133,11 @@ export default NextAuth(authOptions);
 
 # Generators
 
-This package provides several generator functions that can be used to deterministically generate avatars and usernames as well as a generic QR code generator. The generators are tree-shakeable. If you don't need them, simply don't import them and they'll not be included in your app's bundle.
+Normally if you authenticate a user with lnurl-auth, all you'd know about the user is their unique ID (a pubkey). This package goes a step further and provides several generator functions that can be used to deterministically (the pubkey is used as a seed) generate avatars and usernames. That means you can show users a unique name and image that'll be associated with their account!
+
+As well as the avatar and image generators, there's also a QR code generator.
+
+The generators are tree-shakeable. If you don't need them, simply don't import them and they'll not be included in your app's bundle.
 
 ```typescript
 import { generateQr } from "next-auth-lightning-provider/generators/qr";
@@ -141,7 +145,7 @@ import { generateName } from "next-auth-lightning-provider/generators/name";
 import { generateAvatar } from "next-auth-lightning-provider/generators/avatar";
 ```
 
-> Note: you can also write your own generator functions if those provided don't suit your needs!
+> Note: you can write your own generator functions if those provided don't suit your needs!
 
 # Configuration
 
