@@ -18,9 +18,9 @@ Install the package and add two code snippets to your app (as shown below). It's
 
 Your users will then be shown an additional login option in the `next-auth` login page. When they click the new option they'll be presented with a QR code. The QR code can be scanned with any Bitcoin Lightning wallet that supports `lnurl-auth`. After scanning, they'll be securely logged in! No username or password required.
 
-Behind the scenes `next-auth-lightning-provider` sets up several API endpoint which act as a basic OAuth server. These API will authorize users using [lnurl-auth](https://fiatjaf.com/e0a35204.html) as well as issue JWT tokens and more.
+Behind the scenes `next-auth-lightning-provider` sets up several API endpoint which act as a basic OAuth server. The API will authorize users with [lnurl-auth](https://fiatjaf.com/e0a35204.html) and then issue a JWT token to them.
 
-As well as providing the basic authentication functionality that you'd expect, `next-auth-lightning-provider` also offers some extra cool functionality such as generating deterministic avatar images and usernames for authenticated users!
+As well as providing the basic authentication functionality that you'd expect, `next-auth-lightning-provider` also offers some extra functionality such as deterministicly generating avatars and usernames for authenticated users!
 
 # Compatibility
 
@@ -169,17 +169,17 @@ const config: NextAuthLightningConfig = {
    * @param {string} siteUrl
    *
    * Must be defined as a securely generated random string. Used to sign the
-   * JWT that authenticates users who have logged in with Lightning.
+   * JWT token that authenticates users who have logged in with Lightning.
    */
   secret: process.env.NEXTAUTH_SECRET,
 
   /**
    * @param {object} storage
    *
-   * `lnurl-auth` requires that a user's Lightning wallet triggers a
-   * callback to authenticate them. So, we require session storage to
+   * The lnurl-auth spec requires that a user's Lightning wallet triggers a
+   * callback as part of the authentication flow. So, we require session storage to
    * persist some data and ensure it's available when the callback is triggered.
-   * Data can be stored in a medium of your choice.
+   * Data can be stored in any medium of your choice.
    *
    * @see https://github.com/jowo-io/next-auth-lightning-provider/tree/main/examples/
    */
@@ -224,14 +224,15 @@ const config: NextAuthLightningConfig = {
       // delete lnurl auth session data based on k1 id
     },
   },
+
   /**
    * @param {function} qr.generateQr
    *
-   * Set the QR code generator function.
+   * Define the QR code generator function.
    * It must return a correctly formatted string containing svg XML markup.
    *
    * A default QR code generator is provided. It can be imported from:
-   * `import { generateQr } from "next-auth-lightning-provider/generators/qr";`
+   * import { generateQr } from "next-auth-lightning-provider/generators/qr";
    *
    * the default library used is:
    * @see https://www.npmjs.com/package/qrcode
@@ -251,7 +252,7 @@ const config: NextAuthLightningConfig = {
      * `signIn` path is specified. It lets you define your own page where
      * you can configure a custom Next.js page and customize the UI.
      *
-     * @see https://github.com/jowo-io/next-auth-lightning-provider/tree/main/examples/login-page/pages/login.tsx
+     * @see https://github.com/jowo-io/next-auth-lightning-provider/tree/main/examples/login-page/
      */
     signIn: "/login"
 
@@ -276,12 +277,14 @@ const config: NextAuthLightningConfig = {
   /**
    * @param {function | null} generateAvatar
    *
-   * Override the default deterministic avatar generator.
+   * Define the default deterministic avatar generator.
    * It must return a correctly formatted string containing svg XML markup.
    * Or, it can be set to null to disable avatars.
    *
-   * The default avatar generation library that's used is dicebear's bottts style.
+   * A default avatar generator is provided. It can be imported from:
+   * import { generateAvatar } from "next-auth-lightning-provider/generators/avatar";
    *
+   * The default avatar generation library that's used is dicebear's bottts style.
    * @see https://www.dicebear.com/styles/bottts/
    */
   async generateAvatar(seed) {
@@ -293,11 +296,13 @@ const config: NextAuthLightningConfig = {
   /**
    * @param {function | null} generateName
    *
-   * Override the default deterministic name generator.
-   * Or, it can be set to null to disable names.
+   * Define the default deterministic name generator.
+   * Or, it can be set to null to disable names
+   *
+   * A default name generator is provided. It can be imported from:
+   * import { generateName } from "next-auth-lightning-provider/generators/name";
    *
    * The default name generation library used is `unique-names-generator`
-   *
    * @see https://www.npmjs.com/package/unique-names-generator
    */
   async generateName(seed) {
@@ -306,17 +311,14 @@ const config: NextAuthLightningConfig = {
     };
   },
 
-
-
-
   /**
    * Control the color scheme of the "Login with Lightning" page and button.
    */
   theme: {
     /**
-     * @param {string} colorScheme - e.g. "#000000"
+     * @param {string} colorScheme
      *
-     * Sets a color scheme for the "Login with Lightning" UI.
+     * Define a color scheme for the "Login with Lightning" UI.
      */
     colorScheme: "dark" | "light";
 
@@ -344,37 +346,37 @@ const config: NextAuthLightningConfig = {
     /**
      * @param {object} color
      *
-     * Override the default QR code background color. If left undefined,
-     * the QR will be styled based on the theme styles.
+     * Override the theme's background color.
      */
     qrBackground: "#ffffff",
 
     /**
      * @param {object} color
      *
-     * Override the default QR code foreground color. If left undefined,
-     * the QR will be styled based on the theme styles.
+     * Override the theme's QR code foreground color.
      */
     qrForeground: "#000000",
 
     /**
      * @param {number} margin
      *
-     * Override the default QR code margin.
+     * Override the theme's QR code margin value.
      */
     qrMargin: 2,
 
     /**
      * @param {string} loginButtonBackground
      *
-     * Override the theme's button background color. This is the button that's shown in the `next-auth` login screen.
+     * Override the theme's button background color. This is the button that's shown in the
+     * `next-auth` login screen alongside your other providers.
      */
     loginButtonBackground: "#24292f",
 
     /**
      * @param {string} loginButtonText
      *
-     * Override the theme's button text color. This is the button that's shown in the `next-auth` login screen.
+     * Override the theme's button text color. This is the button that's shown in the
+     * `next-auth` login screen alongside your other providers.
      */
     loginButtonText: "#ffffff",
   },
