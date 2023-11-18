@@ -318,7 +318,7 @@ const config: NextAuthLightningConfig = {
      *
      * Sets a color scheme for the "Login with Lightning" UI.
      */
-    colorScheme: "auto" | "dark" | "light";
+    colorScheme: "dark" | "light";
 
     /**
      * @param {string} background

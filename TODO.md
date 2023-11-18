@@ -15,17 +15,17 @@ Below is a TODO list for further development of `next-auth-lightning-provider`
 
 ### Tertiary
 
-- consider future proofing qr/name/avatar user config. move all generators into nested object?
 - add JSDocs comments to functions / hooks etc
 - decide on terminology (avatar or image or picture)
 - add more example repos
 - add spinner to Loading component
 - open PR on `next-auth`
-- support multiple file types for avatar and qr
 - consider how to clean up old and unused lnauth session data that was created but never reached success state
 - add `auto` color scheme that uses browsers dark/light settings
 - add jest tests for all utils
 - cancel inflight api requests if hook unmounts
+- consider adding various styles of avatar and name generators
+- support multiple file types for avatar and qr
 
 ### Readme
 

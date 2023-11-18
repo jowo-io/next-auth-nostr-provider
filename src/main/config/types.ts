@@ -99,7 +99,7 @@ export type OptionalConfig = {
     | null;
 
   theme: {
-    colorScheme?: "auto" | "dark" | "light";
+    colorScheme?: "dark" | "light";
   } & Partial<ThemeStyles>;
 };
 

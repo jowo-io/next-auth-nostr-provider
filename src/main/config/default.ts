@@ -33,7 +33,7 @@ const defaultConfig: Partial<OptionalConfig> = {
   },
   title: "Login with Lightning",
   theme: {
-    colorScheme: "auto",
+    colorScheme: "light",
   },
 };
 
