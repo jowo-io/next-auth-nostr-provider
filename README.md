@@ -387,3 +387,9 @@ const config: NextAuthLightningConfig = {
 # Examples
 
 See working examples in the [examples folder](https://github.com/jowo-io/next-auth-lightning-provider/tree/main/examples).
+
+# Diagram
+
+Here's a diagram of what happens at sign-in in the Lightning OAuth authorization flow:
+
+![diagram of Lightning OAuth authorization flow](https://github.com/jowo-io/next-auth-lightning-provider/blob/main/diagram.jpeg?raw=true)
