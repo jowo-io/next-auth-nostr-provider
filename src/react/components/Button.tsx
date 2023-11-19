@@ -1,4 +1,4 @@
-import { AnchorHTMLAttributes } from "react";
+import { HTMLAttributes } from "preact/compat";
 
 import { formatLnAuth } from "../utils/lnurl.js";
 import { hardConfig } from "../../main/config/hard.js";
@@ -8,7 +8,7 @@ export function Button({
   ...props
 }: {
   lnurl: string;
-} & AnchorHTMLAttributes<HTMLAnchorElement>) {
+} & HTMLAttributes<HTMLAnchorElement>) {
   const { button } = formatLnAuth(lnurl);
 
   return (

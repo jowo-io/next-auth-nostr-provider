@@ -1,4 +1,5 @@
 import { NextApiRequest } from "next";
+import { NextRequest } from "next/server";
 
 export type HardConfig = {
   apis: {
@@ -55,9 +56,12 @@ export type RequiredConfig = {
           state: string;
         };
       },
-      req: NextApiRequest
+      req: NextApiRequest | NextRequest
     ) => Promise<undefined>;
-    get: (args: { k1: string }, req: NextApiRequest) => Promise<LnAuthData>;
+    get: (
+      args: { k1: string },
+      req: NextApiRequest | NextRequest
+    ) => Promise<LnAuthData>;
     update: (
       args: {
         k1: string;
@@ -67,9 +71,12 @@ export type RequiredConfig = {
           success: boolean;
         };
       },
-      req: NextApiRequest
+      req: NextApiRequest | NextRequest
     ) => Promise<undefined>;
-    delete: (args: { k1: string }, req: NextApiRequest) => Promise<undefined>;
+    delete: (
+      args: { k1: string },
+      req: NextApiRequest | NextRequest
+    ) => Promise<undefined>;
   };
   generateQr: (data: string, config: Config) => Promise<{ qr: string }>;
 };

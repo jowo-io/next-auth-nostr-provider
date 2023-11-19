@@ -2,7 +2,7 @@
 >
 > This project is currently under construction 👷🏗️🚧
 >
-> It is not recommended to use it in production apps. It may be insecure!
+> It is not recommended to use it in production apps. It may be buggy or insecure!
 >
 > See [this issue](https://github.com/nextauthjs/next-auth/issues/7872) for updates and more info.
 
@@ -24,8 +24,8 @@ As well as providing the basic authentication functionality that you'd expect, `
 
 # Compatibility
 
-- `next-auth-lightning-provider` only supports the `next-auth` version 4, `next-auth` version 5 support **coming soon**.
-- `next-auth-lightning-provider` only supports the next pages directory at the moment, app router support **coming soon**.
+- `next-auth-lightning-provider` currently only supports `next@v13` and higher.
+- `next-auth-lightning-provider` currently only supports `next-auth@v4`.
 
 # Getting started
 
@@ -110,6 +110,8 @@ export const lightningProvider = provider;
 
 export default handler;
 ```
+
+> NOTE: The above example uses the Pages Router. If your app uses the App Router then take a look at the [examples/app-router/](https://github.com/jowo-io/next-auth-lightning-provider/tree/main/examples/app-router/) example app.
 
 This API will handle all of the Lightning auth API requests, such as generating QRs, handling callbacks, polling and issuing JWT auth tokens.
 
@@ -384,12 +386,22 @@ const config: NextAuthLightningConfig = {
 };
 ```
 
+# Next.js Routers
+
+With the release of `next@v13` comes the App Router.
+
+This package supports both the [Pages Router](https://nextjs.org/docs/pages) and the [App Router](https://nextjs.org/docs/app).
+
+If your app uses the App Router, see the [examples/app-router/](https://github.com/jowo-io/next-auth-lightning-provider/tree/main/examples/app-router/) app.
+
+If your app uses the Pages Router, see any of the other [examples/](https://github.com/jowo-io/next-auth-lightning-provider/tree/main/examples/) apps.
+
 # Examples
 
-See working examples in the [examples folder](https://github.com/jowo-io/next-auth-lightning-provider/tree/main/examples).
+See working examples in the [examples/](https://github.com/jowo-io/next-auth-lightning-provider/tree/main/examples) folder.
 
 # Diagram
 
-Here's a diagram of what happens at sign-in in the Lightning OAuth authorization flow:
+Here's a diagram illustrating what's happening under the hood during the Lightning OAuth authorization flow:
 
 ![diagram of Lightning OAuth authorization flow](https://github.com/jowo-io/next-auth-lightning-provider/blob/main/diagram.jpeg?raw=true)

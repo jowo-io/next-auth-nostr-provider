@@ -15,6 +15,8 @@ import imageHandler from "./handlers/image.js";
 import qrHandler from "./handlers/qr.js";
 
 import { formatConfig, UserConfig } from "./config/index.js";
+import { NextRequest, NextResponse } from "next/server";
+import { formatRouter } from "./utils/router.js";
 
 export default function NextAuthLightning(userConfig: UserConfig) {
   const config = formatConfig(userConfig);
@@ -50,25 +52,27 @@ export default function NextAuthLightning(userConfig: UserConfig) {
   };
 
   const handler = async function lnAuthHandler(
-    req: NextApiRequest,
-    res: NextApiResponse
+    req: NextApiRequest | NextRequest,
+    res: NextApiResponse | NextResponse
   ) {
-    if (req.url?.indexOf(config.apis.create) === 0) {
+    const { path } = formatRouter(req, res);
+
+    if (path?.indexOf(config.apis.create) === 0) {
       return await createHandler(req, res, config);
-    } else if (req.url?.indexOf(config.apis.poll) === 0) {
+    } else if (path?.indexOf(config.apis.poll) === 0) {
       return await pollHandler(req, res, config);
-    } else if (req.url?.indexOf(config.apis.callback) === 0) {
+    } else if (path?.indexOf(config.apis.callback) === 0) {
       return await callbackHandler(req, res, config);
-    } else if (req.url?.indexOf(config.apis.token) === 0) {
+    } else if (path?.indexOf(config.apis.token) === 0) {
       return await tokenHandler(req, res, config);
     } else if (
       config.pages?.signIn === config.apis.signIn &&
-      req.url?.indexOf(config.apis.signIn) === 0
+      path?.indexOf(config.apis.signIn) === 0
     ) {
       return await loginHandler(req, res, config);
-    } else if (req.url?.indexOf(config.apis.image) === 0) {
+    } else if (path?.indexOf(config.apis.image) === 0) {
       return await imageHandler(req, res, config);
-    } else if (req.url?.indexOf(config.apis.qr) === 0) {
+    } else if (path?.indexOf(config.apis.qr) === 0) {
       return await qrHandler(req, res, config);
     }
 

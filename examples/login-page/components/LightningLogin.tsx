@@ -1,6 +1,6 @@
 import { useLnUrl } from "next-auth-lightning-provider/react";
 
-export default function PlainJSX({
+export default function LightningLogin({
   redirectUri,
   state,
 }: {
@@ -10,12 +10,16 @@ export default function PlainJSX({
   const { lnurl, qr, button } = useLnUrl({ redirectUri, state });
 
   if (!lnurl) {
-    return <div>Loading ...</div>;
+    return (
+      <div style={{ textAlign: "center", color: "black" }}>loading...</div>
+    );
   }
 
   return (
     <div
       style={{
+        margin: "auto",
+        maxWidth: 400,
         textAlign: "center",
         background: "#fff",
         color: "#000",

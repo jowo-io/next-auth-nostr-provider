@@ -1,4 +1,4 @@
-import { CSSProperties } from "react";
+import { CSSProperties } from "preact/compat";
 
 import { Title } from "./Title.js";
 import { QrCode } from "./QrCode.js";

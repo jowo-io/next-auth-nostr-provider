@@ -3,6 +3,7 @@
     "moduleResolution": "node",
     "lib": ["dom", "esnext"],
     "jsx": "react-jsx",
+    "jsxImportSource": "preact",
     "target": "ES2020",
     "module": "ESNext",
 
@@ -26,7 +27,6 @@
       "next": ["node_modules/next"],
       "next-auth": ["node_modules/next-auth"],
       "react": ["node_modules/react"],
-      "react-dom": ["node_modules/react-dom"]
     }
   },
   "include": ["src"],

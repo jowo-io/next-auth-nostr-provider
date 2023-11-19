@@ -1,4 +1,4 @@
-import { HTMLAttributes } from "react";
+import { HTMLAttributes } from "preact/compat";
 
 import { hardConfig } from "../../main/config/hard.js";
 

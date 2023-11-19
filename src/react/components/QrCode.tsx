@@ -1,4 +1,4 @@
-import { ImgHTMLAttributes } from "react";
+import { HTMLAttributes } from "preact/compat";
 
 import { formatLnAuth } from "../utils/lnurl.js";
 import { hardConfig } from "../../main/config/hard.js";
@@ -8,7 +8,7 @@ export function QrCode({
   ...props
 }: {
   lnurl: string;
-} & ImgHTMLAttributes<HTMLImageElement>) {
+} & HTMLAttributes<HTMLImageElement>) {
   const { qr } = formatLnAuth(lnurl);
 
   return (

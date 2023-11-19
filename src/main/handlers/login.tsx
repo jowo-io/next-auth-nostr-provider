@@ -1,9 +1,15 @@
-import { renderToStaticMarkup } from "react-dom/server";
+import { renderToStaticMarkup } from "preact-render-to-string";
 import { NextApiRequest, NextApiResponse } from "next/types";
+import { cookies } from "next/headers";
+import { NextRequest, NextResponse } from "next/server";
 
 import { hardConfig, Config } from "../config/index.js";
 import { vanilla } from "../utils/vanilla.js";
-import { LnAuthLogin, Loading, extractQuery } from "../../react/index.js";
+
+import { LnAuthLogin } from "../../react/components/LnAuthLogin.js";
+import { Loading } from "../../react/components/Loading.js";
+import { extractQuery, extractSearchParams } from "../../react/utils/query.js";
+import { formatRouter } from "../utils/router.js";
 
 function AuthPage({ config }: { config: Config }) {
   return (
@@ -83,19 +89,13 @@ function AuthPage({ config }: { config: Config }) {
   );
 }
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse,
+async function logic(
+  query: Record<string, any>,
+  req: NextApiRequest | NextRequest,
   config: Config
 ) {
-  if (req.cookies["next-auth.session-token"]) {
-    throw new Error("You are already logged in");
-  }
-
   const title = config.title || config.siteUrl;
   const errorUrl = config.siteUrl + config.pages.error;
-
-  const query = extractQuery(req.query);
 
   const html = renderToStaticMarkup(<AuthPage config={config} />);
 
@@ -103,9 +103,7 @@ export default async function handler(
     throw new Error("Missing required query param");
   }
 
-  res.setHeader("Content-Type", "text/html");
-  res.send(
-    `<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  return `<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0">
       <title>${title}</title>
     </head>
     ${html}
@@ -116,6 +114,53 @@ export default async function handler(
         init(${JSON.stringify({ hardConfig, query, errorUrl })})
       };
     </script>
-    </html>`
-  );
+    </html>`;
+}
+
+async function pagesHandler(
+  req: NextApiRequest,
+  res: NextApiResponse,
+  config: Config
+) {
+  if (req.cookies["next-auth.session-token"]) {
+    throw new Error("You are already logged in");
+  }
+
+  const query = extractQuery(req.query);
+
+  const result = await logic(query, req, config);
+
+  res.setHeader("content-type", "text/html");
+  res.send(result);
+}
+
+async function appHandler(req: NextRequest, config: Config) {
+  const cookieStore = cookies();
+  if (cookieStore.get("next-auth.session-token")) {
+    throw new Error("You are already logged in");
+  }
+
+  const query = extractSearchParams(req.nextUrl.searchParams);
+
+  const result = await logic(query, req, config);
+
+  return new Response(result, {
+    status: 200,
+    headers: {
+      "content-type": "text/html",
+    },
+  });
+}
+
+export default async function handler(
+  request: NextApiRequest | NextRequest,
+  response: NextApiResponse | NextResponse,
+  config: Config
+) {
+  const { req, res, routerType } = formatRouter(request, response);
+
+  if (routerType === "APP") {
+    return await appHandler(req, config);
+  }
+  return await pagesHandler(req, res, config);
 }
