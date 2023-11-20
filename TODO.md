@@ -12,22 +12,22 @@ Below is a TODO list for further development of `next-auth-lightning-provider`
 - carefully run through the auth and data flow to look for bugs or oversights
 - add jest tests for all utils
 - consider how to clean up old and unused lnauth session data that was created but never reached success state
-
-### Tertiary
-
-- consider / investigate how to SSR react components so the `vanilla.ts` shim can be deprecated
-- add JSDocs comments to functions / hooks etc
 - decide on terminology (avatar or image or picture)
-- add more example repos
+- add JSDocs comments to functions / hooks etc
 - add spinner to Loading component
 - open PR on `next-auth`
-- add `auto` color scheme that uses browsers dark/light settings
-- cancel inflight api requests if hook unmounts
-- consider adding various styles of avatar and name generators
 - rename `useLnUrl` to `useLightningAuthUrl`
 - see if TS generics can be used for NextRequest/NextApiRequest etc
 - error handling: of App Router APIs, of error thrown in `storage.get` and other storage methods, of error at end of API if no paths matched, "You are already logged in" error. etc
 - consider standardizing APIs so they're all either POST or GET
+
+### Tertiary
+
+- cancel inflight api requests if hook unmounts
+- consider / investigate how to SSR react components so the `vanilla.ts` shim can be deprecated
+- add more example repos
+- add `auto` color scheme that uses browsers dark/light settings
+- consider adding various styles of avatar and name generators
 
 ### Readme
 
