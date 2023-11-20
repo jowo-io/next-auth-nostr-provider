@@ -12,8 +12,8 @@ export type HardConfig = {
     // pages
     signIn: string;
 
-    // misc
-    image: string;
+    // images
+    avatar: string;
     qr: string;
   };
   ids: {

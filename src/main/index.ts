@@ -11,7 +11,7 @@ import tokenHandler from "./handlers/token.js";
 import loginHandler from "./handlers/login.js";
 
 // misc
-import imageHandler from "./handlers/image.js";
+import imageHandler from "./handlers/avatar.js";
 import qrHandler from "./handlers/qr.js";
 
 import { formatConfig, UserConfig } from "./config/index.js";
@@ -70,7 +70,7 @@ export default function NextAuthLightning(userConfig: UserConfig) {
       path?.indexOf(config.apis.signIn) === 0
     ) {
       return await loginHandler(req, res, config);
-    } else if (path?.indexOf(config.apis.image) === 0) {
+    } else if (path?.indexOf(config.apis.avatar) === 0) {
       return await imageHandler(req, res, config);
     } else if (path?.indexOf(config.apis.qr) === 0) {
       return await qrHandler(req, res, config);
