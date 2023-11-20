@@ -4,13 +4,15 @@ export const pollApiRequest = (function () {
   var networkRequestCount: number = 0;
 
   return async function (k1: string): Promise<any> {
+    const params = new URLSearchParams({ k1 });
+
     return new Promise((resolve, reject) => {
       fetch(hardConfig.apis.poll, {
         method: "POST",
         headers: {
-          "Content-Type": "application/json",
+          "content-type": "application/x-www-form-urlencoded",
         },
-        body: JSON.stringify({ k1 }),
+        body: params,
         cache: "default",
       })
         .then(function (r) {
@@ -39,12 +41,15 @@ export const pollApiRequest = (function () {
 })();
 
 export async function createApiRequest(state: string): Promise<any> {
-  const searchParams = new URLSearchParams({ state });
+  const params = new URLSearchParams({ state });
+
   return new Promise((resolve, reject) => {
-    fetch(`${hardConfig.apis.create}?${searchParams.toString()}`, {
+    fetch(hardConfig.apis.create, {
+      method: "POST",
       headers: {
-        "Content-Type": "application/json",
+        "content-type": "application/x-www-form-urlencoded",
       },
+      body: params,
       cache: "default",
     })
       .then(function (r) {

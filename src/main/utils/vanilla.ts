@@ -33,12 +33,14 @@ export const vanilla = function ({
     if (!data || !data.k1) return;
     const k1 = data.k1;
 
+    const params = new URLSearchParams({ k1 });
+
     return fetch(hardConfig.apis.poll, {
       method: "POST",
       headers: {
-        "Content-Type": "application/json",
+        "content-type": "application/x-www-form-urlencoded",
       },
-      body: JSON.stringify({ k1 }),
+      body: params,
       cache: "default",
     })
       .then(function (r) {
@@ -69,11 +71,16 @@ export const vanilla = function ({
 
   // create a new lnurl and inject content into dom
   function create() {
-    const params = new URLSearchParams({
-      state: query.state,
-    });
+    const params = new URLSearchParams({ state: query.state });
 
-    return fetch(`http://localhost:3000/api/lnauth/create?${params.toString()}`)
+    return fetch("http://localhost:3000/api/lnauth/create", {
+      method: "POST",
+      headers: {
+        "content-type": "application/x-www-form-urlencoded",
+      },
+      body: params,
+      cache: "default",
+    })
       .then(function (r) {
         return r.json();
       })

@@ -8,6 +8,7 @@ import {
 } from "../validation/lnauth.js";
 import { Config } from "../config/index.js";
 import { formatRouter } from "../utils/router.js";
+import { paramsToObject } from "../utils/params.js";
 
 async function logic(
   body: Record<string, any>,
@@ -39,7 +40,9 @@ async function pagesHandler(
 }
 
 async function appHandler(req: NextRequest, config: Config) {
-  const body = await req.json();
+  const text = await req.text();
+  const params = new URLSearchParams(text);
+  const body = paramsToObject(params);
 
   const result = await logic(body, req, config);
 

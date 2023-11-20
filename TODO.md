@@ -15,7 +15,6 @@ Below is a TODO list for further development of `next-auth-lightning-provider`
 - add JSDocs comments to functions / hooks etc
 - open PR on `next-auth`
 - error handling: of App Router APIs, of error thrown in `storage.get` and other storage methods, of error at end of API if no paths matched, "You are already logged in" error. etc
-- consider standardizing APIs so they're all either POST or GET
 
 ### Tertiary
 

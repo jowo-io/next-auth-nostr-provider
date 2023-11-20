@@ -34,11 +34,11 @@ export function useLightningAuth({
 
     // redirect user to error page if something goes wrong
     const error = (e: any) => {
-      const searchParams = new URLSearchParams();
-      searchParams.append("error", "OAuthSignin");
-      if (e?.message) searchParams.append("message", e.message);
+      const params = new URLSearchParams();
+      params.append("error", "OAuthSignin");
+      if (e?.message) params.append("message", e.message);
       window.location.replace(
-        (errorUri || "/api/auth/signin") + "?" + searchParams.toString()
+        (errorUri || "/api/auth/signin") + "?" + params.toString()
       );
     };
 

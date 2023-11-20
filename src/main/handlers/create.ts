@@ -12,11 +12,11 @@ import { formatRouter } from "../utils/router.js";
 import { paramsToObject } from "../utils/params.js";
 
 async function logic(
-  query: Record<string, any>,
+  body: Record<string, any>,
   req: NextApiRequest | NextRequest,
   config: Config
 ) {
-  const { state } = createValidation.parse(query, { errorMap });
+  const { state } = createValidation.parse(body, { errorMap });
 
   const k1 = randomBytes(32).toString("hex");
 
@@ -46,7 +46,7 @@ async function pagesHandler(
     if (req.cookies["next-auth.session-token"]) {
       throw new Error("You are already logged in");
     }
-    const result = await logic(req.query, req, config);
+    const result = await logic(req.body, req, config);
 
     res.send(JSON.stringify(result));
   } catch (e: any) {
@@ -59,9 +59,11 @@ async function appHandler(req: NextRequest, config: Config) {
     throw new Error("You are already logged in");
   }
 
-  const query = paramsToObject(req.nextUrl.searchParams);
+  const text = await req.text();
+  const params = new URLSearchParams(text);
+  const body = paramsToObject(params);
 
-  const result = await logic(query, req, config);
+  const result = await logic(body, req, config);
 
   return Response.json(result);
 }
