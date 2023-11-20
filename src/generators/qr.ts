@@ -36,9 +36,9 @@ export const generateQr = async (data: string, config: Config) => {
   const options = merge(themeOptions, qrOptions);
 
   return {
-    qr: (await QRCode.toString(data, {
+    qr: await QRCode.toBuffer(data, {
       ...options,
-      type: "svg",
-    })) as unknown as string,
+      type: "png",
+    }),
   };
 };
