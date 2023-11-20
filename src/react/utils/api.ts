@@ -3,7 +3,10 @@ import { hardConfig } from "../../main/config/hard.js";
 export const pollApiRequest = (function () {
   var networkRequestCount: number = 0;
 
-  return async function (k1: string, signal?: AbortSignal): Promise<any> {
+  return async function (
+    { k1 }: { k1: string },
+    signal?: AbortSignal
+  ): Promise<any> {
     const params = new URLSearchParams({ k1 });
 
     return new Promise((resolve, reject) => {
@@ -40,10 +43,13 @@ export const pollApiRequest = (function () {
 })();
 
 export async function createApiRequest(
-  state: string,
+  { state, k1 }: { state: string; k1?: string },
   signal?: AbortSignal
 ): Promise<any> {
   const params = new URLSearchParams({ state });
+  if (k1) {
+    params.append("k1", k1);
+  }
 
   return new Promise((resolve, reject) => {
     fetch(hardConfig.apis.create, {

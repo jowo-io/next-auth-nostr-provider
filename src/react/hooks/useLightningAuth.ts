@@ -66,7 +66,10 @@ export function useLightningAuth({
       const k1 = data?.k1;
       try {
         if (k1) {
-          const { success } = await pollApiRequest(k1, pollController.signal);
+          const { success } = await pollApiRequest(
+            { k1 },
+            pollController.signal
+          );
           if (success) {
             cleanup();
             let url = new URL(redirectUri);
@@ -86,7 +89,10 @@ export function useLightningAuth({
     // create a new lnurl and set it to state
     const create = async () => {
       try {
-        data = await createApiRequest(state, createController.signal);
+        data = await createApiRequest(
+          { state, k1: data?.k1 },
+          createController.signal
+        );
         setUrl(data?.lnurl || null);
       } catch (e: any) {
         if (!createController.signal.aborted) {

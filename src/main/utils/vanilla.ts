@@ -70,6 +70,9 @@ export const vanilla = function ({
   // create a new lnurl and inject content into dom
   function create() {
     const params = new URLSearchParams({ state: query.state });
+    if (data?.k1) {
+      params.append("k1", data.k1);
+    }
 
     return fetch("http://localhost:3000/api/lnauth/create", {
       method: "POST",

@@ -18,6 +18,11 @@ async function logic(
 ) {
   const { state } = createValidation.parse(body, { errorMap });
 
+  // if an old k1 is provided, delete it
+  if (body.k1) {
+    await config.storage.delete({ k1: body.k1 }, req);
+  }
+
   const k1 = randomBytes(32).toString("hex");
 
   let inputUrl = new URL(config.siteUrl + config.apis.callback);
