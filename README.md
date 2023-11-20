@@ -24,8 +24,16 @@ As well as providing the basic authentication functionality that you'd expect, `
 
 # Compatibility
 
-- `next-auth-lightning-provider` currently only supports `next@v13` and higher.
-- `next-auth-lightning-provider` currently only supports `next-auth@v4`.
+```json
+{
+  "peerDependencies": {
+    "next": "^12.2.5 || ^13 || ^14",
+    "next-auth": "^4",
+    "react": "^17.0.2 || ^18",
+    "react-dom": "^17.0.2 || ^18"
+  }
+}
+```
 
 # Getting started
 

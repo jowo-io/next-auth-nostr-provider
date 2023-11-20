@@ -48,9 +48,10 @@
     "prebuild": "tsc --build --clean"
   },
   "peerDependencies": {
-    "next": "^14",
+    "next": "^12.2.5 || ^13 || ^14",
     "next-auth": "^4",
-    "react": "^18.2.0"
+    "react": "^17.0.2 || ^18",
+    "react-dom": "^17.0.2 || ^18"
   },
   "dependencies": {
     "@dicebear/collection": "^7.0.1",

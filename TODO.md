@@ -10,7 +10,6 @@ Below is a TODO list for further development of `next-auth-lightning-provider`
 ### Secondary
 
 - carefully run through the auth and data flow to look for bugs or oversights
-- ensure that peer dependencies are met and npm throws errors if not
 - add jest tests for all utils
 - consider how to clean up old and unused lnauth session data that was created but never reached success state
 

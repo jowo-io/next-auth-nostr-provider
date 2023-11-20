@@ -1,6 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next/types";
 import { NextRequest, NextResponse } from "next/server";
-import { cookies } from "next/headers";
 import { randomBytes } from "crypto";
 
 import {
@@ -56,7 +55,7 @@ async function pagesHandler(
 }
 
 async function appHandler(req: NextRequest, config: Config) {
-  const cookieStore = cookies();
+  const cookieStore = require("next/headers").cookies; // using `require` so that next@12 is supported
   if (cookieStore.get("next-auth.session-token")) {
     throw new Error("You are already logged in");
   }
