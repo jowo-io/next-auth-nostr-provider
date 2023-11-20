@@ -15,7 +15,7 @@ Below is a TODO list for further development of `next-auth-lightning-provider`
 
 ### Tertiary
 
-- consider / investigate how to SSR react components so the `vanilla.ts` shim can be depricated
+- consider / investigate how to SSR react components so the `vanilla.ts` shim can be deprecated
 - add JSDocs comments to functions / hooks etc
 - decide on terminology (avatar or image or picture)
 - add more example repos
@@ -29,7 +29,7 @@ Below is a TODO list for further development of `next-auth-lightning-provider`
 - see if TS generics can be used for NextRequest/NextApiRequest etc
 - error handling: of App Router APIs, of error thrown in `storage.get` and other storage methods, of error at end of API if no paths matched, "You are already logged in" error. etc
 - make generators return strings instead of objects `{ qr: "..." }`
-- consider standardising APIs so they're all either POST or GET
+- consider standardizing APIs so they're all either POST or GET
 
 ### Readme
 
