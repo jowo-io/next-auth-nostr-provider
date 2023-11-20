@@ -2,9 +2,9 @@ import merge from "lodash.merge";
 
 import QRCode from "qrcode";
 
-import { Config } from "../main/config/types.js";
+import { QRGenerator } from "../main/config/types.js";
 
-export const generateQr = async (data: string, config: Config) => {
+export const generateQr: QRGenerator = async (data, config) => {
   // generic preset theme options
   const themeOptions =
     config.theme.colorScheme === "dark"
@@ -36,9 +36,10 @@ export const generateQr = async (data: string, config: Config) => {
   const options = merge(themeOptions, qrOptions);
 
   return {
-    qr: await QRCode.toBuffer(data, {
+    data: (await QRCode.toString(data, {
       ...options,
-      type: "png",
-    }),
+      type: "svg",
+    })) as unknown as string,
+    type: "svg",
   };
 };

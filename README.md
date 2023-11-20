@@ -239,7 +239,7 @@ const config: NextAuthLightningConfig = {
    * @param {function} qr.generateQr
    *
    * Define the QR code generator function.
-   * It must return a correctly formatted string containing svg XML markup.
+   * It must return a base64 encoded png/jpg OR svg XML markup.
    *
    * A default QR code generator is provided. It can be imported from:
    * import { generateQr } from "next-auth-lightning-provider/generators/qr";
@@ -249,7 +249,11 @@ const config: NextAuthLightningConfig = {
    */
   async generateQr(data, config) {
     return {
-      qr: '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 394 80">...........</svg>'
+      data: "data:image/png;base64,iVBO.....CYII=",
+      type: "png",
+      // or
+      data: "<svg>.....</svg>",
+      type: "svg"
     };
   },
 
@@ -288,7 +292,7 @@ const config: NextAuthLightningConfig = {
    * @param {function | null} generateAvatar
    *
    * Define the default deterministic avatar generator.
-   * It must return a correctly formatted string containing svg XML markup.
+   * It must return a base64 encoded png/jpg OR svg XML markup.
    * Or, it can be set to null to disable avatars.
    *
    * A default avatar generator is provided. It can be imported from:
@@ -297,9 +301,13 @@ const config: NextAuthLightningConfig = {
    * The default avatar generation library that's used is dicebear's bottts style.
    * @see https://www.dicebear.com/styles/bottts/
    */
-  async generateAvatar(seed) {
+  async generateAvatar(data, config) {
     return {
-      image: '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 394 80">...........</svg>'
+      data: "data:image/png;base64,iVBO.....CYII=",
+      type: "png",
+      // or
+      data: "<svg>.....</svg>",
+      type: "svg"
     };
   },
 

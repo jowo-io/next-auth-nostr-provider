@@ -24,11 +24,9 @@ Below is a TODO list for further development of `next-auth-lightning-provider`
 - add `auto` color scheme that uses browsers dark/light settings
 - cancel inflight api requests if hook unmounts
 - consider adding various styles of avatar and name generators
-- support multiple file types for avatar and qr
 - rename `useLnUrl` to `useLightningAuthUrl`
 - see if TS generics can be used for NextRequest/NextApiRequest etc
 - error handling: of App Router APIs, of error thrown in `storage.get` and other storage methods, of error at end of API if no paths matched, "You are already logged in" error. etc
-- make generators return strings instead of objects `{ qr: "..." }`
 - consider standardizing APIs so they're all either POST or GET
 
 ### Readme

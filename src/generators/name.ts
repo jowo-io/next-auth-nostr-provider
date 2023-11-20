@@ -5,9 +5,9 @@ import {
   animals,
 } from "unique-names-generator";
 
-import { Config } from "../main/config/types.js";
+import { NameGenerator } from "../main/config/types.js";
 
-export const generateName = async (seed: string, config: Config) => {
+export const generateName: NameGenerator = async (seed, config) => {
   return {
     name: uniqueNamesGenerator({
       dictionaries: [adjectives, colors, animals],

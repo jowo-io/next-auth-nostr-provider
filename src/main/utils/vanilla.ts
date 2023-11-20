@@ -103,7 +103,7 @@ export const vanilla = function ({
         // inject qr src
         var qr = document.getElementById(hardConfig.ids.qr) as HTMLImageElement;
         if (qr) {
-          qr.src = hardConfig.apis.qr + "/" + data.lnurl + ".svg";
+          qr.src = hardConfig.apis.qr + "/" + data.lnurl;
           qr.onerror = error.bind(
             undefined,
             new Error("Failed to load QR code")

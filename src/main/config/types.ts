@@ -44,6 +44,19 @@ export type LnAuthData = {
   [key: string | number | symbol]: unknown;
 };
 
+export type QRGenerator = (
+  data: string,
+  config: Config
+) => Promise<{ data: string; type: "svg" | "png" | "jpg" }>;
+export type AvatarGenerator = (
+  seed: string,
+  config: Config
+) => Promise<{ data: string; type: "svg" | "png" | "jpg" }>;
+export type NameGenerator = (
+  seed: string,
+  config: Config
+) => Promise<{ name: string }>;
+
 export type RequiredConfig = {
   siteUrl: string;
   secret: string;
@@ -78,7 +91,7 @@ export type RequiredConfig = {
       req: NextApiRequest | NextRequest
     ) => Promise<undefined>;
   };
-  generateQr: (data: string, config: Config) => Promise<{ qr: string }>;
+  generateQr: QRGenerator;
 };
 
 export type ThemeStyles = {
@@ -98,12 +111,8 @@ export type OptionalConfig = {
     error?: string;
   };
   title: string | null;
-  generateAvatar:
-    | ((seed: string, config: Config) => Promise<{ image: string }>)
-    | null;
-  generateName:
-    | ((seed: string, config: Config) => Promise<{ name: string }>)
-    | null;
+  generateAvatar: AvatarGenerator | null;
+  generateName: NameGenerator | null;
 
   theme: {
     colorScheme?: "dark" | "light";

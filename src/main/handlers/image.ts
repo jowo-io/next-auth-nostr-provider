@@ -5,18 +5,50 @@ import { Config } from "../config/index.js";
 import { formatRouter } from "../utils/router.js";
 
 const cacheDuration = 24 * 60 * 60; // 1 day cache duration
+const base64Regex = /^data:image\/(svg\+xml|png|jpeg|jpg);base64,/;
 
-async function logic(path: string, config: Config) {
+const fileTypeHeaders = {
+  png: "image/png",
+  jpg: "image/jpg",
+  svg: "image/svg+xml",
+};
+
+async function logic(
+  path: string,
+  config: Config
+): Promise<{
+  headers: HeadersInit;
+  data: string | Buffer;
+}> {
   if (!config.generateAvatar) throw new Error("Avatars are not enabled");
-
   if (!path) throw new Error("Invalid url");
 
-  const [name, ext] = path.split("/").slice(-1)[0].split(".");
-  if (!name) throw new Error("Invalid file name");
-  if (ext !== "svg") throw new Error("Invalid file type");
+  const pubkey = path.split("/").slice(-1)[0];
+  if (!pubkey) throw new Error("Invalid pubkey");
 
-  const { image } = await config.generateAvatar(name, config);
-  return image;
+  const { data, type } = await config.generateAvatar(pubkey, config);
+
+  if (base64Regex.test(data)) {
+    const buffer = data.replace(base64Regex, "");
+    return {
+      headers: {
+        "content-type": fileTypeHeaders[type],
+        "content-length": buffer.length.toString(),
+        "cache-control": `public, max-age=${cacheDuration}`,
+      },
+      data: Buffer.from(buffer, "base64"),
+    };
+  } else if (type === "svg") {
+    return {
+      headers: {
+        "content-type": fileTypeHeaders[type],
+        "cache-control": `public, max-age=${cacheDuration}`,
+      },
+      data,
+    };
+  }
+
+  throw new Error("Something went wrong");
 }
 
 async function pagesHandler(
@@ -25,25 +57,17 @@ async function pagesHandler(
   path: string,
   config: Config
 ) {
-  const image = await logic(path, config);
+  const { data, headers } = await logic(path, config);
 
-  res.setHeader("content-type", "image/svg+xml");
-  res.setHeader("cache-control", `public, max-age=${cacheDuration}`);
-  res.end(image);
+  Object.entries(headers).forEach(([key, value]) => res.setHeader(key, value));
+  res.end(data);
 }
 
 async function appHandler(req: NextRequest, path: string, config: Config) {
-  const image = await logic(path, config);
+  const { data, headers } = await logic(path, config);
 
-  return new Response(image, {
-    status: 200,
-    headers: {
-      "content-type": "image/svg+xml",
-      "cache-control": `public, max-age=${cacheDuration}`,
-    },
-  });
+  return new Response(data, { status: 200, headers });
 }
-
 export default async function handler(
   request: NextApiRequest | NextRequest,
   response: NextApiResponse | NextResponse,

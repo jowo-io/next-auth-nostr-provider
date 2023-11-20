@@ -1,10 +1,11 @@
 import { createAvatar } from "@dicebear/core";
 import { bottts } from "@dicebear/collection";
 
-import { Config } from "../main/config/types.js";
+import { AvatarGenerator } from "../main/config/types.js";
 
-export const generateAvatar = async (seed: string, config: Config) => {
+export const generateAvatar: AvatarGenerator = async (seed, config) => {
   return {
-    image: createAvatar(bottts, { seed }).toString(),
+    data: createAvatar(bottts, { seed }).toString(),
+    type: "svg",
   };
 };
