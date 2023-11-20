@@ -1,6 +1,6 @@
 import { HTMLAttributes } from "preact/compat";
 
-import { formatLnAuth } from "../utils/lnurl.js";
+import { formatLightningAuth } from "../utils/lnurl.js";
 import { hardConfig } from "../../main/config/hard.js";
 
 export function QrCode({
@@ -9,7 +9,7 @@ export function QrCode({
 }: {
   lnurl: string;
 } & HTMLAttributes<HTMLImageElement>) {
-  const { qr } = formatLnAuth(lnurl);
+  const { qr } = formatLightningAuth(lnurl);
 
   return (
     <img

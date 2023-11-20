@@ -1,6 +1,5 @@
 import { useRouter } from "next/router";
 import { useSession } from "next-auth/react";
-import { extractQuery } from "next-auth-lightning-provider/react";
 
 import LightningLogin from "@/components/LightningLogin";
 
@@ -8,7 +7,7 @@ export default function LoginPage() {
   const { isReady, query } = useRouter();
   const session = useSession();
 
-  const { redirectUri, state } = extractQuery(query);
+  const { redirect_uri: redirectUri, state } = query;
 
   if (!isReady || session.status === "loading") {
     return (
@@ -34,7 +33,10 @@ export default function LoginPage() {
 
   return (
     <div>
-      <LightningLogin redirectUri={redirectUri} state={state} />
+      <LightningLogin
+        redirectUri={redirectUri as string}
+        state={state as string}
+      />
     </div>
   );
 }

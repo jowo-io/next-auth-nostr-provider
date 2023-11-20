@@ -1,6 +1,6 @@
 import { HTMLAttributes } from "preact/compat";
 
-import { formatLnAuth } from "../utils/lnurl.js";
+import { formatLightningAuth } from "../utils/lnurl.js";
 import { hardConfig } from "../../main/config/hard.js";
 
 export function Button({
@@ -9,7 +9,7 @@ export function Button({
 }: {
   lnurl: string;
 } & HTMLAttributes<HTMLAnchorElement>) {
-  const { button } = formatLnAuth(lnurl);
+  const { button } = formatLightningAuth(lnurl);
 
   return (
     <a {...props} id={hardConfig.ids.button} href={button}>

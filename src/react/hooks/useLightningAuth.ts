@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 
 import { createApiRequest, pollApiRequest } from "../utils/api.js";
 import { hardConfig } from "../../main/config/hard.js";
-import { formatLnAuth } from "../utils/lnurl.js";
+import { formatLightningAuth } from "../utils/lnurl.js";
 
 export function useLightningAuth({
   redirectUri,
@@ -88,7 +88,7 @@ export function useLightningAuth({
     return () => cleanup();
   }, []);
 
-  const { qr, button } = formatLnAuth(lnurl);
+  const { qr, button } = formatLightningAuth(lnurl);
 
   return { lnurl, qr, button };
 }

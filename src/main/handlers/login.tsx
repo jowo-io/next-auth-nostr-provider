@@ -7,7 +7,6 @@ import { vanilla } from "../utils/vanilla.js";
 
 import { LnAuthLogin } from "../../react/components/LnAuthLogin.js";
 import { Loading } from "../../react/components/Loading.js";
-import { extractQuery, extractSearchParams } from "../../react/utils/query.js";
 import { formatRouter } from "../utils/router.js";
 
 function AuthPage({ config }: { config: Config }) {
@@ -153,8 +152,10 @@ async function pagesHandler(
     throw new Error("You are already logged in");
   }
 
-  const query = extractQuery(req.query);
-
+  const query = {
+    redirectUri: req.query.redirect_uri,
+    state: req.query.state,
+  };
   const result = await logic(query, req, config);
 
   res.setHeader("content-type", "text/html");
@@ -166,8 +167,10 @@ async function appHandler(req: NextRequest, config: Config) {
     throw new Error("You are already logged in");
   }
 
-  const query = extractSearchParams(req.nextUrl.searchParams);
-
+  const query = {
+    redirectUri: req.nextUrl.searchParams.get("redirect_uri"),
+    state: req.nextUrl.searchParams.get("state"),
+  };
   const result = await logic(query, req, config);
 
   return new Response(result, {
