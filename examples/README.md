@@ -8,9 +8,9 @@ The [examples/login-page/](https://github.com/jowo-io/next-auth-lightning-provid
 
 The [examples/app-router/](https://github.com/jowo-io/next-auth-lightning-provider/tree/main/examples/app-router) example demonstrates how to configure `next-auth-lightning-provider` using the Next.js App Router.
 
-### Vanilla JavaScript
+### Plain JavaScript
 
-> COMING SOON
+The [examples/plain-js/](https://github.com/jowo-io/next-auth-lightning-provider/tree/main/examples/plain-js) example demonstrates how to configure `next-auth-lightning-provider` in a plain JavaScript app (without TypeScript).
 
 ### KV
 

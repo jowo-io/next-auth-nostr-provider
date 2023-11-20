@@ -23,7 +23,7 @@ const Home = async () => {
         </>
       )}
 
-      <pre>{JSON.stringify(session, null, 2)}</pre>
+      <pre>{JSON.stringify({ session }, null, 2)}</pre>
 
       <Login session={session} />
     </div>

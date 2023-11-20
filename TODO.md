@@ -9,7 +9,6 @@ Below is a TODO list for further development of `next-auth-lightning-provider`
 
 ### Secondary
 
-- add a plain js app to the examples folder (without typescript)
 - carefully run through the auth and data flow to look for bugs or oversights
 - ensure that peer dependencies are met and npm throws errors if not
 - add jest tests for all utils
