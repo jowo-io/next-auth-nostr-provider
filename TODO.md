@@ -12,7 +12,6 @@ Below is a TODO list for further development of `next-auth-lightning-provider`
 - error handling: of App Router APIs, of error thrown in `storage.get` and other storage methods, of error at end of API if no paths matched, "You are already logged in" error. etc
 - carefully run through the auth and data flow to look for bugs or oversights
 - add jest tests where applicable
-- add JSDocs comments to functions / hooks etc
 - open PR on `next-auth`
 
 ### Tertiary
@@ -32,3 +31,4 @@ Below is a TODO list for further development of `next-auth-lightning-provider`
 - see if TS generics can be used for NextRequest/NextApiRequest etc
 - consider adding various styles of avatar and name generators
 - consider / investigate how to SSR react components so the `vanilla.ts` shim can be deprecated
+- add JSDocs comments to all internally used functions
