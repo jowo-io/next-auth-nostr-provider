@@ -18,6 +18,15 @@ import { formatConfig, UserConfig } from "./config/index.js";
 import { NextRequest, NextResponse } from "next/server";
 import { formatRouter } from "./utils/router.js";
 
+/**
+ * Generate a provider and handler to setup Lightning auth.
+ *
+ * @param {Object} userConfig - config options, see the package README for details
+ *
+ * @returns {Object}
+ * @returns {String} provider - a provider that can be added to the `next-auth` config's providerArray
+ * @returns {String} handler - an API handler to be exported in the pages/api/lnauth/[...lnauth] folder
+ */
 export default function NextAuthLightning(userConfig: UserConfig) {
   const config = formatConfig(userConfig);
 
