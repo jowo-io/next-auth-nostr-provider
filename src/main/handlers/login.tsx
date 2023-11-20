@@ -30,7 +30,19 @@ function AuthPage({ config }: { config: Config }) {
     >
       <div>
         {/* loading component is rendered and shown initially, before window.onload is triggered */}
-        <Loading />
+        <Loading
+          style={{
+            width: "36px",
+            height: "36px",
+            border: `4px solid ${config.theme.backgroundCard}`,
+            borderBottomColor: config.theme.text,
+            borderRadius: "50%",
+            display: "inline-block",
+            boxSizing: "border-box",
+            animation: `${hardConfig.ids.loading}-rotation 1s linear infinite`,
+            // NOTE: further styles are defined below within the <style> tag
+          }}
+        />
 
         {/* login component is rendered with display: none, after window.onload is triggered */}
         <LnAuthLogin
@@ -102,8 +114,24 @@ async function logic(
     throw new Error("Missing required query param");
   }
 
-  return `<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  return `<!DOCTYPE html><html lang="en">
+    <head>
+      <meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
       <title>${title}</title>
+      <style>
+        #${hardConfig.ids.loading} span {
+          display: none;
+        }
+        @keyframes ${hardConfig.ids.loading}-rotation {
+          0% {
+              transform: rotate(0deg);
+          }
+          100% {
+              transform: rotate(360deg);
+          }
+        } 
+      </style>
     </head>
     ${html}
 
