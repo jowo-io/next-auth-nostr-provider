@@ -1,4 +1,4 @@
-import { useLnUrl } from "next-auth-lightning-provider/react";
+import { useLightningAuth } from "next-auth-lightning-provider/react";
 
 export default function LightningLogin({
   redirectUri,
@@ -7,7 +7,7 @@ export default function LightningLogin({
   redirectUri: string;
   state: string;
 }) {
-  const { lnurl, qr, button } = useLnUrl({ redirectUri, state });
+  const { lnurl, qr, button } = useLightningAuth({ redirectUri, state });
 
   if (!lnurl) {
     return (

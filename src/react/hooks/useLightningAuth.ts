@@ -6,7 +6,7 @@ import { createApiRequest, pollApiRequest } from "../utils/api.js";
 import { hardConfig } from "../../main/config/hard.js";
 import { formatLnAuth } from "../utils/lnurl.js";
 
-export function useLnUrl({
+export function useLightningAuth({
   redirectUri,
   errorUri,
   state,
