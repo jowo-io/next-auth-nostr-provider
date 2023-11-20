@@ -9,9 +9,7 @@ export const pollApiRequest = (function () {
     return new Promise((resolve, reject) => {
       fetch(hardConfig.apis.poll, {
         method: "POST",
-        headers: {
-          "content-type": "application/x-www-form-urlencoded",
-        },
+        headers: { "content-type": "application/x-www-form-urlencoded" },
         body: params,
         cache: "default",
         signal,
@@ -50,9 +48,7 @@ export async function createApiRequest(
   return new Promise((resolve, reject) => {
     fetch(hardConfig.apis.create, {
       method: "POST",
-      headers: {
-        "content-type": "application/x-www-form-urlencoded",
-      },
+      headers: { "content-type": "application/x-www-form-urlencoded" },
       body: params,
       cache: "default",
       signal,

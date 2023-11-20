@@ -4,7 +4,7 @@ Below is a TODO list for further development of `next-auth-lightning-provider`
 
 ### Primary
 
-- support `next-auth@4` and `next-auth@5`
+- Once `next-auth@v5` is out of beta, ensure it's supported.
 - investigate CSRF for next-auth
 
 ### Secondary

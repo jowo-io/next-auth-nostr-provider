@@ -8,9 +8,9 @@ const colorSchemeLight: ThemeStyles = {
   background: "#ececec",
   backgroundCard: "#ffffff",
   text: "#000000",
-  qrBackground: "#0d1117",
-  qrForeground: "#ffffff",
-  qrMargin: 1,
+  qrBackground: "#ffffff",
+  qrForeground: "#0d1117",
+  qrMargin: 0,
   loginButtonBackground: "#24292f",
   loginButtonText: "#ffffff",
 };
@@ -21,7 +21,7 @@ const colorSchemeDark: ThemeStyles = {
   text: "#ffffff",
   qrBackground: "#ffffff",
   qrForeground: "#0d1117",
-  qrMargin: 1,
+  qrMargin: 0.5,
   loginButtonBackground: "#24292f",
   loginButtonText: "#ffffff",
 };

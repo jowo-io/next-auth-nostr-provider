@@ -387,8 +387,8 @@ const config: NextAuthLightningConfig = {
      *
      * Override the theme's background color.
      *
-     * @default light "#0d1117"
-     * @default dark "#ffffff"
+     * @default light "#ffffff"
+     * @default dark "#0d1117"
      */
     qrBackground: "#ff0000",
 

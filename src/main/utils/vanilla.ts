@@ -37,9 +37,7 @@ export const vanilla = function ({
 
     return fetch(hardConfig.apis.poll, {
       method: "POST",
-      headers: {
-        "content-type": "application/x-www-form-urlencoded",
-      },
+      headers: { "content-type": "application/x-www-form-urlencoded" },
       body: params,
       cache: "default",
     })
@@ -75,9 +73,7 @@ export const vanilla = function ({
 
     return fetch("http://localhost:3000/api/lnauth/create", {
       method: "POST",
-      headers: {
-        "content-type": "application/x-www-form-urlencoded",
-      },
+      headers: { "content-type": "application/x-www-form-urlencoded" },
       body: params,
       cache: "default",
     })
