@@ -18,7 +18,6 @@ Below is a TODO list for further development of `next-auth-lightning-provider`
 
 ### Tertiary
 
-- cancel inflight api requests if hook unmounts
 - consider / investigate how to SSR react components so the `vanilla.ts` shim can be deprecated
 - add more example repos
 - add `auto` color scheme that uses browsers dark/light settings

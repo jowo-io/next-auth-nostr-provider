@@ -25,11 +25,15 @@ export function useLightningAuth({
     let data: { k1?: string; lnurl?: string } | null;
     let pollTimeoutId: NodeJS.Timeout | undefined;
     let createIntervalId: NodeJS.Timeout | undefined;
+    const pollController = new AbortController();
+    const createController = new AbortController();
 
     // cleanup when the hook unmounts of polling is successful
     const cleanup = () => {
       clearTimeout(pollTimeoutId);
       clearInterval(createIntervalId);
+      pollController.abort();
+      createController.abort();
     };
 
     // redirect user to error page if something goes wrong
@@ -47,7 +51,7 @@ export function useLightningAuth({
       const k1 = data?.k1;
       try {
         if (k1) {
-          const { success } = await pollApiRequest(k1);
+          const { success } = await pollApiRequest(k1, pollController.signal);
           if (success) {
             cleanup();
             let url = new URL(redirectUri);
@@ -58,17 +62,21 @@ export function useLightningAuth({
         }
         pollTimeoutId = setTimeout(poll, hardConfig.intervals.poll);
       } catch (e: any) {
-        error(e);
+        if (!createController.signal.aborted) {
+          error(e);
+        }
       }
     };
 
     // create a new lnurl and set it to state
     const create = async () => {
       try {
-        data = await createApiRequest(state);
+        data = await createApiRequest(state, createController.signal);
         setUrl(data?.lnurl || null);
       } catch (e: any) {
-        error(e);
+        if (!createController.signal.aborted) {
+          error(e);
+        }
       }
     };
 
