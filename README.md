@@ -291,7 +291,7 @@ const config: NextAuthLightningConfig = {
   /**
    * @param {function | null} generateAvatar
    *
-   * Define the default deterministic avatar generator.
+   * Define the deterministic avatar generator.
    * It must return a base64 encoded png/jpg OR svg XML markup.
    * Or, it can be set to null to disable avatars.
    *
@@ -314,7 +314,7 @@ const config: NextAuthLightningConfig = {
   /**
    * @param {function | null} generateName
    *
-   * Define the default deterministic name generator.
+   * Define the deterministic name generator.
    * Or, it can be set to null to disable names
    *
    * A default name generator is provided. It can be imported from:
