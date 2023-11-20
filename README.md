@@ -236,7 +236,7 @@ const config: NextAuthLightningConfig = {
   },
 
   /**
-   * @param {function} qr.generateQr
+   * @param {function} generateQr
    *
    * Define the QR code generator function.
    * It must return a base64 encoded png/jpg OR svg XML markup.
@@ -267,8 +267,10 @@ const config: NextAuthLightningConfig = {
      * you can configure a custom Next.js page and customize the UI.
      *
      * @see https://github.com/jowo-io/next-auth-lightning-provider/tree/main/examples/login-page/
+     *
+     * @default "/api/lnauth/login"
      */
-    signIn: "/login"
+    signIn: "/example-custom-login"
 
     /**
      * @param {string} error
@@ -276,8 +278,10 @@ const config: NextAuthLightningConfig = {
      * By default users will be redirected to the `next-auth` login page
      * and shown an error message there. If you want a custom error page,
      * you can define the path here.
+     *
+     * @default "/api/auth/signin"
      */
-    error: "/error"
+    error: "/example-custom-error"
   },
 
   /**
@@ -285,8 +289,10 @@ const config: NextAuthLightningConfig = {
    *
    * Override the default title shown above the QR code in the
    * Lighting Login page. Or, it can be set to null to hide the title.
+     *
+     * @default "Login with Lightning"
    */
-  title: "Lightning Login",
+  title: "Your custom title",
 
   /**
    * @param {function | null} generateAvatar
@@ -300,6 +306,8 @@ const config: NextAuthLightningConfig = {
    *
    * The default avatar generation library that's used is dicebear's bottts style.
    * @see https://www.dicebear.com/styles/bottts/
+   *
+   * @default null
    */
   async generateAvatar(data, config) {
     return {
@@ -322,6 +330,8 @@ const config: NextAuthLightningConfig = {
    *
    * The default name generation library used is `unique-names-generator`
    * @see https://www.npmjs.com/package/unique-names-generator
+   *
+   * @default null
    */
   async generateName(seed) {
     return {
@@ -337,6 +347,8 @@ const config: NextAuthLightningConfig = {
      * @param {string} colorScheme
      *
      * Define a color scheme for the "Login with Lightning" UI.
+     *
+     * @default "light"
      */
     colorScheme: "dark" | "light";
 
@@ -344,59 +356,84 @@ const config: NextAuthLightningConfig = {
      * @param {string} background
      *
      * Override the theme's background color.
+     *
+     * @default light "#ececec"
+     * @default dark "#161b22"
      */
-    background: "#ececec",
+    background: "#00ffff",
 
     /**
      * @param {string} backgroundCard
      *
      * Override the theme's main content card background color.
+     *
+     * @default light "#ffffff"
+     * @default dark "#0d1117"
      */
-    backgroundCard: "#ffffff",
+    backgroundCard: "#ffff00",
 
     /**
      * @param {string} text
      *
      * Override the theme's main text color.
+     *
+     * @default light "#000000"
+     * @default dark "#ffffff"
      */
-    text: "#000000",
+    text: "#0000ff",
 
     /**
      * @param {object} color
      *
      * Override the theme's background color.
+     *
+     * @default light "#0d1117"
+     * @default dark "#ffffff"
      */
-    qrBackground: "#ffffff",
+    qrBackground: "#ff0000",
 
     /**
      * @param {object} color
      *
      * Override the theme's QR code foreground color.
+     *
+     * @default light "#ffffff"
+     * @default dark "#0d1117"
      */
-    qrForeground: "#000000",
+    qrForeground: "#0000ff",
 
     /**
      * @param {number} margin
      *
      * Override the theme's QR code margin value.
+     * Scale factor. A value of `1` means 1px per modules (black dots).
+     *
+     * @default light 0
+     * @default dark 0.5
      */
-    qrMargin: 2,
+    qrMargin: 1,
 
     /**
      * @param {string} loginButtonBackground
      *
      * Override the theme's button background color. This is the button that's shown in the
      * `next-auth` login screen alongside your other providers.
+     *
+     * @default light "#24292f"
+     * @default dark "#24292f"
      */
-    loginButtonBackground: "#24292f",
+    loginButtonBackground: "#00ff00",
 
     /**
      * @param {string} loginButtonText
      *
      * Override the theme's button text color. This is the button that's shown in the
      * `next-auth` login screen alongside your other providers.
+     *
+     * @default light "#ffffff"
+     * @default dark "#ffffff"
      */
-    loginButtonText: "#ffffff",
+    loginButtonText: "#ff00ff",
   },
 
 };
