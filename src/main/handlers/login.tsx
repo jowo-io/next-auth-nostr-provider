@@ -134,8 +134,7 @@ async function pagesHandler(
 }
 
 async function appHandler(req: NextRequest, config: Config) {
-  const cookieStore = require("next/headers").cookies; // using `require` so that next@12 is supported
-  if (cookieStore.get("next-auth.session-token")) {
+  if (req.cookies.get("next-auth.session-token")?.value) {
     throw new Error("You are already logged in");
   }
 
