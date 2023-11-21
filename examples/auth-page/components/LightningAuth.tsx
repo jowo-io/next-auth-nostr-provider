@@ -1,6 +1,6 @@
 import { useLightningAuth } from "next-auth-lightning-provider/react";
 
-export default function LightningLogin({
+export default function LightningAuth({
   redirectUri,
   state,
 }: {

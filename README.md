@@ -16,7 +16,7 @@ A light-weight Lightning auth provider for your Next.js app that's entirely self
 
 Install the package and add two code snippets to your app (as shown below). It's that simple.
 
-Your users will then be shown an additional login option in the `next-auth` login page. When they click the new option they'll be presented with a QR code. The QR code can be scanned with any Bitcoin Lightning wallet that supports `lnurl-auth`. After scanning, they'll be securely logged in! No username or password required.
+Your users will then be shown an additional auth option in the `next-auth` sign in page. When they click the new option they'll be presented with a QR code. The QR code can be scanned with any Bitcoin Lightning wallet that supports `lnurl-auth`. After scanning, they'll be securely logged in! No username or password required.
 
 Behind the scenes `next-auth-lightning-provider` sets up several API endpoint which act as a basic OAuth server. The API will authorize users with [lnurl-auth](https://fiatjaf.com/e0a35204.html) and then issue a JWT token to them.
 
@@ -77,7 +77,7 @@ Create a new API route under `pages/api/lnauth/[...lnauth].ts`
 // @/pages/api/lnauth/[...lnauth].ts
 
 import NextAuthLightning, {
-  LnAuthData,
+  LightningAuthSession,
   NextAuthLightningConfig,
 } from "next-auth-lightning-provider";
 import { generateQr } from "next-auth-lightning-provider/generators/qr";
@@ -262,20 +262,20 @@ const config: NextAuthLightningConfig = {
     /**
      * @param {string} signIn
      *
-     * A Lightning login page will be automatically generated unless the
+     * A Lightning auth page will be automatically generated unless the
      * `signIn` path is specified. It lets you define your own page where
      * you can configure a custom Next.js page and customize the UI.
      *
-     * @see https://github.com/jowo-io/next-auth-lightning-provider/tree/main/examples/login-page/
+     * @see https://github.com/jowo-io/next-auth-lightning-provider/tree/main/examples/auth-page/
      *
-     * @default "/api/lnauth/login"
+     * @default "/api/lnauth/signin"
      */
-    signIn: "/example-custom-login"
+    signIn: "/example-custom-signin"
 
     /**
      * @param {string} error
      *
-     * By default users will be redirected to the `next-auth` login page
+     * By default users will be redirected to the `next-auth` sign in page
      * and shown an error message there. If you want a custom error page,
      * you can define the path here.
      *
@@ -288,7 +288,7 @@ const config: NextAuthLightningConfig = {
    * @param {string | null} title
    *
    * Override the default title shown above the QR code in the
-   * Lighting Login page. Or, it can be set to null to hide the title.
+   * Lighting auth page. Or, it can be set to null to hide the title.
      *
      * @default "Login with Lightning"
    */
@@ -414,26 +414,26 @@ const config: NextAuthLightningConfig = {
     qrMargin: 1,
 
     /**
-     * @param {string} loginButtonBackground
+     * @param {string} signInButtonBackground
      *
      * Override the theme's button background color. This is the button that's shown in the
-     * `next-auth` login screen alongside your other providers.
+     * `next-auth` auth page alongside your other providers.
      *
      * @default light "#24292f"
      * @default dark "#24292f"
      */
-    loginButtonBackground: "#00ff00",
+    signInButtonBackground: "#00ff00",
 
     /**
-     * @param {string} loginButtonText
+     * @param {string} signInButtonText
      *
      * Override the theme's button text color. This is the button that's shown in the
-     * `next-auth` login screen alongside your other providers.
+     * `next-auth` auth page alongside your other providers.
      *
      * @default light "#ffffff"
      * @default dark "#ffffff"
      */
-    loginButtonText: "#ff00ff",
+    signInButtonText: "#ff00ff",
   },
 
 };

@@ -2,7 +2,7 @@ import React from "react";
 import { getServerSession } from "next-auth";
 
 import { authOptions } from "@/app/api/auth/[...nextauth]/config";
-import { Login } from "./components/Login";
+import { SignIn } from "./components/SignIn";
 
 const Home = async () => {
   const session = await getServerSession(authOptions);
@@ -25,7 +25,7 @@ const Home = async () => {
 
       <pre>{JSON.stringify({ session }, null, 2)}</pre>
 
-      <Login session={session} />
+      <SignIn session={session} />
     </div>
   );
 };

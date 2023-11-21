@@ -1,5 +1,5 @@
 import NextAuthLightning, {
-  LnAuthData,
+  LightningAuthSession,
   NextAuthLightningConfig,
 } from "next-auth-lightning-provider";
 import { generateQr } from "next-auth-lightning-provider/generators/qr";
@@ -19,11 +19,11 @@ const config: NextAuthLightningConfig = {
       await kv.set(`k1:${k1}`, data);
     },
     async get({ k1 }) {
-      const results = await kv.get(`k1:${k1}`);
+      const session = await kv.get(`k1:${k1}`);
 
-      if (!results) throw new Error("Couldn't find item by k1");
+      if (!session) throw new Error("Couldn't find item by k1");
 
-      return results as LnAuthData;
+      return session as LightningAuthSession;
     },
     async update({ k1, data }) {
       await kv.set(`k1:${k1}`, data);

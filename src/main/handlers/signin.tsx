@@ -3,16 +3,16 @@ import { renderToStaticMarkup } from "preact-render-to-string";
 import { hardConfig, Config } from "../config/index.js";
 import { vanilla } from "../utils/vanilla.js";
 
-import { LnAuthLogin } from "../../react/components/LnAuthLogin.js";
+import { LightningAuth } from "../../react/components/LightningAuth.js";
 import { Loading } from "../../react/components/Loading.js";
 import { HandlerArguments, HandlerReturn } from "../utils/handlers.js";
 import {
-  loginValidation,
+  signInValidation,
   errorMap,
   formatErrorMessage,
 } from "../validation/lnauth.js";
 
-function AuthPage({ config }: { config: Config }) {
+function LightningAuthPage({ config }: { config: Config }) {
   return (
     <body
       style={{
@@ -46,8 +46,8 @@ function AuthPage({ config }: { config: Config }) {
           }}
         />
 
-        {/* login component is rendered with display: none, after window.onload is triggered */}
-        <LnAuthLogin
+        {/* auth component is rendered with display: none, after window.onload is triggered */}
+        <LightningAuth
           title={config.title}
           lnurl=""
           theme={{
@@ -111,7 +111,7 @@ export default async function handler({
 }: HandlerArguments): Promise<HandlerReturn> {
   try {
     try {
-      loginValidation.parse(query, { errorMap });
+      signInValidation.parse(query, { errorMap });
     } catch (e: any) {
       return { error: formatErrorMessage(e), isRedirect: true };
     }
@@ -120,7 +120,7 @@ export default async function handler({
       return { error: "You are already logged in", isRedirect: true };
     }
 
-    // if a custom login page is specified, send them there if they try and access this API
+    // if a custom auth page is specified, send them there if they try and access this API
     if (config.pages.signIn !== config.apis.signIn) {
       const params = url.searchParams.toString();
       return {
@@ -130,7 +130,7 @@ export default async function handler({
 
     const title = config.title || config.siteUrl;
     const errorUrl = config.siteUrl + config.pages.error;
-    const html = renderToStaticMarkup(<AuthPage config={config} />);
+    const html = renderToStaticMarkup(<LightningAuthPage config={config} />);
 
     return {
       status: 200,

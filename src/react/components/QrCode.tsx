@@ -15,7 +15,7 @@ export function QrCode({
     <img
       width={500}
       height={500}
-      alt="Login with Lightning - QRCode"
+      alt="Login with Lightning QR Code"
       {...props}
       id={hardConfig.ids.qr}
       src={qr}

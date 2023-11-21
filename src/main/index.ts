@@ -8,7 +8,7 @@ import callbackHandler from "./handlers/callback.js";
 import tokenHandler from "./handlers/token.js";
 
 // pages
-import loginHandler from "./handlers/login.js";
+import signInHandler from "./handlers/signin.js";
 
 // misc
 import avatarHandler from "./handlers/avatar.js";
@@ -57,8 +57,8 @@ export default function NextAuthLightning(userConfig: UserConfig) {
     clientSecret: config.secret,
     style: {
       logo: "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjgyIiBoZWlnaHQ9IjI4MiIgdmlld0JveD0iMCAwIDI4MiAyODIiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxnIGNsaXAtcGF0aD0idXJsKCNjbGlwMCkiPgo8Y2lyY2xlIGN4PSIxNDAuOTgzIiBjeT0iMTQxLjAwMyIgcj0iMTQxIiBmaWxsPSIjN0IxQUY3Ii8+CjxwYXRoIGQ9Ik03OS43NjA5IDE0NC4wNDdMMTczLjc2MSA2My4wNDY2QzE3Ny44NTcgNjAuNDIzNSAxODEuNzYxIDYzLjA0NjYgMTc5LjI2MSA2Ny41NDY2TDE0OS4yNjEgMTI2LjU0N0gyMDIuNzYxQzIwMi43NjEgMTI2LjU0NyAyMTEuMjYxIDEyNi41NDcgMjAyLjc2MSAxMzMuNTQ3TDExMC4yNjEgMjE1LjA0N0MxMDMuNzYxIDIyMC41NDcgOTkuMjYxIDIxNy41NDcgMTAzLjc2MSAyMDkuMDQ3TDEzMi43NjEgMTUxLjU0N0g3OS43NjA5Qzc5Ljc2MDkgMTUxLjU0NyA3MS4yNjA5IDE1MS41NDcgNzkuNzYwOSAxNDQuMDQ3WiIgZmlsbD0id2hpdGUiLz4KPC9nPgo8ZGVmcz4KPGNsaXBQYXRoIGlkPSJjbGlwMCI+CjxyZWN0IHdpZHRoPSIyODIiIGhlaWdodD0iMjgyIiBmaWxsPSJ3aGl0ZSIvPgo8L2NsaXBQYXRoPgo8L2RlZnM+Cjwvc3ZnPgo=",
-      bg: config.theme.loginButtonBackground,
-      text: config.theme.loginButtonText,
+      bg: config.theme.signInButtonBackground,
+      text: config.theme.signInButtonText,
     },
   };
 
@@ -77,7 +77,7 @@ export default function NextAuthLightning(userConfig: UserConfig) {
     } else if (path?.indexOf(config.apis.token) === 0) {
       return await dynamicHandler(req, res, config, tokenHandler);
     } else if (path?.indexOf(config.apis.signIn) === 0) {
-      return await dynamicHandler(req, res, config, loginHandler);
+      return await dynamicHandler(req, res, config, signInHandler);
     } else if (path?.indexOf(config.apis.avatar) === 0) {
       return await dynamicHandler(req, res, config, avatarHandler);
     } else if (path?.indexOf(config.apis.qr) === 0) {

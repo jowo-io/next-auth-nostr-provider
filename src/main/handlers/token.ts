@@ -22,10 +22,10 @@ export default async function handler({
   let pubkey: string;
   if (grantType === "authorization_code") {
     if (!k1) return { error: "Missing code" };
-    const data = await config.storage.get({ k1 }, path, config);
-    if (!data?.success) return { error: "Login was not successful" };
-    if (!data?.pubkey) return { error: "Missing pubkey" };
-    pubkey = data.pubkey;
+    const session = await config.storage.get({ k1 }, path, config);
+    if (!session?.success) return { error: "Login was not successful" };
+    if (!session?.pubkey) return { error: "Missing pubkey" };
+    pubkey = session.pubkey;
     await config.storage.delete({ k1 }, path, config);
   } else if (grantType === "refresh_token") {
     if (!refreshToken) return { error: "Missing refresh token" };

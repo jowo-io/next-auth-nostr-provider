@@ -32,7 +32,7 @@ export type HardConfig = {
   };
 };
 
-export type LnAuthData = {
+export type LightningAuthSession = {
   k1: string;
   state: string;
 
@@ -76,7 +76,7 @@ export type RequiredConfig = {
       args: { k1: string },
       path: string,
       config: Config
-    ) => Promise<LnAuthData>;
+    ) => Promise<LightningAuthSession>;
     update: (
       args: {
         k1: string;
@@ -105,8 +105,8 @@ export type ThemeStyles = {
   qrBackground: string;
   qrForeground: string;
   qrMargin: number;
-  loginButtonBackground: string;
-  loginButtonText: string;
+  signInButtonBackground: string;
+  signInButtonText: string;
 };
 
 export type OptionalConfig = {

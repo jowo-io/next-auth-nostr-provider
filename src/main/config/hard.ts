@@ -11,7 +11,7 @@ export const hardConfig: HardConfig = {
     token: "/api/lnauth/token",
 
     // pages
-    signIn: "/api/lnauth/login",
+    signIn: "/api/lnauth/signin",
 
     // images
     avatar: "/api/lnauth/avatar",

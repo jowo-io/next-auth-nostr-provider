@@ -11,8 +11,8 @@ const colorSchemeLight: ThemeStyles = {
   qrBackground: "#ffffff",
   qrForeground: "#0d1117",
   qrMargin: 0,
-  loginButtonBackground: "#24292f",
-  loginButtonText: "#ffffff",
+  signInButtonBackground: "#24292f",
+  signInButtonText: "#ffffff",
 };
 
 const colorSchemeDark: ThemeStyles = {
@@ -22,13 +22,13 @@ const colorSchemeDark: ThemeStyles = {
   qrBackground: "#ffffff",
   qrForeground: "#0d1117",
   qrMargin: 0.5,
-  loginButtonBackground: "#24292f",
-  loginButtonText: "#ffffff",
+  signInButtonBackground: "#24292f",
+  signInButtonText: "#ffffff",
 };
 
 const defaultConfig: Partial<OptionalConfig> = {
   pages: {
-    signIn: "/api/lnauth/login", // pre-configured qr lightning login
+    signIn: "/api/lnauth/signin", // default lightning auth page
     error: "/api/auth/signin", // default next-auth error page
   },
   title: "Login with Lightning",
@@ -67,8 +67,8 @@ const configValidation = z
         backgroundCard: z.string().optional(),
         text: z.string().optional(),
         error: z.string().optional(),
-        loginButtonBackground: z.string().optional(),
-        loginButtonText: z.string().optional(),
+        signInButtonBackground: z.string().optional(),
+        signInButtonText: z.string().optional(),
         qrBackground: z.string().optional(),
         qrForeground: z.string().optional(),
         qrMargin: z.number().optional(),

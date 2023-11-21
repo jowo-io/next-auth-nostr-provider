@@ -23,9 +23,9 @@ const Home = () => {
       <pre>{JSON.stringify(session, null, 2)}</pre>
 
       {session && session.data ? (
-        <button onClick={() => signOut()}>Log out</button>
+        <button onClick={() => signOut()}>Sign out</button>
       ) : (
-        <button onClick={() => signIn()}>Log in</button>
+        <button onClick={() => signIn()}>Sign in</button>
       )}
     </div>
   );

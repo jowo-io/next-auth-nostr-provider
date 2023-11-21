@@ -14,12 +14,12 @@ export const createValidation = z.object({
 
 export type CreateValidation = z.infer<typeof callbackValidation>;
 
-export const loginValidation = z.object({
+export const signInValidation = z.object({
   state: z.string().min(1),
   redirect_uri: z.string().min(1),
 });
 
-export type LoginValidation = z.infer<typeof callbackValidation>;
+export type SignInValidation = z.infer<typeof callbackValidation>;
 
 export const pollValidation = z.object({
   k1: z.string().min(1),

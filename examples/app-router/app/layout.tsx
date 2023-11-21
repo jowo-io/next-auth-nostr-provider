@@ -7,7 +7,7 @@ import { Metadata } from "next";
  * @see https://nextjs.org/docs/app/api-reference/file-conventions/metadata
  */
 export const metadata: Metadata = {
-  title: "Lightning Login",
+  title: "Login with Lightning",
 };
 
 /**

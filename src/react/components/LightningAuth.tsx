@@ -7,7 +7,7 @@ import { Button } from "./Button.js";
 
 import { hardConfig } from "../../main/config/hard.js";
 
-export function LnAuthLogin({
+export function LightningAuth({
   title,
   lnurl,
   theme,

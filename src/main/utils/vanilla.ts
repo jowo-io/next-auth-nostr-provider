@@ -28,7 +28,7 @@ export const vanilla = function ({
     window.location.replace(url);
   }
 
-  // poll the api to see if successful login has occurred
+  // poll the api to see if the user has successfully authenticated
   function poll() {
     if (!data || !data.k1) return;
     const k1 = data.k1;

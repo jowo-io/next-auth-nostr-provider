@@ -1,6 +1,6 @@
 ## About
 
-This example demonstrates implementing a custom Lightning login page UI.
+This example demonstrates implementing a custom Lightning auth page UI.
 
 > ⚠️ WARNING using `node-persist` is not recommended in lambda or edge environments.
 >
