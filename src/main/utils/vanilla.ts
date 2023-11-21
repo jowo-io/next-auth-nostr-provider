@@ -6,7 +6,7 @@ export const vanilla = function ({
   errorUrl,
 }: {
   hardConfig: HardConfig;
-  query: { redirectUri: string; state: string };
+  query: { redirect_uri: string; state: string };
   errorUrl: string;
 }) {
   var data: { k1?: string; lnurl?: string } | null;
@@ -58,7 +58,7 @@ export const vanilla = function ({
 
         if (d && d.success) {
           cleanup();
-          let url = new URL(query.redirectUri);
+          let url = new URL(query.redirect_uri);
           url.searchParams.append("state", query.state);
           url.searchParams.append("code", k1);
           window.location.replace(url);

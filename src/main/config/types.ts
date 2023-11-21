@@ -69,11 +69,13 @@ export type RequiredConfig = {
           state: string;
         };
       },
-      req: NextApiRequest | NextRequest
+      path: string,
+      config: Config
     ) => Promise<undefined>;
     get: (
       args: { k1: string },
-      req: NextApiRequest | NextRequest
+      path: string,
+      config: Config
     ) => Promise<LnAuthData>;
     update: (
       args: {
@@ -84,11 +86,13 @@ export type RequiredConfig = {
           success: boolean;
         };
       },
-      req: NextApiRequest | NextRequest
+      path: string,
+      config: Config
     ) => Promise<undefined>;
     delete: (
       args: { k1: string },
-      req: NextApiRequest | NextRequest
+      path: string,
+      config: Config
     ) => Promise<undefined>;
   };
   generateQr: QRGenerator;
@@ -106,10 +110,10 @@ export type ThemeStyles = {
 };
 
 export type OptionalConfig = {
-  pages: {
-    signIn?: string;
-    error?: string;
-  };
+  pages: Partial<{
+    signIn: string;
+    error: string;
+  }>;
   title: string | null;
   generateAvatar: AvatarGenerator | null;
   generateName: NameGenerator | null;

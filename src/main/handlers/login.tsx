@@ -1,13 +1,16 @@
 import { renderToStaticMarkup } from "preact-render-to-string";
-import { NextApiRequest, NextApiResponse } from "next/types";
-import { NextRequest, NextResponse } from "next/server";
 
 import { hardConfig, Config } from "../config/index.js";
 import { vanilla } from "../utils/vanilla.js";
 
 import { LnAuthLogin } from "../../react/components/LnAuthLogin.js";
 import { Loading } from "../../react/components/Loading.js";
-import { formatRouter } from "../utils/router.js";
+import { HandlerArguments, HandlerReturn } from "../utils/handlers.js";
+import {
+  loginValidation,
+  errorMap,
+  formatErrorMessage,
+} from "../validation/lnauth.js";
 
 function AuthPage({ config }: { config: Config }) {
   return (
@@ -99,21 +102,42 @@ function AuthPage({ config }: { config: Config }) {
   );
 }
 
-async function logic(
-  query: Record<string, any>,
-  req: NextApiRequest | NextRequest,
-  config: Config
-) {
-  const title = config.title || config.siteUrl;
-  const errorUrl = config.siteUrl + config.pages.error;
+export default async function handler({
+  query,
+  cookies,
+  path,
+  url,
+  config,
+}: HandlerArguments): Promise<HandlerReturn> {
+  try {
+    try {
+      loginValidation.parse(query, { errorMap });
+    } catch (e: any) {
+      return { error: formatErrorMessage(e), isRedirect: true };
+    }
 
-  const html = renderToStaticMarkup(<AuthPage config={config} />);
+    if (cookies.sessionToken) {
+      return { error: "You are already logged in", isRedirect: true };
+    }
 
-  if (!query.redirectUri || !query.state) {
-    throw new Error("Missing required query param");
-  }
+    // if a custom login page is specified, send them there if they try and access this API
+    if (config.pages.signIn !== config.apis.signIn) {
+      const params = url.searchParams.toString();
+      return {
+        redirect: new URL(`${config.siteUrl}${config.pages.signIn}?${params}`),
+      };
+    }
 
-  return `<!DOCTYPE html><html lang="en">
+    const title = config.title || config.siteUrl;
+    const errorUrl = config.siteUrl + config.pages.error;
+    const html = renderToStaticMarkup(<AuthPage config={config} />);
+
+    return {
+      status: 200,
+      headers: {
+        "content-type": "text/html",
+      },
+      response: `<!DOCTYPE html><html lang="en">
     <head>
       <meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -140,56 +164,9 @@ async function logic(
         init(${JSON.stringify({ hardConfig, query, errorUrl })})
       };
     </script>
-    </html>`;
-}
-
-async function pagesHandler(
-  req: NextApiRequest,
-  res: NextApiResponse,
-  config: Config
-) {
-  if (req.cookies["next-auth.session-token"]) {
-    throw new Error("You are already logged in");
+    </html>`,
+    };
+  } catch (e: any) {
+    return { error: e.message || "Something went wrong", isRedirect: true };
   }
-
-  const query = {
-    redirectUri: req.query.redirect_uri,
-    state: req.query.state,
-  };
-  const result = await logic(query, req, config);
-
-  res.setHeader("content-type", "text/html");
-  res.send(result);
-}
-
-async function appHandler(req: NextRequest, config: Config) {
-  if (req.cookies.get("next-auth.session-token")?.value) {
-    throw new Error("You are already logged in");
-  }
-
-  const query = {
-    redirectUri: req.nextUrl.searchParams.get("redirect_uri"),
-    state: req.nextUrl.searchParams.get("state"),
-  };
-  const result = await logic(query, req, config);
-
-  return new Response(result, {
-    status: 200,
-    headers: {
-      "content-type": "text/html",
-    },
-  });
-}
-
-export default async function handler(
-  request: NextApiRequest | NextRequest,
-  response: NextApiResponse | NextResponse,
-  config: Config
-) {
-  const { req, res, routerType } = formatRouter(request, response);
-
-  if (routerType === "APP") {
-    return await appHandler(req, config);
-  }
-  return await pagesHandler(req, res, config);
 }

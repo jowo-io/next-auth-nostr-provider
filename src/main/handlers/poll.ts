@@ -1,63 +1,20 @@
-import { NextApiRequest, NextApiResponse } from "next/types";
-import { NextRequest, NextResponse } from "next/server";
+import { pollValidation, errorMap } from "../validation/lnauth.js";
+import { HandlerArguments, HandlerReturn } from "../utils/handlers.js";
 
-import {
-  pollValidation,
-  formatErrorMessage,
-  errorMap,
-} from "../validation/lnauth.js";
-import { Config } from "../config/index.js";
-import { formatRouter } from "../utils/router.js";
-import { paramsToObject } from "../utils/params.js";
-
-async function logic(
-  body: Record<string, any>,
-  req: NextApiRequest | NextRequest,
-  config: Config
-) {
+export default async function handler({
+  body,
+  cookies,
+  path,
+  url,
+  config,
+}: HandlerArguments): Promise<HandlerReturn> {
   const { k1 } = pollValidation.parse(body, { errorMap });
 
-  const { success = false } = await config.storage.get({ k1 }, req);
+  const { success = false } = await config.storage.get({ k1 }, path, config);
 
   return {
-    status: "OK",
-    success,
+    response: {
+      success,
+    },
   };
-}
-
-async function pagesHandler(
-  req: NextApiRequest,
-  res: NextApiResponse,
-  config: Config
-) {
-  try {
-    const result = await logic(req.body, req, config);
-
-    res.send(JSON.stringify(result));
-  } catch (e: any) {
-    res.status(500).send(formatErrorMessage(e));
-  }
-}
-
-async function appHandler(req: NextRequest, config: Config) {
-  const text = await req.text();
-  const params = new URLSearchParams(text);
-  const body = paramsToObject(params);
-
-  const result = await logic(body, req, config);
-
-  return Response.json(result);
-}
-
-export default async function handler(
-  request: NextApiRequest | NextRequest,
-  response: NextApiResponse | NextResponse,
-  config: Config
-) {
-  const { req, res, routerType } = formatRouter(request, response);
-
-  if (routerType === "APP") {
-    return await appHandler(req, config);
-  }
-  return await pagesHandler(req, res, config);
 }

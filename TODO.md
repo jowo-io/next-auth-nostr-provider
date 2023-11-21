@@ -13,6 +13,9 @@ Below is a TODO list for further development of `next-auth-lightning-provider`
 - carefully run through the auth and data flow to look for bugs or oversights
 - add jest tests where applicable
 - open PR on `next-auth`
+- rename login to signup everywhere (so it matches `next-auth`)
+- manual testing. pre beta release make list of all test criteria and go through them
+- consider deleting cookie instead of throwing error "You are already logged in"
 
 ### Tertiary
 

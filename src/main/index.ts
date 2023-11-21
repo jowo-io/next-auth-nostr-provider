@@ -11,12 +11,14 @@ import tokenHandler from "./handlers/token.js";
 import loginHandler from "./handlers/login.js";
 
 // misc
-import imageHandler from "./handlers/avatar.js";
+import avatarHandler from "./handlers/avatar.js";
 import qrHandler from "./handlers/qr.js";
 
 import { formatConfig, UserConfig } from "./config/index.js";
 import { NextRequest, NextResponse } from "next/server";
 import { formatRouter } from "./utils/router.js";
+
+import dynamicHandler from "./utils/handlers.js";
 
 /**
  * Generate a provider and handler to setup Lightning auth.
@@ -67,22 +69,19 @@ export default function NextAuthLightning(userConfig: UserConfig) {
     const { path } = formatRouter(req, res);
 
     if (path?.indexOf(config.apis.create) === 0) {
-      return await createHandler(req, res, config);
+      return await dynamicHandler(req, res, config, createHandler);
     } else if (path?.indexOf(config.apis.poll) === 0) {
-      return await pollHandler(req, res, config);
+      return await dynamicHandler(req, res, config, pollHandler);
     } else if (path?.indexOf(config.apis.callback) === 0) {
-      return await callbackHandler(req, res, config);
+      return await dynamicHandler(req, res, config, callbackHandler);
     } else if (path?.indexOf(config.apis.token) === 0) {
-      return await tokenHandler(req, res, config);
-    } else if (
-      config.pages?.signIn === config.apis.signIn &&
-      path?.indexOf(config.apis.signIn) === 0
-    ) {
-      return await loginHandler(req, res, config);
+      return await dynamicHandler(req, res, config, tokenHandler);
+    } else if (path?.indexOf(config.apis.signIn) === 0) {
+      return await dynamicHandler(req, res, config, loginHandler);
     } else if (path?.indexOf(config.apis.avatar) === 0) {
-      return await imageHandler(req, res, config);
+      return await dynamicHandler(req, res, config, avatarHandler);
     } else if (path?.indexOf(config.apis.qr) === 0) {
-      return await qrHandler(req, res, config);
+      return await dynamicHandler(req, res, config, qrHandler);
     }
 
     throw new Error("Unknown path");
