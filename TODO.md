@@ -9,13 +9,21 @@ Below is a TODO list for further development of `next-auth-lightning-provider`
 
 ### Secondary
 
-- error handling: of App Router APIs, of error thrown in `storage.get` and other storage methods, of error at end of API if no paths matched, "You are already logged in" error. etc
+- error handling: of
+  - App Router APIs
+  - error thrown in `storage.get` and other storage methods
+  - error at end of API if no paths matched
+  - "You are already logged in" error, passing. etc
+  - making error messages user friendly
+  - adding error http status
+  - adding custom error code query param
+  - documenting the error types
 - carefully run through the auth and data flow to look for bugs or oversights
 - add jest tests where applicable
 - open PR on `next-auth`
 - rename login to signup everywhere (so it matches `next-auth`)
 - manual testing. pre beta release make list of all test criteria and go through them
-- consider deleting cookie instead of throwing error "You are already logged in"
+- deploy app to vercel and test remotely
 
 ### Tertiary
 
@@ -35,3 +43,4 @@ Below is a TODO list for further development of `next-auth-lightning-provider`
 - consider adding various styles of avatar and name generators
 - consider / investigate how to SSR react components so the `vanilla.ts` shim can be deprecated
 - add JSDocs comments to all internally used functions
+- consider deleting cookie instead of throwing error "You are already logged in"
