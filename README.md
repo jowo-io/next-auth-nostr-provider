@@ -444,7 +444,7 @@ const config: NextAuthLightningConfig = {
 
 # Storage
 
-The `lnurl-auth` spec requires that a user's Lightning wallet trigger a callback as part of the authentication flow. For this reason, it may be that the device that scan the QR (e.g. a mobile) is not the same as the device trying to authenticate (e.g. a desktop). So, we require session storage to persist some data across devices, and ensure it's available when the callback is triggered.
+The `lnurl-auth` spec requires that a user's Lightning wallet trigger a callback as part of the authentication flow. For this reason, it may be that the device that scan the QR (e.g. a mobile) is not the same device that's trying to authenticate (e.g. a desktop). So, we require session storage to persist some data and make it available across devices and ensure it's available when the callback is triggered.
 
 Data can be stored in a medium of your choice. For example a database, a document store, or a session store. Here's an example using [Vercel KV](https://vercel.com/docs/storage/vercel-kv):
 
@@ -473,11 +473,17 @@ const config: NextAuthLightningConfig = {
 
 See more working examples in the [examples/](https://github.com/jowo-io/next-auth-lightning-provider/tree/main/examples) folder.
 
-Once you have configured the storage methods you can launch your dev server test them locally on the diagnostics page:
-`http://localhost:3000/api/lnauth/diagnostics`
+Once you have configured the storage methods you can launch your dev server and test them locally on the diagnostics page:
 
-You can also pass in your own custom values in the query params:
-`http://localhost:3000/api/lnauth/diagnostics?k1=custom-k1&state=custom-state&pubkey=custom-pubkey&sig=custom-sig`
+```
+http://localhost:3000/api/lnauth/diagnostics
+```
+
+You can also pass in your own custom session values via the query params:
+
+```
+http://localhost:3000/api/lnauth/diagnostics?k1=custom-k1&state=custom-state&pubkey=custom-pubkey&sig=custom-sig
+```
 
 > ℹ️ The diagnostics page will be **disabled** for production builds.
 
