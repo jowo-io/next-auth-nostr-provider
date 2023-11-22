@@ -16,8 +16,8 @@ const config: NextAuthLightningConfig = {
   siteUrl: env.NEXTAUTH_URL,
   secret: env.NEXTAUTH_SECRET,
   storage: {
-    async set({ k1, data }) {
-      await db.insert(lnAuthTable).values(data);
+    async set({ k1, session }) {
+      await db.insert(lnAuthTable).values(session);
     },
     async get({ k1 }) {
       const results: LnAuth[] = await db
@@ -25,12 +25,10 @@ const config: NextAuthLightningConfig = {
         .from(lnAuthTable)
         .where(eq(lnAuthTable.k1, k1));
 
-      if (!results[0]) throw new Error("Couldn't find item by k1");
-
       return results[0];
     },
-    async update({ k1, data }) {
-      await db.update(lnAuthTable).set(data).where(eq(lnAuthTable.k1, k1));
+    async update({ k1, session }) {
+      await db.update(lnAuthTable).set(session).where(eq(lnAuthTable.k1, k1));
     },
     async delete({ k1 }) {
       await db.delete(lnAuthTable).where(eq(lnAuthTable.k1, k1));

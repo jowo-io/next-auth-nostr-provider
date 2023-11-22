@@ -10,11 +10,11 @@ export default async function handler({
 }: HandlerArguments): Promise<HandlerReturn> {
   const { k1 } = pollValidation.parse(body, { errorMap });
 
-  const { success = false } = await config.storage.get({ k1 }, path, config);
+  const session = await config.storage.get({ k1 }, path, config);
 
   return {
     response: {
-      success,
+      success: session?.success || false,
     },
   };
 }

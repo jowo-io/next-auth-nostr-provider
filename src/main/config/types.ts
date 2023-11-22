@@ -12,9 +12,10 @@ export type HardConfig = {
     // pages
     signIn: string;
 
-    // images
+    // misc
     avatar: string;
     qr: string;
+    diagnostics: string;
   };
   ids: {
     wrapper: string;
@@ -64,7 +65,7 @@ export type RequiredConfig = {
     set: (
       args: {
         k1: string;
-        data: {
+        session: {
           k1: string;
           state: string;
         };
@@ -76,11 +77,11 @@ export type RequiredConfig = {
       args: { k1: string },
       path: string,
       config: Config
-    ) => Promise<LightningAuthSession>;
+    ) => Promise<LightningAuthSession | null | undefined>;
     update: (
       args: {
         k1: string;
-        data: {
+        session: {
           pubkey: string;
           sig: string;
           success: boolean;

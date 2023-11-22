@@ -13,6 +13,7 @@ import signInHandler from "./handlers/signin.js";
 // misc
 import avatarHandler from "./handlers/avatar.js";
 import qrHandler from "./handlers/qr.js";
+import diagnosticsHandler from "./handlers/diagnostics.js";
 
 import { formatConfig, UserConfig } from "./config/index.js";
 import { NextRequest, NextResponse } from "next/server";
@@ -82,9 +83,16 @@ export default function NextAuthLightning(userConfig: UserConfig) {
       return await dynamicHandler(req, res, config, avatarHandler);
     } else if (path?.indexOf(config.apis.qr) === 0) {
       return await dynamicHandler(req, res, config, qrHandler);
+    } else if (
+      path?.indexOf(config.apis.diagnostics) === 0 &&
+      process.env.NODE_ENV === "development"
+    ) {
+      return await dynamicHandler(req, res, config, diagnosticsHandler);
     }
 
-    throw new Error("Unknown path");
+    return await dynamicHandler(req, res, config, async () => ({
+      error: "Unknown path",
+    }));
   };
 
   return {

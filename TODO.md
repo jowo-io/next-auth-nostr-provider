@@ -6,12 +6,13 @@ Below is a TODO list for further development of `next-auth-lightning-provider`
 
 - investigate CSRF for next-auth
 - error handling: of
-  - App Router APIs
+  - Pages and App Router APIs handle errors consistently ✅
+  - error at end of API if no paths matched ✅
   - error thrown in `storage.get` and other storage methods
-  - error at end of API if no paths matched
+  - check individual logic handlers and ensure all error cases that should be handler are, and that they are handled correctly.
   - "You are already logged in" error, passing. etc
   - making error messages user friendly
-  - adding error http status
+  - adding error http statuses are correct across all error instances
   - adding custom error code query param
   - documenting the error types
 - add jest tests where applicable

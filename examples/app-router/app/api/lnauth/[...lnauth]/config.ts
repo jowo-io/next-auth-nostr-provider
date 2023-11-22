@@ -17,18 +17,14 @@ const config: NextAuthLightningConfig = {
   siteUrl: env.NEXTAUTH_URL,
   secret: env.NEXTAUTH_SECRET,
   storage: {
-    async set({ k1, data }) {
-      await storage.setItem(`k1:${k1}`, data);
+    async set({ k1, session }) {
+      await storage.setItem(`k1:${k1}`, session);
     },
     async get({ k1 }) {
-      const session = await storage.getItem(`k1:${k1}`);
-
-      if (!session) throw new Error("Couldn't find item by k1");
-
-      return session as LightningAuthSession;
+      return await storage.getItem(`k1:${k1}`);
     },
-    async update({ k1, data }) {
-      await storage.setItem(`k1:${k1}`, data);
+    async update({ k1, session }) {
+      await storage.setItem(`k1:${k1}`, session);
     },
     async delete({ k1 }) {
       await storage.removeItem(`k1:${k1}`);

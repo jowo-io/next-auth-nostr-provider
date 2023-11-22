@@ -10,7 +10,7 @@
 
 A light-weight Lightning auth provider for your Next.js app that's entirely self-hosted and plugs seamlessly into the [next-auth](https://github.com/nextauthjs/next-auth) framework.
 
-> This package is built for Next.js apps that use [next-auth](https://github.com/nextauthjs/next-auth). It's not compatible with other authentication libraries.
+> ℹ️ This package is built for Next.js apps that use [next-auth](https://github.com/nextauthjs/next-auth). It's not compatible with other authentication libraries.
 
 # How it works
 
@@ -89,13 +89,13 @@ const config: NextAuthLightningConfig = {
   siteUrl: process.env.NEXTAUTH_URL,
   secret: process.env.NEXTAUTH_SECRET,
   storage: {
-    async set({ k1, data }) {
+    async set({ k1, session }) {
       // save lnurl auth session data based on k1 id
     },
     async get({ k1 }) {
       // lookup and return lnurl auth session data based on k1 id
     },
-    async update({ k1, data }) {
+    async update({ k1, session }) {
       // update lnurl auth session data based on k1 id
     },
     async delete({ k1 }) {
@@ -119,7 +119,7 @@ export const lightningProvider = provider;
 export default handler;
 ```
 
-> NOTE: The above example uses the Pages Router. If your app uses the App Router then take a look at the [examples/app-router/](https://github.com/jowo-io/next-auth-lightning-provider/tree/main/examples/app-router/) example app.
+> ℹ️ The above example uses the Pages Router. If your app uses the App Router then take a look at the [examples/app-router/](https://github.com/jowo-io/next-auth-lightning-provider/tree/main/examples/app-router/) example app.
 
 This API will handle all of the Lightning auth API requests, such as generating QRs, handling callbacks, polling and issuing JWT auth tokens.
 
@@ -143,7 +143,7 @@ export default NextAuth(authOptions);
 
 # Generators
 
-Normally if you authenticate a user with lnurl-auth, all you'd know about the user is their unique ID (a pubkey). This package goes a step further and provides several generator functions that can be used to deterministically (the pubkey is used as a seed) generate avatars and usernames. That means you can show users a unique name and image that'll be associated with their account!
+Normally if you authenticate a user with `lnurl-auth`, all you'd know about the user is their unique ID (a `pubkey`). This package goes a step further and provides several generator functions that can be used to deterministically (the `pubkey` is used as a seed) generate avatars and usernames. That means you can show users a unique name and image that'll be associated with their account!
 
 As well as the avatar and image generators, there's also a QR code generator.
 
@@ -155,7 +155,7 @@ import { generateName } from "next-auth-lightning-provider/generators/name";
 import { generateAvatar } from "next-auth-lightning-provider/generators/avatar";
 ```
 
-> Note: you can write your own generator functions if those provided don't suit your needs!
+> ℹ️ You can write your own generator functions if those provided don't suit your needs!
 
 # Configuration
 
@@ -186,10 +186,13 @@ const config: NextAuthLightningConfig = {
   /**
    * @param {object} storage
    *
-   * The lnurl-auth spec requires that a user's Lightning wallet triggers a
+   * The lnurl-auth spec requires that a user's Lightning wallet trigger a
    * callback as part of the authentication flow. So, we require session storage to
    * persist some data and ensure it's available when the callback is triggered.
-   * Data can be stored in any medium of your choice.
+   * Data can be stored in a medium of your choice.
+   *
+   * Once you have configured the storage methods you can test them on the diagnostics page:
+   * @see http://localhost:3000/api/lnauth/diagnostics
    *
    * @see https://github.com/jowo-io/next-auth-lightning-provider/tree/main/examples/
    */
@@ -200,7 +203,7 @@ const config: NextAuthLightningConfig = {
      * An async function that receives a k1 and data arguments.
      * The k1 is a unique key that's used to store the data for later use.
      */
-    async set({ k1, data }) {
+    async set({ k1, session }) {
       // save lnurl auth session data based on k1 id
     },
 
@@ -220,7 +223,7 @@ const config: NextAuthLightningConfig = {
      * An async function that receives a k1 and data arguments.
      * The k1 is used to find and update data previously stored under it.
      */
-    async update({ k1, data }) {
+    async update({ k1, session }) {
       // update lnurl auth session data based on k1 id
     },
 
@@ -438,6 +441,45 @@ const config: NextAuthLightningConfig = {
 
 };
 ```
+
+# Storage
+
+The `lnurl-auth` spec requires that a user's Lightning wallet trigger a callback as part of the authentication flow. For this reason, it may be that the device that scan the QR (e.g. a mobile) is not the same as the device trying to authenticate (e.g. a desktop). So, we require session storage to persist some data across devices, and ensure it's available when the callback is triggered.
+
+Data can be stored in a medium of your choice. For example a database, a document store, or a session store. Here's an example using [Vercel KV](https://vercel.com/docs/storage/vercel-kv):
+
+```typescript
+import { kv } from "@vercel/kv";
+
+const config: NextAuthLightningConfig = {
+  // ...
+  storage: {
+    async set({ k1, session }) {
+      await kv.set(`k1:${k1}`, session);
+    },
+    async get({ k1 }) {
+      return await kv.get(`k1:${k1}`);
+    },
+    async update({ k1, session }) {
+      await kv.set(`k1:${k1}`, session);
+    },
+    async delete({ k1 }) {
+      await kv.del(`k1:${k1}`);
+    },
+  },
+  // ...
+};
+```
+
+See more working examples in the [examples/](https://github.com/jowo-io/next-auth-lightning-provider/tree/main/examples) folder.
+
+Once you have configured the storage methods you can launch your dev server test them locally on the diagnostics page:
+`http://localhost:3000/api/lnauth/diagnostics`
+
+You can also pass in your own custom values in the query params:
+`http://localhost:3000/api/lnauth/diagnostics?k1=custom-k1&state=custom-state&pubkey=custom-pubkey&sig=custom-sig`
+
+> ℹ️ The diagnostics page will be **disabled** for production builds.
 
 # Next.js Routers
 
