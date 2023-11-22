@@ -16,14 +16,11 @@ const config = {
       await storage.setItem(`k1:${k1}`, data);
     },
     async get({ k1 }) {
-      const results = await storage.getItem(`k1:${k1}`);
-
-      if (!results) throw new Error("Couldn't find item by k1");
-
-      return results;
+      return await storage.getItem(`k1:${k1}`);
     },
     async update({ k1, data }) {
-      await storage.setItem(`k1:${k1}`, data);
+      const old = await storage.getItem(`k1:${k1}`);
+      await storage.updateItem(`k1:${k1}`, { ...old, ...session });
     },
     async delete({ k1 }) {
       await storage.removeItem(`k1:${k1}`);
