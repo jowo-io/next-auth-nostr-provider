@@ -21,11 +21,22 @@ export default async function handler({
     return { error: "Error in keys" };
   }
 
-  await config.storage.update(
-    { k1, session: { pubkey, sig, success: true } },
-    path,
-    config
-  );
+  try {
+    await config.storage.update(
+      { k1, session: { pubkey, sig, success: true } },
+      path,
+      config
+    );
+  } catch (e) {
+    console.error(e);
+    if (process.env.NODE_ENV === "development")
+      console.warn(
+        `An error occurred in the storage.update method. To debug the error see: ${
+          config.siteUrl + config.apis.diagnostics
+        }`
+      );
+    return { error: "Something went wrong" };
+  }
 
   return {
     response: {

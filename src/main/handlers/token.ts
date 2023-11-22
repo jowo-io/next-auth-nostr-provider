@@ -22,11 +22,34 @@ export default async function handler({
   let pubkey: string;
   if (grantType === "authorization_code") {
     if (!k1) return { error: "Missing code" };
-    const session = await config.storage.get({ k1 }, path, config);
+    let session;
+    try {
+      session = await config.storage.get({ k1 }, path, config);
+    } catch (e) {
+      console.error(e);
+      if (process.env.NODE_ENV === "development")
+        console.warn(
+          `An error occurred in the storage.get method. To debug the error see: ${
+            config.siteUrl + config.apis.diagnostics
+          }`
+        );
+      return { error: "Something went wrong" };
+    }
     if (!session?.success) return { error: "Login was not successful" };
     if (!session?.pubkey) return { error: "Missing pubkey" };
     pubkey = session.pubkey;
-    await config.storage.delete({ k1 }, path, config);
+
+    try {
+      await config.storage.delete({ k1 }, path, config);
+    } catch (e) {
+      console.error(e);
+      if (process.env.NODE_ENV === "development")
+        console.warn(
+          `An error occurred in the storage.delete method. To debug the error see: ${
+            config.siteUrl + config.apis.diagnostics
+          }`
+        );
+    }
   } else if (grantType === "refresh_token") {
     if (!refreshToken) return { error: "Missing refresh token" };
     const data = await verifyRefreshToken(refreshToken, config);

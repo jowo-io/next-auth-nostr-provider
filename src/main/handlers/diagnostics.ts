@@ -12,14 +12,13 @@ type Check = {
 export function testField(
   expected: Record<string, any>,
   received: Record<string, any>,
-  field: "k1" | "state" | "pubkey" | "sig" | "success",
-  method: "update" | "set"
+  field: "k1" | "state" | "pubkey" | "sig" | "success"
 ): Check {
   const state = received[field] !== expected[field] ? "failed" : "success";
   return {
     state,
-    method,
-    message: `Expected 'session.${field}' to be '${expected[field]}', found '${received[field]}'.`,
+    method: "get",
+    message: `Expected 'session.${field}' to be '${expected[field]}', received '${received[field]}'.`,
   };
 }
 
@@ -29,19 +28,19 @@ export async function testSet(
   const checks: Check[] = [];
   try {
     await setMethod();
-
     checks.push({
       state: "success",
       method: "set",
-      message: "Successfully ran to completion.",
+      message: "Invoked without throwing an error.",
     });
+
     return checks;
   } catch (e: any) {
     console.error(e);
     checks.push({
       state: "failed",
       method: "set",
-      message: e.message || "An unexpected error occurred.",
+      message: "An unexpected error occurred.",
     });
     return checks;
   }
@@ -55,31 +54,30 @@ export async function testGet(
 
   try {
     const receivedSession = await getMethod();
+    checks.push({
+      state: "success",
+      method: "get",
+      message: "Invoked without throwing an error.",
+    });
 
     if (!receivedSession) {
       checks.push({
         state: "failed",
-        method: "set",
-        message: "Session data not found.",
+        method: "get",
+        message: "Session data not defined.",
       });
       return checks;
     }
-    checks.push(testField(receivedSession, expectedSession, "k1", "set"));
-    checks.push(testField(receivedSession, expectedSession, "state", "set"));
+    checks.push(testField(receivedSession, expectedSession, "k1"));
+    checks.push(testField(receivedSession, expectedSession, "state"));
 
-    checks.push({
-      state: "success",
-      method: "get",
-      message:
-        "Successfully ran to completion and returned the expected session data.",
-    });
     return checks;
   } catch (e: any) {
     console.error(e);
     checks.push({
       state: "failed",
       method: "get",
-      message: e.message || "An unexpected error occurred.",
+      message: "An unexpected error occurred.",
     });
     return checks;
   }
@@ -93,6 +91,11 @@ export async function testUpdate(
   const checks: Check[] = [];
   try {
     await updateMethod();
+    checks.push({
+      state: "success",
+      method: "update",
+      message: "Invoked without throwing an error.",
+    });
 
     let receivedSession;
     try {
@@ -102,7 +105,7 @@ export async function testUpdate(
       checks.push({
         state: "failed",
         method: "get",
-        message: e.message || "An unexpected error occurred.",
+        message: "An unexpected error occurred.",
       });
       return checks;
     }
@@ -110,34 +113,24 @@ export async function testUpdate(
     if (!receivedSession) {
       checks.push({
         state: "failed",
-        method: "update",
+        method: "get",
         message: "Session data not found.",
       });
       return checks;
     }
-    checks.push(testField(receivedSession, expectedSession, "k1", "update"));
-    checks.push(testField(receivedSession, expectedSession, "state", "update"));
-    checks.push(
-      testField(receivedSession, expectedSession, "pubkey", "update")
-    );
-    checks.push(testField(receivedSession, expectedSession, "sig", "update"));
-    checks.push(
-      testField(receivedSession, expectedSession, "success", "update")
-    );
+    checks.push(testField(receivedSession, expectedSession, "k1"));
+    checks.push(testField(receivedSession, expectedSession, "state"));
+    checks.push(testField(receivedSession, expectedSession, "pubkey"));
+    checks.push(testField(receivedSession, expectedSession, "sig"));
+    checks.push(testField(receivedSession, expectedSession, "success"));
 
-    checks.push({
-      state: "success",
-      method: "update",
-      message:
-        "Successfully ran to completion and returned the updated session data.",
-    });
     return checks;
   } catch (e: any) {
     console.error(e);
     checks.push({
       state: "failed",
       method: "update",
-      message: e.message || "An unexpected error occurred.",
+      message: "An unexpected error occurred.",
     });
     return checks;
   }
@@ -152,6 +145,12 @@ export async function testDelete(
   try {
     await deleteMethod();
 
+    checks.push({
+      state: "success",
+      method: "delete",
+      message: "Invoked without throwing an error.",
+    });
+
     let receivedSession;
     try {
       receivedSession = await getMethod();
@@ -160,10 +159,11 @@ export async function testDelete(
       checks.push({
         state: "failed",
         method: "get",
-        message: e.message || "An unexpected error occurred.",
+        message: "An unexpected error occurred.",
       });
       return checks;
     }
+    console.log({ receivedSession });
 
     if (receivedSession) {
       checks.push({
@@ -177,15 +177,15 @@ export async function testDelete(
     checks.push({
       state: "success",
       method: "delete",
-      message: "Successfully ran to completion.",
+      message: "Session data was deleted.",
     });
     return checks;
   } catch (e: any) {
     console.error(e);
     checks.push({
       state: "failed",
-      method: "update",
-      message: e.message || "An unexpected error occurred.",
+      method: "delete",
+      message: "An unexpected error occurred.",
     });
     return checks;
   }
@@ -217,7 +217,7 @@ export default async function handler({
         : randomBytes(6).toString("hex");
 
     const setSession = { k1, state };
-    const updateSession = { k1, state, pubkey, sig, success: true };
+    const updateSession = { pubkey, sig, success: true };
 
     const setMethod = async () =>
       await config.storage.set({ k1, session: setSession }, path, config);
@@ -235,7 +235,13 @@ export default async function handler({
     checks.push(...(await testGet(setSession, getMethod)));
 
     // update
-    checks.push(...(await testUpdate(updateSession, updateMethod, getMethod)));
+    checks.push(
+      ...(await testUpdate(
+        { ...setSession, ...updateSession },
+        updateMethod,
+        getMethod
+      ))
+    );
 
     // delete
     checks.push(...(await testDelete(deleteMethod, getMethod)));

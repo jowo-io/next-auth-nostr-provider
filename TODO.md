@@ -8,7 +8,7 @@ Below is a TODO list for further development of `next-auth-lightning-provider`
 - error handling: of
   - Pages and App Router APIs handle errors consistently ✅
   - error at end of API if no paths matched ✅
-  - error thrown in `storage.get` and other storage methods
+  - error thrown in `storage.get` and other storage methods ✅
   - check individual logic handlers and ensure all error cases that should be handler are, and that they are handled correctly.
   - "You are already logged in" error, passing. etc
   - making error messages user friendly
@@ -16,6 +16,7 @@ Below is a TODO list for further development of `next-auth-lightning-provider`
   - adding custom error code query param
   - documenting the error types
 - add jest tests where applicable
+- test diagnostics API with KV and Drizzle
 
 ### Beta
 
