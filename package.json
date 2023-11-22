@@ -42,10 +42,10 @@
   "main": "./index.js",
   "scripts": {
     "build": "tsc",
-    "clean": "rm -rf dist",
+    "clean": "rm -rf main react generators index.d.ts index.d.ts.map index.js",
     "dev": "tsc -w",
     "test": "jest",
-    "prebuild": "tsc --build --clean"
+    "prebuild": "npm run clean"
   },
   "peerDependencies": {
     "next": "^12.2.5 || ^13 || ^14",
