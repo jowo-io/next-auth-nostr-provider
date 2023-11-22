@@ -63,10 +63,12 @@ async function pagesHandler(
   try {
     output = await handler(args);
   } catch (e: any) {
+    console.error(e);
     output = { error: formatErrorMessage(e) };
   }
 
   if (output.error) {
+    console.error(output.error);
     if (output.isRedirect) {
       const errorUrl = new URL(config.siteUrl + config.pages.error);
       errorUrl.searchParams.append("error", "OAuthSignin");
@@ -77,7 +79,7 @@ async function pagesHandler(
         res.setHeader(key, value)
       );
       res.status(output.status || 500);
-      return res.end(output.error);
+      return res.send(output.error);
     }
   }
 
@@ -93,7 +95,7 @@ async function pagesHandler(
       res.setHeader(key, value)
     );
     res.status(output.status || 200);
-    return res.end(output.response);
+    return res.send(output.response);
   } else if (typeof output.response === "object") {
     Object.entries(output.headers || {}).forEach(([key, value]) =>
       res.setHeader(key, value)
@@ -131,6 +133,7 @@ async function appHandler(
   try {
     output = await handler(args);
   } catch (e: any) {
+    console.error(e);
     output = { error: formatErrorMessage(e) };
   }
 

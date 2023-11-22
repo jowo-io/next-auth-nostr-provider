@@ -26,7 +26,7 @@ export default async function handler({
   const lnurl = require("lnurl");
   const encoded = lnurl.encode(inputUrl.toString()).toUpperCase();
 
-  await config.storage.set({ k1, data: { k1, state } }, path, config);
+  await config.storage.set({ k1, session: { k1, state } }, path, config);
 
   return {
     response: {

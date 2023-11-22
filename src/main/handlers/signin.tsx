@@ -113,6 +113,7 @@ export default async function handler({
     try {
       signInValidation.parse(query, { errorMap });
     } catch (e: any) {
+      console.error(e);
       return { error: formatErrorMessage(e), isRedirect: true };
     }
 
@@ -167,6 +168,7 @@ export default async function handler({
     </html>`,
     };
   } catch (e: any) {
+    console.error(e);
     return { error: e.message || "Something went wrong", isRedirect: true };
   }
 }

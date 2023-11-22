@@ -44,5 +44,5 @@ export default async function handler({
     };
   }
 
-  throw new Error("Something went wrong");
+  return { error: "Something went wrong" };
 }

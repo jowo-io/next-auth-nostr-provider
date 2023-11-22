@@ -22,13 +22,14 @@ export default async function handler({
   }
 
   await config.storage.update(
-    { k1, data: { pubkey, sig, success: true } },
+    { k1, session: { pubkey, sig, success: true } },
     path,
     config
   );
 
   return {
     response: {
+      status: "OK", // important status, confirms to wallet that auth was success
       success: true,
       k1,
     },

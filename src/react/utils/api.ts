@@ -62,9 +62,9 @@ export async function createApiRequest(
       .then(function (r) {
         return r.json();
       })
-      .then((d) => {
-        if (d.message) throw new Error(d.message);
-        resolve(d);
+      .then((data) => {
+        if (data.message) throw new Error(data.message);
+        resolve(data);
       })
       .catch(function (e) {
         reject(e);

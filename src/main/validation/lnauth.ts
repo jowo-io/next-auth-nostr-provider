@@ -68,7 +68,7 @@ export function formatErrorMessage(e: any): string {
           message = zodError[0].message;
         }
       }
-    } catch (e) {
+    } catch (e: any) {
       console.error(e);
     }
   }

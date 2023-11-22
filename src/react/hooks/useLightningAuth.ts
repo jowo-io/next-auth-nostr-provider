@@ -37,7 +37,7 @@ export function useLightningAuth({
   const [lnurl, setUrl] = useState<string | null>(null);
 
   useEffect(() => {
-    let data: { k1?: string; lnurl?: string } | null;
+    let session: { k1?: string; lnurl?: string } | null;
     let pollTimeoutId: NodeJS.Timeout | undefined;
     let createIntervalId: NodeJS.Timeout | undefined;
     const pollController = new AbortController();
@@ -63,7 +63,7 @@ export function useLightningAuth({
 
     // poll the api to see if the user has successfully authenticated
     const poll = async () => {
-      const k1 = data?.k1;
+      const k1 = session?.k1;
       try {
         if (k1) {
           const { success } = await pollApiRequest(
@@ -80,6 +80,7 @@ export function useLightningAuth({
         }
         pollTimeoutId = setTimeout(poll, hardConfig.intervals.poll);
       } catch (e: any) {
+        console.error(e);
         if (!createController.signal.aborted) {
           error(e);
         }
@@ -89,12 +90,13 @@ export function useLightningAuth({
     // create a new lnurl and set it to state
     const create = async () => {
       try {
-        data = await createApiRequest(
-          { state, k1: data?.k1 },
+        session = await createApiRequest(
+          { state, k1: session?.k1 },
           createController.signal
         );
-        setUrl(data?.lnurl || null);
+        setUrl(session?.lnurl || null);
       } catch (e: any) {
+        console.error(e);
         if (!createController.signal.aborted) {
           error(e);
         }

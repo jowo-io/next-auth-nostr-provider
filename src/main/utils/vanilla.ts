@@ -9,7 +9,7 @@ export const vanilla = function ({
   query: { redirect_uri: string; state: string };
   errorUrl: string;
 }) {
-  var data: { k1?: string; lnurl?: string } | null;
+  var session: { k1?: string; lnurl?: string } | null;
   var pollTimeoutId: NodeJS.Timeout | undefined;
   var createIntervalId: NodeJS.Timeout | undefined;
   var networkRequestCount: number = 0;
@@ -30,8 +30,8 @@ export const vanilla = function ({
 
   // poll the api to see if the user has successfully authenticated
   function poll() {
-    if (!data || !data.k1) return;
-    const k1 = data.k1;
+    if (!session || !session.k1) return;
+    const k1 = session.k1;
 
     const params = new URLSearchParams({ k1 });
 
@@ -70,8 +70,8 @@ export const vanilla = function ({
   // create a new lnurl and inject content into dom
   function create() {
     const params = new URLSearchParams({ state: query.state });
-    if (data?.k1) {
-      params.append("k1", data.k1);
+    if (session?.k1) {
+      params.append("k1", session.k1);
     }
 
     return fetch("http://localhost:3000/api/lnauth/create", {
@@ -83,10 +83,10 @@ export const vanilla = function ({
       .then(function (r) {
         return r.json();
       })
-      .then(function (d) {
-        if (d && d.message) throw new Error(d.message);
-        data = d;
-        if (!data || !data.lnurl) return;
+      .then(function (data) {
+        if (data && data.message) throw new Error(data.message);
+        session = data;
+        if (!session || !session.lnurl) return;
 
         // show wrapper
         var wrapper = document.getElementById(hardConfig.ids.wrapper);
@@ -103,13 +103,13 @@ export const vanilla = function ({
         // inject copy text
         var copy = document.getElementById(hardConfig.ids.copy);
         if (copy) {
-          copy.innerHTML = data.lnurl;
+          copy.innerHTML = session.lnurl;
         }
 
         // inject qr src
         var qr = document.getElementById(hardConfig.ids.qr) as HTMLImageElement;
         if (qr) {
-          qr.src = hardConfig.apis.qr + "/" + data.lnurl;
+          qr.src = hardConfig.apis.qr + "/" + session.lnurl;
           qr.onerror = error.bind(
             undefined,
             new Error("Failed to load QR code")
@@ -121,7 +121,7 @@ export const vanilla = function ({
           hardConfig.ids.button
         ) as HTMLAnchorElement;
         if (button) {
-          button.href = `lightning:${data.lnurl}`;
+          button.href = `lightning:${session.lnurl}`;
         }
       })
       .catch(error);

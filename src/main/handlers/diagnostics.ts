@@ -241,7 +241,7 @@ export default async function handler({
     checks.push(...(await testDelete(deleteMethod, getMethod)));
 
     // generic throw
-  } catch (e) {
+  } catch (e: any) {
     console.error(e);
     checks.push({
       state: "failed",
