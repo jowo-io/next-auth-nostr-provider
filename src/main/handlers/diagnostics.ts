@@ -1,0 +1,321 @@
+import { randomBytes } from "crypto";
+
+import { LightningAuthSession } from "../config/types.js";
+import { HandlerArguments, HandlerReturn } from "../utils/handlers.js";
+
+type Check = {
+  state: "success" | "failed";
+  method: "get" | "set" | "update" | "delete" | null;
+  message: string;
+};
+
+export function testField(
+  expected: Record<string, any>,
+  received: Record<string, any>,
+  field: "k1" | "state" | "pubkey" | "sig" | "success"
+): Check {
+  const state = received[field] !== expected[field] ? "failed" : "success";
+  return {
+    state,
+    method: "get",
+    message: `Expected 'session.${field}' to be '${expected[field]}', received '${received[field]}'.`,
+  };
+}
+
+export async function testSet(
+  setMethod: () => Promise<undefined>
+): Promise<Check[]> {
+  const checks: Check[] = [];
+  try {
+    await setMethod();
+    checks.push({
+      state: "success",
+      method: "set",
+      message: "Invoked without throwing an error.",
+    });
+
+    return checks;
+  } catch (e: any) {
+    console.error(e);
+    checks.push({
+      state: "failed",
+      method: "set",
+      message: "An unexpected error occurred.",
+    });
+    return checks;
+  }
+}
+
+export async function testGet(
+  expectedSession: { k1: string; state: string },
+  getMethod: () => Promise<LightningAuthSession | null | undefined>
+): Promise<Check[]> {
+  const checks: Check[] = [];
+
+  try {
+    const receivedSession = await getMethod();
+    checks.push({
+      state: "success",
+      method: "get",
+      message: "Invoked without throwing an error.",
+    });
+
+    if (!receivedSession) {
+      checks.push({
+        state: "failed",
+        method: "get",
+        message: "Session data not defined.",
+      });
+      return checks;
+    }
+    checks.push(testField(receivedSession, expectedSession, "k1"));
+    checks.push(testField(receivedSession, expectedSession, "state"));
+
+    return checks;
+  } catch (e: any) {
+    console.error(e);
+    checks.push({
+      state: "failed",
+      method: "get",
+      message: "An unexpected error occurred.",
+    });
+    return checks;
+  }
+}
+
+export async function testUpdate(
+  expectedSession: { k1: string; state: string },
+  updateMethod: () => Promise<undefined>,
+  getMethod: () => Promise<LightningAuthSession | null | undefined>
+): Promise<Check[]> {
+  const checks: Check[] = [];
+  try {
+    await updateMethod();
+    checks.push({
+      state: "success",
+      method: "update",
+      message: "Invoked without throwing an error.",
+    });
+
+    let receivedSession;
+    try {
+      receivedSession = await getMethod();
+    } catch (e: any) {
+      console.error(e);
+      checks.push({
+        state: "failed",
+        method: "get",
+        message: "An unexpected error occurred.",
+      });
+      return checks;
+    }
+
+    if (!receivedSession) {
+      checks.push({
+        state: "failed",
+        method: "get",
+        message: "Session data not found.",
+      });
+      return checks;
+    }
+    checks.push(testField(receivedSession, expectedSession, "k1"));
+    checks.push(testField(receivedSession, expectedSession, "state"));
+    checks.push(testField(receivedSession, expectedSession, "pubkey"));
+    checks.push(testField(receivedSession, expectedSession, "sig"));
+    checks.push(testField(receivedSession, expectedSession, "success"));
+
+    return checks;
+  } catch (e: any) {
+    console.error(e);
+    checks.push({
+      state: "failed",
+      method: "update",
+      message: "An unexpected error occurred.",
+    });
+    return checks;
+  }
+}
+
+export async function testDelete(
+  deleteMethod: () => Promise<undefined>,
+  getMethod: () => Promise<LightningAuthSession | null | undefined>
+): Promise<Check[]> {
+  const checks: Check[] = [];
+
+  try {
+    await deleteMethod();
+
+    checks.push({
+      state: "success",
+      method: "delete",
+      message: "Invoked without throwing an error.",
+    });
+
+    let receivedSession;
+    try {
+      receivedSession = await getMethod();
+    } catch (e: any) {
+      console.error(e);
+      checks.push({
+        state: "failed",
+        method: "get",
+        message: "An unexpected error occurred.",
+      });
+      return checks;
+    }
+    console.log({ receivedSession });
+
+    if (receivedSession) {
+      checks.push({
+        state: "failed",
+        method: "delete",
+        message: "Session data was not deleted.",
+      });
+      return checks;
+    }
+
+    checks.push({
+      state: "success",
+      method: "delete",
+      message: "Session data was deleted.",
+    });
+    return checks;
+  } catch (e: any) {
+    console.error(e);
+    checks.push({
+      state: "failed",
+      method: "delete",
+      message: "An unexpected error occurred.",
+    });
+    return checks;
+  }
+}
+
+export default async function handler({
+  query,
+  cookies,
+  path,
+  url,
+  config,
+}: HandlerArguments): Promise<HandlerReturn> {
+  const checks: Check[] = [];
+
+  try {
+    const k1 =
+      typeof query?.k1 === "string" ? query.k1 : randomBytes(6).toString("hex");
+    const state =
+      typeof query?.state === "string"
+        ? query.state
+        : randomBytes(6).toString("hex");
+    const pubkey =
+      typeof query?.pubkey === "string"
+        ? query.pubkey
+        : randomBytes(6).toString("hex");
+    const sig =
+      typeof query?.sig === "string"
+        ? query.sig
+        : randomBytes(6).toString("hex");
+
+    const setSession = { k1, state };
+    const updateSession = { pubkey, sig, success: true };
+
+    const setMethod = async () =>
+      await config.storage.set({ k1, session: setSession }, path, config);
+    const getMethod = async () =>
+      await config.storage.get({ k1 }, path, config);
+    const updateMethod = async () =>
+      await config.storage.update({ k1, session: updateSession }, path, config);
+    const deleteMethod = async () =>
+      await config.storage.delete({ k1 }, path, config);
+
+    // set
+    checks.push(...(await testSet(setMethod)));
+
+    // get
+    checks.push(...(await testGet(setSession, getMethod)));
+
+    // update
+    checks.push(
+      ...(await testUpdate(
+        { ...setSession, ...updateSession },
+        updateMethod,
+        getMethod
+      ))
+    );
+
+    // delete
+    checks.push(...(await testDelete(deleteMethod, getMethod)));
+
+    // generic throw
+  } catch (e: any) {
+    console.error(e);
+    checks.push({
+      state: "failed",
+      method: null,
+      message: "Something went wrong running diagnostics.",
+    });
+  }
+
+  return {
+    status: 200,
+    headers: {
+      "content-type": "text/html",
+    },
+    response: `<!DOCTYPE html><html lang="en">
+  <head>
+    <meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diagnostics</title>
+    <style>
+      body {
+        display: flex;
+        justify-content: center;
+        font-family: ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Arial,Noto Sans,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol,Noto Color Emoji;
+      }
+      .check {
+        display: flex;
+        margin: 10px 0;
+        min-width: 900px;
+      }
+      .state {
+        min-width:110px
+      }
+      .state-failed {
+        color: red;
+      }
+      .state-success {
+        color: green;
+      }
+      .method {
+        font-weight: bold;
+        min-width:150px
+      }
+      .message {
+      }
+    </style>
+  </head>
+  <body>
+    <div>
+    <div class="check">
+      <span class="state"><b>Status</b></span>
+      <span class="method"><b>Method</b></span>
+      <span class="message"><b>Message</b></span>
+    </div>
+    <hr/>
+    ${checks
+      .map(
+        ({ state, method, message }) =>
+          `<div class="check">
+            <span class="state state-${state}">${state.toUpperCase()}</span>
+            <span class="method">${
+              method ? `storage.${method}` : "unknown"
+            }</span>
+            <span class="message">${message}</span>
+          </div>`
+      )
+      .join("")}
+    </div>
+  </body>
+  </html>`,
+  };
+}

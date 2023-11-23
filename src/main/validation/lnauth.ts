@@ -14,6 +14,13 @@ export const createValidation = z.object({
 
 export type CreateValidation = z.infer<typeof callbackValidation>;
 
+export const signInValidation = z.object({
+  state: z.string().min(1),
+  redirect_uri: z.string().min(1),
+});
+
+export type SignInValidation = z.infer<typeof callbackValidation>;
+
 export const pollValidation = z.object({
   k1: z.string().min(1),
 });
@@ -43,10 +50,10 @@ export function errorMap(issue: IssueData) {
   };
 }
 
-export function formatErrorMessage(e: any): { message: string } {
+export function formatErrorMessage(e: any): string {
   console.error(e);
 
-  let message;
+  let message = "Something went wrong";
 
   if (typeof e?.message === "string") {
     // regular Error type
@@ -61,10 +68,10 @@ export function formatErrorMessage(e: any): { message: string } {
           message = zodError[0].message;
         }
       }
-    } catch (e) {
+    } catch (e: any) {
       console.error(e);
     }
   }
 
-  return { message: message || "Something went wrong" };
+  return message;
 }

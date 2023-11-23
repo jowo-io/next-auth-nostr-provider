@@ -1,8 +1,16 @@
 # Examples
 
-### Custom Login screen
+### Custom Auth page
 
-The [examples/login-page/](https://github.com/jowo-io/next-auth-lightning-provider/tree/main/examples/login-page) example demonstrates how to configure a custom Lightning login page UI.
+The [examples/auth-page/](https://github.com/jowo-io/next-auth-lightning-provider/tree/main/examples/auth-page) example demonstrates how to configure a custom Lightning auth page UI.
+
+### App Router
+
+The [examples/app-router/](https://github.com/jowo-io/next-auth-lightning-provider/tree/main/examples/app-router) example demonstrates how to configure `next-auth-lightning-provider` using the Next.js App Router.
+
+### Plain JavaScript
+
+The [examples/plain-js/](https://github.com/jowo-io/next-auth-lightning-provider/tree/main/examples/plain-js) example demonstrates how to configure `next-auth-lightning-provider` in a plain JavaScript app (without TypeScript).
 
 ### KV
 

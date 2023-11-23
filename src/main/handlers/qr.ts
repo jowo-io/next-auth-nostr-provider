@@ -1,27 +1,48 @@
-import path from "path";
-import { NextApiRequest, NextApiResponse } from "next/types";
-
-import { Config } from "../config/index.js";
+import { HandlerArguments, HandlerReturn } from "../utils/handlers.js";
 
 const cacheDuration = 5 * 60; // short cache duration for the QR since it's short lived
+const base64Regex = /^data:image\/(png|jpeg|jpg);base64,/;
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse,
-  config: Config
-) {
-  if (!config.qr.generateQr) throw new Error("Avatars are not enabled");
+const fileTypeHeaders = {
+  png: "image/png",
+  jpg: "image/jpg",
+  svg: "image/svg+xml",
+};
 
-  const url = req.url?.toString();
-  if (!url) throw new Error("Invalid url");
+export default async function handler({
+  query,
+  cookies,
+  path,
+  url,
+  config,
+}: HandlerArguments): Promise<HandlerReturn> {
+  if (!config.generateQr) return { error: "QRs are not enabled" };
+  if (!path) return { error: "Invalid url" };
 
-  const { name, ext } = path.parse(url);
-  if (!name) throw new Error("Invalid file name");
-  if (ext !== ".svg") throw new Error("Invalid file type");
+  const k1 = path.split("/").slice(-1)[0];
+  if (!k1) return { error: "Invalid k1" };
 
-  const { qr } = await config.qr.generateQr(`lightning:${name}`, config);
+  const { data, type } = await config.generateQr(`lightning:${k1}`, config);
 
-  res.setHeader("content-type", "image/svg+xml");
-  res.setHeader("cache-control", `public, max-age=${cacheDuration}`);
-  res.end(qr);
+  if (base64Regex.test(data)) {
+    const buffer = data.replace(base64Regex, "");
+    return {
+      headers: {
+        "content-type": fileTypeHeaders[type],
+        "content-length": buffer.length.toString(),
+        "cache-control": `public, max-age=${cacheDuration}`,
+      },
+      response: Buffer.from(buffer, "base64"),
+    };
+  } else if (type === "svg") {
+    return {
+      headers: {
+        "content-type": fileTypeHeaders[type],
+        "cache-control": `public, max-age=${cacheDuration}`,
+      },
+      response: data,
+    };
+  }
+
+  return { error: "Something went wrong" };
 }

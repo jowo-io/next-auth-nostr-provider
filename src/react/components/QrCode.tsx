@@ -1,6 +1,6 @@
-import { ImgHTMLAttributes } from "react";
+import { HTMLAttributes } from "preact/compat";
 
-import { formatLnAuth } from "../utils/lnurl.js";
+import { formatLightningAuth } from "../utils/lnurl.js";
 import { hardConfig } from "../../main/config/hard.js";
 
 export function QrCode({
@@ -8,14 +8,14 @@ export function QrCode({
   ...props
 }: {
   lnurl: string;
-} & ImgHTMLAttributes<HTMLImageElement>) {
-  const { qr } = formatLnAuth(lnurl);
+} & HTMLAttributes<HTMLImageElement>) {
+  const { qr } = formatLightningAuth(lnurl);
 
   return (
     <img
       width={500}
       height={500}
-      alt="Login with Lightning - QRCode"
+      alt="Login with Lightning QR Code"
       {...props}
       id={hardConfig.ids.qr}
       src={qr}

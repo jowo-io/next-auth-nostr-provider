@@ -1,44 +1,48 @@
-import { NextApiRequest, NextApiResponse } from "next/types";
-import lnurl from "lnurl";
+import { callbackValidation, errorMap } from "../validation/lnauth.js";
+import { HandlerArguments, HandlerReturn } from "../utils/handlers.js";
 
-import {
-  callbackValidation,
-  formatErrorMessage,
-  errorMap,
-} from "../validation/lnauth.js";
+export default async function handler({
+  query,
+  cookies,
+  path,
+  url,
+  config,
+}: HandlerArguments): Promise<HandlerReturn> {
+  const {
+    k1,
+    key: pubkey,
+    sig,
+  } = callbackValidation.parse(query, { errorMap });
 
-import { Config } from "../config/index.js";
+  const lnurl = require("lnurl");
+  const authorize = await lnurl.verifyAuthorizationSignature(sig, k1, pubkey);
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse,
-  config: Config
-) {
-  try {
-    const {
-      k1,
-      key: pubkey,
-      sig,
-    } = callbackValidation.parse(req.query, { errorMap });
-
-    const authorize = await lnurl.verifyAuthorizationSignature(sig, k1, pubkey);
-    if (!authorize) {
-      throw new Error("Error in keys");
-    }
-
-    await config.storage.update(
-      { k1, data: { pubkey, sig, success: true } },
-      req
-    );
-
-    res.send(
-      JSON.stringify({
-        status: "OK",
-        success: true,
-        k1,
-      })
-    );
-  } catch (e: any) {
-    res.status(500).send(formatErrorMessage(e));
+  if (!authorize) {
+    return { error: "Error in keys" };
   }
+
+  try {
+    await config.storage.update(
+      { k1, session: { pubkey, sig, success: true } },
+      path,
+      config
+    );
+  } catch (e) {
+    console.error(e);
+    if (process.env.NODE_ENV === "development")
+      console.warn(
+        `An error occurred in the storage.update method. To debug the error see: ${
+          config.siteUrl + config.apis.diagnostics
+        }`
+      );
+    return { error: "Something went wrong" };
+  }
+
+  return {
+    response: {
+      status: "OK", // important status, confirms to wallet that auth was success
+      success: true,
+      k1,
+    },
+  };
 }

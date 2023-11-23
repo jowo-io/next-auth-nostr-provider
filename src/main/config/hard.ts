@@ -11,11 +11,12 @@ export const hardConfig: HardConfig = {
     token: "/api/lnauth/token",
 
     // pages
-    signIn: "/api/lnauth/login",
+    signIn: "/api/lnauth/signin",
 
-    // images
-    image: "/api/lnauth/image",
+    // misc
+    avatar: "/api/lnauth/avatar",
     qr: "/api/lnauth/qr",
+    diagnostics: "/api/lnauth/diagnostics",
   },
   ids: {
     title: `${idPrefix}---title`,

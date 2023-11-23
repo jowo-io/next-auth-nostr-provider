@@ -1,90 +1,82 @@
-import { NextApiRequest, NextApiResponse } from "next/types";
-
-import {
-  tokenValidation,
-  formatErrorMessage,
-  errorMap,
-} from "../validation/lnauth.js";
+import { tokenValidation, errorMap } from "../validation/lnauth.js";
 import {
   generateIdToken,
   generateRefreshToken,
   verifyRefreshToken,
 } from "../utils/jwt.js";
-import { Config } from "../config/index.js";
+import { HandlerArguments, HandlerReturn } from "../utils/handlers.js";
 
-const handleAuthCode = async function (
-  k1: string,
-  req: NextApiRequest,
-  config: Config
-) {
-  const { pubkey, success } = await config.storage.get({ k1 }, req);
+export default async function handler({
+  body,
+  cookies,
+  path,
+  url,
+  config,
+}: HandlerArguments): Promise<HandlerReturn> {
+  const {
+    grant_type: grantType,
+    code: k1,
+    refresh_token: refreshToken,
+  } = tokenValidation.parse(body, { errorMap });
 
-  if (!success) throw new Error("Login was not successful");
-
-  await config.storage.delete({ k1 }, req);
-
-  return pubkey;
-};
-
-const handleRefreshToken = async function (
-  refreshToken: string,
-  req: NextApiRequest,
-  config: Config
-) {
-  const { pubkey } = await verifyRefreshToken(refreshToken, config);
-
-  return pubkey;
-};
-
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse,
-  config: Config
-) {
-  try {
-    const {
-      grant_type: grantType,
-      code: k1,
-      refresh_token: refreshToken,
-    } = tokenValidation.parse(req.body, { errorMap });
-
-    let pubkey;
-    if (grantType === "authorization_code") {
-      if (!k1) throw new Error("Missing code");
-
-      pubkey = await handleAuthCode(k1, req, config);
-    } else if (grantType === "refresh_token") {
-      if (!refreshToken) throw new Error("Missing refresh token");
-
-      pubkey = await handleRefreshToken(refreshToken, req, config);
-    } else {
-      throw new Error("Invalid grant type");
+  let pubkey: string;
+  if (grantType === "authorization_code") {
+    if (!k1) return { error: "Missing code" };
+    let session;
+    try {
+      session = await config.storage.get({ k1 }, path, config);
+    } catch (e) {
+      console.error(e);
+      if (process.env.NODE_ENV === "development")
+        console.warn(
+          `An error occurred in the storage.get method. To debug the error see: ${
+            config.siteUrl + config.apis.diagnostics
+          }`
+        );
+      return { error: "Something went wrong" };
     }
+    if (!session?.success) return { error: "Login was not successful" };
+    if (!session?.pubkey) return { error: "Missing pubkey" };
+    pubkey = session.pubkey;
 
-    if (!pubkey) throw new Error("Missing pubkey");
-
-    const token = {
-      // meta
-      token_type: "Bearer",
-      scope: "user",
-
-      // id token
-      expires_in: config.intervals.idToken,
-      expires_at: Math.floor(Date.now() / 1000 + config.intervals.idToken),
-      id_token: await generateIdToken(pubkey, config),
-
-      // refresh token
-      refresh_token: await generateRefreshToken(pubkey, config),
-    };
-
-    res.send(
-      JSON.stringify({
-        status: "OK",
-        success: true,
-        ...token,
-      })
-    );
-  } catch (e: any) {
-    res.status(500).send(formatErrorMessage(e));
+    try {
+      await config.storage.delete({ k1 }, path, config);
+    } catch (e) {
+      console.error(e);
+      if (process.env.NODE_ENV === "development")
+        console.warn(
+          `An error occurred in the storage.delete method. To debug the error see: ${
+            config.siteUrl + config.apis.diagnostics
+          }`
+        );
+    }
+  } else if (grantType === "refresh_token") {
+    if (!refreshToken) return { error: "Missing refresh token" };
+    const data = await verifyRefreshToken(refreshToken, config);
+    if (!data?.pubkey) return { error: "Missing pubkey" };
+    pubkey = data.pubkey;
+  } else {
+    return { error: "Invalid grant type" };
   }
+
+  const token = {
+    // meta
+    token_type: "Bearer",
+    scope: "user",
+
+    // id token
+    expires_in: config.intervals.idToken,
+    expires_at: Math.floor(Date.now() / 1000 + config.intervals.idToken),
+    id_token: await generateIdToken(pubkey, config),
+
+    // refresh token
+    refresh_token: await generateRefreshToken(pubkey, config),
+  };
+
+  return {
+    response: {
+      success: true,
+      ...token,
+    },
+  };
 }

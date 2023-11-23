@@ -1,30 +1,32 @@
-import { NextApiRequest, NextApiResponse } from "next/types";
+import { pollValidation, errorMap } from "../validation/lnauth.js";
+import { HandlerArguments, HandlerReturn } from "../utils/handlers.js";
 
-import {
-  pollValidation,
-  formatErrorMessage,
-  errorMap,
-} from "../validation/lnauth.js";
+export default async function handler({
+  body,
+  cookies,
+  path,
+  url,
+  config,
+}: HandlerArguments): Promise<HandlerReturn> {
+  const { k1 } = pollValidation.parse(body, { errorMap });
 
-import { Config } from "../config/index.js";
-
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse,
-  config: Config
-) {
+  let session;
   try {
-    const { k1 } = pollValidation.parse(req.body, { errorMap });
-
-    const { success = false } = await config.storage.get({ k1 }, req);
-
-    res.send(
-      JSON.stringify({
-        status: "OK",
-        success,
-      })
-    );
-  } catch (e: any) {
-    res.status(500).send(formatErrorMessage(e));
+    session = await config.storage.get({ k1 }, path, config);
+  } catch (e) {
+    console.error(e);
+    if (process.env.NODE_ENV === "development")
+      console.warn(
+        `An error occurred in the storage.get get. To debug the error see: ${
+          config.siteUrl + config.apis.diagnostics
+        }`
+      );
+    return { error: "Something went wrong" };
   }
+
+  return {
+    response: {
+      success: session?.success || false,
+    },
+  };
 }

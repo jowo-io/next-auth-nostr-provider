@@ -1,4 +1,5 @@
 import { NextApiRequest } from "next";
+import { NextRequest } from "next/server";
 
 export type HardConfig = {
   apis: {
@@ -12,8 +13,9 @@ export type HardConfig = {
     signIn: string;
 
     // misc
-    image: string;
+    avatar: string;
     qr: string;
+    diagnostics: string;
   };
   ids: {
     wrapper: string;
@@ -31,7 +33,7 @@ export type HardConfig = {
   };
 };
 
-export type LnAuthData = {
+export type LightningAuthSession = {
   k1: string;
   state: string;
 
@@ -43,6 +45,19 @@ export type LnAuthData = {
   [key: string | number | symbol]: unknown;
 };
 
+export type QRGenerator = (
+  data: string,
+  config: Config
+) => Promise<{ data: string; type: "svg" | "png" | "jpg" }>;
+export type AvatarGenerator = (
+  seed: string,
+  config: Config
+) => Promise<{ data: string; type: "svg" | "png" | "jpg" }>;
+export type NameGenerator = (
+  seed: string,
+  config: Config
+) => Promise<{ name: string }>;
+
 export type RequiredConfig = {
   siteUrl: string;
   secret: string;
@@ -50,60 +65,62 @@ export type RequiredConfig = {
     set: (
       args: {
         k1: string;
-        data: {
+        session: {
           k1: string;
           state: string;
         };
       },
-      req: NextApiRequest
+      path: string,
+      config: Config
     ) => Promise<undefined>;
-    get: (args: { k1: string }, req: NextApiRequest) => Promise<LnAuthData>;
+    get: (
+      args: { k1: string },
+      path: string,
+      config: Config
+    ) => Promise<LightningAuthSession | null | undefined>;
     update: (
       args: {
         k1: string;
-        data: {
+        session: {
           pubkey: string;
           sig: string;
           success: boolean;
         };
       },
-      req: NextApiRequest
+      path: string,
+      config: Config
     ) => Promise<undefined>;
-    delete: (args: { k1: string }, req: NextApiRequest) => Promise<undefined>;
+    delete: (
+      args: { k1: string },
+      path: string,
+      config: Config
+    ) => Promise<undefined>;
   };
+  generateQr: QRGenerator;
 };
 
 export type ThemeStyles = {
   background: string;
   backgroundCard: string;
   text: string;
-  loginButtonBackground: string;
-  loginButtonText: string;
+  qrBackground: string;
+  qrForeground: string;
+  qrMargin: number;
+  signInButtonBackground: string;
+  signInButtonText: string;
 };
 
 export type OptionalConfig = {
-  pages: {
-    signIn?: string;
-    error?: string;
-  };
+  pages: Partial<{
+    signIn: string;
+    error: string;
+  }>;
   title: string | null;
-  generateAvatar:
-    | ((seed: string, config: Config) => Promise<{ image: string }>)
-    | null;
-  generateName:
-    | ((seed: string, config: Config) => Promise<{ name: string }>)
-    | null;
-
-  qr: {
-    generateQr?:
-      | ((data: string, config: Config) => Promise<{ qr: string }>)
-      | null;
-    color?: { dark?: string; light: string } | null;
-    margin?: number | null;
-  };
+  generateAvatar: AvatarGenerator | null;
+  generateName: NameGenerator | null;
 
   theme: {
-    colorScheme?: "auto" | "dark" | "light";
+    colorScheme?: "dark" | "light";
   } & Partial<ThemeStyles>;
 };
 

@@ -3,15 +3,19 @@ import { hardConfig } from "../../main/config/hard.js";
 export const pollApiRequest = (function () {
   var networkRequestCount: number = 0;
 
-  return async function (k1: string): Promise<any> {
+  return async function (
+    { k1 }: { k1: string },
+    signal?: AbortSignal
+  ): Promise<any> {
+    const params = new URLSearchParams({ k1 });
+
     return new Promise((resolve, reject) => {
       fetch(hardConfig.apis.poll, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ k1 }),
+        headers: { "content-type": "application/x-www-form-urlencoded" },
+        body: params,
         cache: "default",
+        signal,
       })
         .then(function (r) {
           return r.json();
@@ -38,21 +42,29 @@ export const pollApiRequest = (function () {
   };
 })();
 
-export async function createApiRequest(state: string): Promise<any> {
-  const searchParams = new URLSearchParams({ state });
+export async function createApiRequest(
+  { state, k1 }: { state: string; k1?: string },
+  signal?: AbortSignal
+): Promise<any> {
+  const params = new URLSearchParams({ state });
+  if (k1) {
+    params.append("k1", k1);
+  }
+
   return new Promise((resolve, reject) => {
-    fetch(`${hardConfig.apis.create}?${searchParams.toString()}`, {
-      headers: {
-        "Content-Type": "application/json",
-      },
+    fetch(hardConfig.apis.create, {
+      method: "POST",
+      headers: { "content-type": "application/x-www-form-urlencoded" },
+      body: params,
       cache: "default",
+      signal,
     })
       .then(function (r) {
         return r.json();
       })
-      .then((d) => {
-        if (d.message) throw new Error(d.message);
-        resolve(d);
+      .then((data) => {
+        if (data.message) throw new Error(data.message);
+        resolve(data);
       })
       .catch(function (e) {
         reject(e);
