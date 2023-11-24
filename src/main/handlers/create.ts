@@ -1,3 +1,6 @@
+import { createRequire } from "module";
+const require = createRequire(import.meta.url);
+
 import { randomBytes } from "crypto";
 
 import { createValidation, errorMap } from "../validation/lnauth";

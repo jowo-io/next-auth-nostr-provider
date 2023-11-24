@@ -1,6 +1,8 @@
+import { createRequire } from "module";
+const require = createRequire(import.meta.url);
+
 import { NextApiRequest, NextApiResponse } from "next/types";
 import { NextRequest, NextResponse } from "next/server";
-import { redirect } from "next/navigation";
 
 import { Config } from "../config/index";
 
@@ -142,6 +144,8 @@ async function appHandler(
       const errorUrl = new URL(config.siteUrl + config.pages.error);
       errorUrl.searchParams.append("error", "OAuthSignin");
       errorUrl.searchParams.append("message", output.error);
+
+      const { redirect } = require("next/navigation");
       redirect(errorUrl.toString());
     } else {
       return new Response(output.error, {
@@ -152,6 +156,7 @@ async function appHandler(
   }
 
   if (output.redirect) {
+    const { redirect } = require("next/navigation");
     redirect(output.redirect.toString());
   }
 
