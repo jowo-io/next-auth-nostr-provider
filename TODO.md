@@ -14,6 +14,8 @@ Below is a TODO list for further development of `next-auth-lightning-provider`
   - adding extra custom error code query param and documenting them
 - add jest tests where applicable
 - test diagnostics API with KV and
+- look into dicebear console warnings when running app-router example
+- test deploy all the various example apps
 
 ### Beta
 

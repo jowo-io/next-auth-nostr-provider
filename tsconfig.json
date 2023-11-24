@@ -24,19 +24,31 @@
     "baseUrl": "./",
 
     "paths": {
-      "next": ["./node_modules/next"],
-      "next-auth": ["./node_modules/next-auth"],
-      "react": ["./node_modules/react"]
     }
   },
-  "include": ["src"],
+  "include": ["./src"],
   "exclude": [
     "**/*.js",
     "**/*.d.ts",
     "**/*.test.ts",
-    "main",
-    "generators",
-    "react",
-    "examples"
-  ]
+    "./main/**",
+    "./generators/**",
+    "./react/**",
+    "./examples/**"
+  ],
+  "tsc-alias": {
+    "resolveFullPaths": true,
+    "verbose": false,
+
+    "replacers": {
+      "base-url": {
+        "enabled": false
+      }
+    },
+
+    "fileExtensions": {
+      "inputGlob": "{js,jsx}",
+      "outputCheck": ["js", "jsx"]
+    }
+  }
 }
