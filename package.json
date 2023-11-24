@@ -1,6 +1,6 @@
 {
   "name": "next-auth-lightning-provider",
-  "version": "1.0.0-alpha.20",
+  "version": "1.0.0-alpha.25",
   "type": "module",
   "description": "A light-weight Lightning auth provider for your Next.js app that's entirely self-hosted and plugs seamlessly into the next-auth framework.",
   "license": "ISC",
@@ -41,9 +41,9 @@
   ],
   "main": "./index.js",
   "scripts": {
-    "build": "tsc",
+    "build": "tsc && tsc-alias",
     "clean": "rm -rf main react generators index.d.ts index.d.ts.map index.js",
-    "dev": "tsc -w",
+    "dev": "concurrently \"tsc -w\" \"tsc-alias -w\"",
     "test": "jest",
     "prebuild": "npm run clean"
   },
@@ -78,6 +78,7 @@
     "react": "^18.2.0",
     "ts-jest": "^29.1.1",
     "ts-node": "^10.9.1",
+    "tsc-alias": "^1.8.8",
     "typescript": "^5.2.2"
   }
 }

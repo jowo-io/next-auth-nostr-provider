@@ -74,7 +74,7 @@ export const vanilla = function ({
       params.append("k1", session.k1);
     }
 
-    return fetch("http://localhost:3000/api/lnauth/create", {
+    return fetch(hardConfig.apis.create, {
       method: "POST",
       headers: { "content-type": "application/x-www-form-urlencoded" },
       body: params,
