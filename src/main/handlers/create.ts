@@ -1,7 +1,7 @@
 import { randomBytes } from "crypto";
 
-import { createValidation, errorMap } from "../validation/lnauth.js";
-import { HandlerArguments, HandlerReturn } from "../utils/handlers.js";
+import { createValidation, errorMap } from "../validation/lnauth";
+import { HandlerArguments, HandlerReturn } from "../utils/handlers";
 
 export default async function handler({
   body,

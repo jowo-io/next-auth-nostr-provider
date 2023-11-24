@@ -1,3 +1,3 @@
-export * from "./avatar.js";
-export * from "./name.js";
-export * from "./qr.js";
+export * from "./avatar";
+export * from "./name";
+export * from "./qr";

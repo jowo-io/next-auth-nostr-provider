@@ -1,6 +1,6 @@
 import * as jose from "jose";
 
-import { Config } from "../config/index.js";
+import { Config } from "../config/index";
 
 export async function generateIdToken(pubkey: string, config: Config) {
   const secret = Buffer.from(config.secret);
@@ -54,15 +54,15 @@ export async function verifyRefreshToken(
   refreshToken: string,
   config: Config
 ): Promise<{
-  pubkey: string;
+  pubkey?: string;
   jwt: any;
 }> {
   const secret = Buffer.from(config.secret);
 
   const jwt = await jose.jwtVerify(refreshToken, secret);
 
-  const pubkey = jwt.payload?.id;
-  if (!pubkey || typeof pubkey !== "string") throw new Error("Missing pubkey");
+  const pubkey =
+    typeof jwt.payload?.id === "string" ? jwt.payload.id : undefined;
 
   return {
     pubkey,

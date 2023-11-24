@@ -1,2 +1,2 @@
 // hooks
-export * from "./hooks/useLightningAuth.js";
+export * from "./hooks/useLightningAuth";

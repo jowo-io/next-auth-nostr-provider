@@ -1,10 +1,10 @@
-import { tokenValidation, errorMap } from "../validation/lnauth.js";
+import { tokenValidation, errorMap } from "../validation/lnauth";
 import {
   generateIdToken,
   generateRefreshToken,
   verifyRefreshToken,
-} from "../utils/jwt.js";
-import { HandlerArguments, HandlerReturn } from "../utils/handlers.js";
+} from "../utils/jwt";
+import { HandlerArguments, HandlerReturn } from "../utils/handlers";
 
 export default async function handler({
   body,
@@ -53,7 +53,7 @@ export default async function handler({
   } else if (grantType === "refresh_token") {
     if (!refreshToken) return { error: "Missing refresh token" };
     const data = await verifyRefreshToken(refreshToken, config);
-    if (!data?.pubkey) return { error: "Missing pubkey" };
+    if (!data.pubkey) return { error: "Missing pubkey" };
     pubkey = data.pubkey;
   } else {
     return { error: "Invalid grant type" };

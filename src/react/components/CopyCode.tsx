@@ -1,6 +1,6 @@
 import { HTMLAttributes } from "preact/compat";
 
-import { hardConfig } from "../../main/config/hard.js";
+import { hardConfig } from "../../main/config/hard";
 
 export function CopyCode({
   lnurl,

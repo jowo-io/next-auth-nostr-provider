@@ -1,4 +1,4 @@
-import { HandlerArguments, HandlerReturn } from "../utils/handlers.js";
+import { HandlerArguments, HandlerReturn } from "../utils/handlers";
 
 const cacheDuration = 5 * 60; // short cache duration for the QR since it's short lived
 const base64Regex = /^data:image\/(png|jpeg|jpg);base64,/;

@@ -1,8 +1,8 @@
 import merge from "lodash.merge";
 import { z } from "zod";
 
-import { Config, UserConfig, OptionalConfig, ThemeStyles } from "./types.js";
-import { hardConfig } from "./hard.js";
+import { Config, UserConfig, OptionalConfig, ThemeStyles } from "./types";
+import { hardConfig } from "./hard";
 
 const colorSchemeLight: ThemeStyles = {
   background: "#ececec",

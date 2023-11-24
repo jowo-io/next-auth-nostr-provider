@@ -1,7 +1,7 @@
 import { randomBytes } from "crypto";
 
-import { LightningAuthSession } from "../config/types.js";
-import { HandlerArguments, HandlerReturn } from "../utils/handlers.js";
+import { LightningAuthSession } from "../config/types";
+import { HandlerArguments, HandlerReturn } from "../utils/handlers";
 
 type Check = {
   state: "success" | "failed";

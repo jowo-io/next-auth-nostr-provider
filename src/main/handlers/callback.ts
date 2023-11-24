@@ -1,5 +1,5 @@
-import { callbackValidation, errorMap } from "../validation/lnauth.js";
-import { HandlerArguments, HandlerReturn } from "../utils/handlers.js";
+import { callbackValidation, errorMap } from "../validation/lnauth";
+import { HandlerArguments, HandlerReturn } from "../utils/handlers";
 
 export default async function handler({
   query,

@@ -1,16 +1,16 @@
 import { renderToStaticMarkup } from "preact-render-to-string";
 
-import { hardConfig, Config } from "../config/index.js";
-import { vanilla } from "../utils/vanilla.js";
+import { hardConfig, Config } from "../config/index";
+import { vanilla } from "../utils/vanilla";
 
-import { LightningAuth } from "../../react/components/LightningAuth.js";
-import { Loading } from "../../react/components/Loading.js";
-import { HandlerArguments, HandlerReturn } from "../utils/handlers.js";
+import { LightningAuth } from "../../react/components/LightningAuth";
+import { Loading } from "../../react/components/Loading";
+import { HandlerArguments, HandlerReturn } from "../utils/handlers";
 import {
   signInValidation,
   errorMap,
   formatErrorMessage,
-} from "../validation/lnauth.js";
+} from "../validation/lnauth";
 
 function LightningAuthPage({ config }: { config: Config }) {
   return (
@@ -101,6 +101,8 @@ function LightningAuthPage({ config }: { config: Config }) {
     </body>
   );
 }
+
+export const test = "tet";
 
 export default async function handler({
   query,

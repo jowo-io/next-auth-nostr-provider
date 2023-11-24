@@ -2,24 +2,24 @@ import { NextApiRequest, NextApiResponse } from "next/types";
 import { OAuthConfig } from "next-auth/providers/oauth";
 
 // auth apis
-import createHandler from "./handlers/create.js";
-import pollHandler from "./handlers/poll.js";
-import callbackHandler from "./handlers/callback.js";
-import tokenHandler from "./handlers/token.js";
+import createHandler from "./handlers/create";
+import pollHandler from "./handlers/poll";
+import callbackHandler from "./handlers/callback";
+import tokenHandler from "./handlers/token";
 
 // pages
-import signInHandler from "./handlers/signin.js";
+import signInHandler from "./handlers/signin";
 
 // misc
-import avatarHandler from "./handlers/avatar.js";
-import qrHandler from "./handlers/qr.js";
-import diagnosticsHandler from "./handlers/diagnostics.js";
+import avatarHandler from "./handlers/avatar";
+import qrHandler from "./handlers/qr";
+import diagnosticsHandler from "./handlers/diagnostics";
 
-import { formatConfig, UserConfig } from "./config/index.js";
+import { formatConfig, UserConfig } from "./config/index";
 import { NextRequest, NextResponse } from "next/server";
-import { formatRouter } from "./utils/router.js";
+import { formatRouter } from "./utils/router";
 
-import dynamicHandler from "./utils/handlers.js";
+import dynamicHandler from "./utils/handlers";
 
 /**
  * Generate a provider and handler to setup Lightning auth.

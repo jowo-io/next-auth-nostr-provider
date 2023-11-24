@@ -2,9 +2,9 @@
 
 import { useState, useEffect } from "react";
 
-import { createApiRequest, pollApiRequest } from "../utils/api.js";
-import { hardConfig } from "../../main/config/hard.js";
-import { formatLightningAuth } from "../utils/lnurl.js";
+import { createApiRequest, pollApiRequest } from "../utils/api";
+import { hardConfig } from "../../main/config/hard";
+import { formatLightningAuth } from "../utils/lnurl";
 
 /**
  * A React hook that, on mount, will trigger an API request and create a new Lightning auth session.

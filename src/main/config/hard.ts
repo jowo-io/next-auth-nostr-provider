@@ -1,4 +1,4 @@
-import { HardConfig } from "./types.js";
+import { HardConfig } from "./types";
 
 const idPrefix = "next-auth-lightning-provider";
 

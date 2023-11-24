@@ -1,6 +1,6 @@
 import QRCode from "qrcode";
 
-import { QRGenerator } from "../main/config/types.js";
+import { QRGenerator } from "../main/config/types";
 
 /**
  * An async function that generates a QR code.

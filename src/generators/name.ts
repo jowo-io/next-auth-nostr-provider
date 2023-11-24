@@ -5,7 +5,7 @@ import {
   animals,
 } from "unique-names-generator";
 
-import { NameGenerator } from "../main/config/types.js";
+import { NameGenerator } from "../main/config/types";
 
 /**
  * An async function that generates a username.

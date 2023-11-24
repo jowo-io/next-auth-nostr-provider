@@ -1,4 +1,4 @@
-import { HandlerArguments, HandlerReturn } from "../utils/handlers.js";
+import { HandlerArguments, HandlerReturn } from "../utils/handlers";
 
 const cacheDuration = 24 * 60 * 60; // 1 day cache duration
 const base64Regex = /^data:image\/(svg\+xml|png|jpeg|jpg);base64,/;

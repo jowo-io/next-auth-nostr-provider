@@ -1,11 +1,11 @@
 import { CSSProperties } from "preact/compat";
 
-import { Title } from "./Title.js";
-import { QrCode } from "./QrCode.js";
-import { CopyCode } from "./CopyCode.js";
-import { Button } from "./Button.js";
+import { Title } from "./Title";
+import { QrCode } from "./QrCode";
+import { CopyCode } from "./CopyCode";
+import { Button } from "./Button";
 
-import { hardConfig } from "../../main/config/hard.js";
+import { hardConfig } from "../../main/config/hard";
 
 export function LightningAuth({
   title,

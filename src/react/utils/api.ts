@@ -1,4 +1,4 @@
-import { hardConfig } from "../../main/config/hard.js";
+import { hardConfig } from "../../main/config/hard";
 
 export const pollApiRequest = (function () {
   var networkRequestCount: number = 0;

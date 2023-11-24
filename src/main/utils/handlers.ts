@@ -2,11 +2,11 @@ import { NextApiRequest, NextApiResponse } from "next/types";
 import { NextRequest, NextResponse } from "next/server";
 import { redirect } from "next/navigation";
 
-import { Config } from "../config/index.js";
+import { Config } from "../config/index";
 
-import { formatRouter } from "../utils/router.js";
-import { cleanParams, paramsToObject } from "./params.js";
-import { formatErrorMessage } from "../validation/lnauth.js";
+import { formatRouter } from "../utils/router";
+import { cleanParams, paramsToObject } from "./params";
+import { formatErrorMessage } from "../validation/lnauth";
 
 export type HandlerArguments = {
   query?: Record<string, string | boolean | number | undefined | null>;

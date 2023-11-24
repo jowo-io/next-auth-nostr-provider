@@ -3,7 +3,7 @@ export type {
   UserConfig,
   Config,
   HardConfig,
-} from "./types.js";
+} from "./types";
 
-export { formatConfig } from "./default.js";
-export { hardConfig } from "./hard.js";
+export { formatConfig } from "./default";
+export { hardConfig } from "./hard";
