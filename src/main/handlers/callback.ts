@@ -18,9 +18,27 @@ export default async function handler({
   } = callbackValidation.parse(query, { errorMap });
 
   const lnurl = require("lnurl");
-  const authorize = await lnurl.verifyAuthorizationSignature(sig, k1, pubkey);
+  let authorize;
+  try {
+    authorize = await lnurl.verifyAuthorizationSignature(sig, k1, pubkey);
+  } catch (e: any) {
+    console.error(e);
+  }
 
   if (!authorize) {
+    try {
+      await config.storage.delete({ k1 }, path, config);
+    } catch (e: any) {
+      console.error(e);
+      if (process.env.NODE_ENV === "development") {
+        console.warn(
+          `An error occurred in the storage.delete method. To debug the error see: ${
+            config.siteUrl + config.apis.diagnostics
+          }`
+        );
+      }
+    }
+
     return { error: "Error in keys" };
   }
 
@@ -30,14 +48,15 @@ export default async function handler({
       path,
       config
     );
-  } catch (e) {
+  } catch (e: any) {
     console.error(e);
-    if (process.env.NODE_ENV === "development")
+    if (process.env.NODE_ENV === "development") {
       console.warn(
         `An error occurred in the storage.update method. To debug the error see: ${
           config.siteUrl + config.apis.diagnostics
         }`
       );
+    }
     return { error: "Something went wrong" };
   }
 
