@@ -156,6 +156,12 @@ import { generateAvatar } from "next-auth-lightning-provider/generators/avatar";
 ```
 
 > ℹ️ You can write your own generator functions if those provided don't suit your needs!
+>
+> Once you have configured the generator methods you can launch your dev server and test them locally on the diagnostics page:
+>
+> ```
+> http://localhost:3000/api/lnauth/diagnostics
+> ```
 
 # Configuration
 

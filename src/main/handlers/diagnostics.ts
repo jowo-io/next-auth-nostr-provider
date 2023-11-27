@@ -163,7 +163,6 @@ export async function testDelete(
       });
       return checks;
     }
-    console.log({ receivedSession });
 
     if (receivedSession) {
       checks.push({
@@ -200,22 +199,22 @@ export default async function handler({
 }: HandlerArguments): Promise<HandlerReturn> {
   const checks: Check[] = [];
 
-  try {
-    const k1 =
-      typeof query?.k1 === "string" ? query.k1 : randomBytes(6).toString("hex");
-    const state =
-      typeof query?.state === "string"
-        ? query.state
-        : randomBytes(6).toString("hex");
-    const pubkey =
-      typeof query?.pubkey === "string"
-        ? query.pubkey
-        : randomBytes(6).toString("hex");
-    const sig =
-      typeof query?.sig === "string"
-        ? query.sig
-        : randomBytes(6).toString("hex");
+  const k1 =
+    typeof query?.k1 === "string" ? query.k1 : randomBytes(6).toString("hex");
+  const state =
+    typeof query?.state === "string"
+      ? query.state
+      : randomBytes(6).toString("hex");
+  const pubkey =
+    typeof query?.pubkey === "string"
+      ? query.pubkey
+      : randomBytes(6).toString("hex");
+  const sig =
+    typeof query?.sig === "string" ? query.sig : randomBytes(6).toString("hex");
+  const qr =
+    typeof query?.qr === "string" ? query.qr : randomBytes(32).toString("hex");
 
+  try {
     const setSession = { k1, state };
     const updateSession = { pubkey, sig, success: true };
 
@@ -256,6 +255,28 @@ export default async function handler({
     });
   }
 
+  let name = null;
+  try {
+    if (config.generateName) {
+      name = (await config.generateName(pubkey, config))?.name;
+      if (!name) throw new Error();
+    }
+  } catch (e) {
+    name = `<div class="empty">Failed to load</div>`;
+  }
+
+  const generators = {
+    generateQr: `<img onerror="handleError(this)" src="${
+      config.siteUrl + config.apis.qr + "/" + qr
+    }" width="200px" height="200px" />`,
+    generateAvatar: config.generateAvatar
+      ? `<img onerror="handleError(this)" src="${
+          config.siteUrl + config.apis.avatar + "/" + pubkey
+        }" width="200px" height="200px" />`
+      : null,
+    generateName: name ? `<div class="name"><span>${name}</span></div>` : null,
+  };
+
   return {
     status: 200,
     headers: {
@@ -292,29 +313,89 @@ export default async function handler({
       }
       .message {
       }
+      .generators {
+        text-align: center;
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+      }
+      .name {
+        background-color: #888888;
+        color: #eeeeee;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 200px;
+        height: 200px;
+        padding: 10px;
+        box-sizing: border-box;
+      }
+      .missing {
+        background-color: orange;
+        color: #eeeeee;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 200px;
+        height: 200px;
+        padding: 10px;
+        box-sizing: border-box;
+      }
+      .empty {
+        background-color: red;
+        color: #eeeeee;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 200px;
+        height: 200px;
+        padding: 10px;
+        box-sizing: border-box;
+      }
     </style>
   </head>
   <body>
     <div>
-    <div class="check">
-      <span class="state"><b>Status</b></span>
-      <span class="method"><b>Method</b></span>
-      <span class="message"><b>Message</b></span>
+      <div class="check">
+        <span class="state"><b>Status</b></span>
+        <span class="method"><b>Method</b></span>
+        <span class="message"><b>Message</b></span>
+      </div>
+      <hr/>
+      ${checks
+        .map(
+          ({ state, method, message }) =>
+            `<div class="check">
+              <span class="state state-${state}">${state.toUpperCase()}</span>
+              <span class="method">${
+                method ? `storage.${method}` : "unknown"
+              }</span>
+              <span class="message">${message}</span>
+            </div>`
+        )
+        .join("")}
+        <hr/>
+
+      <div class="generators">
+        ${Object.entries(generators)
+          .map(([key, value]) => {
+            return `
+            <div id="${key}">
+              <pre>${key}</pre>
+              ${value ? value : `<div class="missing">Not defined</div>`}
+            </div>`;
+          })
+          .join("")}
+      </div>
     </div>
-    <hr/>
-    ${checks
-      .map(
-        ({ state, method, message }) =>
-          `<div class="check">
-            <span class="state state-${state}">${state.toUpperCase()}</span>
-            <span class="method">${
-              method ? `storage.${method}` : "unknown"
-            }</span>
-            <span class="message">${message}</span>
-          </div>`
-      )
-      .join("")}
-    </div>
+    <script>
+      function handleError(target){
+        const a = document.createElement("span");
+        a.className = "empty"
+        a.innerHTML = "Failed to load"
+        target.replaceWith(a);
+      }
+    </script>
   </body>
   </html>`,
   };
