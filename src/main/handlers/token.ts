@@ -25,14 +25,15 @@ export default async function handler({
     let session;
     try {
       session = await config.storage.get({ k1 }, path, config);
-    } catch (e) {
+    } catch (e: any) {
       console.error(e);
-      if (process.env.NODE_ENV === "development")
+      if (process.env.NODE_ENV === "development") {
         console.warn(
           `An error occurred in the storage.get method. To debug the error see: ${
             config.siteUrl + config.apis.diagnostics
           }`
         );
+      }
       return { error: "Something went wrong" };
     }
     if (!session?.success) return { error: "Login was not successful" };
@@ -41,14 +42,15 @@ export default async function handler({
 
     try {
       await config.storage.delete({ k1 }, path, config);
-    } catch (e) {
+    } catch (e: any) {
       console.error(e);
-      if (process.env.NODE_ENV === "development")
+      if (process.env.NODE_ENV === "development") {
         console.warn(
           `An error occurred in the storage.delete method. To debug the error see: ${
             config.siteUrl + config.apis.diagnostics
           }`
         );
+      }
     }
   } else if (grantType === "refresh_token") {
     if (!refreshToken) return { error: "Missing refresh token" };
@@ -59,6 +61,31 @@ export default async function handler({
     return { error: "Invalid grant type" };
   }
 
+  let name = "";
+  if (config.generateName) {
+    try {
+      name = (await config.generateName(pubkey, config))?.name;
+      if (!name || typeof name !== "string") {
+        throw new Error(
+          `Invalid 'name' property returned from the generateName method.`
+        );
+      }
+    } catch (e: any) {
+      console.error(e);
+      if (process.env.NODE_ENV === "development") {
+        console.warn(
+          `An error occurred in the generateName method. To debug the error see: ${
+            config.siteUrl + config.apis.diagnostics
+          }`
+        );
+      }
+      return { error: "Something went wrong" };
+    }
+  }
+  const image = config?.generateAvatar
+    ? `${config.siteUrl}${config.apis.avatar}/${pubkey}`
+    : "";
+
   const token = {
     // meta
     token_type: "Bearer",
@@ -67,7 +94,7 @@ export default async function handler({
     // id token
     expires_in: config.intervals.idToken,
     expires_at: Math.floor(Date.now() / 1000 + config.intervals.idToken),
-    id_token: await generateIdToken(pubkey, config),
+    id_token: await generateIdToken(pubkey, name, image, config),
 
     // refresh token
     refresh_token: await generateRefreshToken(pubkey, config),

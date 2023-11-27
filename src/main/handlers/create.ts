@@ -19,36 +19,38 @@ export default async function handler({
   if (typeof body?.k1 === "string") {
     try {
       await config.storage.delete({ k1: body.k1 }, path, config);
-    } catch (e) {
+    } catch (e: any) {
       console.error(e);
-      if (process.env.NODE_ENV === "development")
+      if (process.env.NODE_ENV === "development") {
         console.warn(
           `An error occurred in the storage.delete method. To debug the error see: ${
             config.siteUrl + config.apis.diagnostics
           }`
         );
+      }
     }
   }
 
   const k1 = randomBytes(32).toString("hex");
 
-  let inputUrl = new URL(config.siteUrl + config.apis.callback);
-  inputUrl.searchParams.append("k1", k1);
-  inputUrl.searchParams.append("tag", "login");
+  const callbackUrl = new URL(config.siteUrl + config.apis.callback);
+  callbackUrl.searchParams.append("k1", k1);
+  callbackUrl.searchParams.append("tag", "login");
 
   const lnurl = require("lnurl");
-  const encoded = lnurl.encode(inputUrl.toString()).toUpperCase();
+  const encoded = lnurl.encode(callbackUrl.toString()).toUpperCase();
 
   try {
     await config.storage.set({ k1, session: { k1, state } }, path, config);
-  } catch (e) {
+  } catch (e: any) {
     console.error(e);
-    if (process.env.NODE_ENV === "development")
+    if (process.env.NODE_ENV === "development") {
       console.warn(
         `An error occurred in the storage.set method. To debug the error see: ${
           config.siteUrl + config.apis.diagnostics
         }`
       );
+    }
     return { error: "Something went wrong" };
   }
 

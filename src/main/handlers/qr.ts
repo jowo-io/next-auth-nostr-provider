@@ -22,25 +22,55 @@ export default async function handler({
   const k1 = path.split("/").slice(-1)[0];
   if (!k1) return { error: "Invalid k1" };
 
-  const { data, type } = await config.generateQr(`lightning:${k1}`, config);
+  let generation;
+  try {
+    generation = await config.generateQr(`lightning:${k1}`, config);
+    if (
+      !generation.type ||
+      typeof generation.type !== "string" ||
+      !fileTypeHeaders[generation.type]
+    ) {
+      throw new Error(
+        `Invalid 'type' property returned from the generateQr method, expected ${Object.keys(
+          fileTypeHeaders
+        )}, received ${generation.type || null}.`
+      );
+    }
+    if (!generation.data || typeof generation.data !== "string") {
+      throw new Error(
+        `Invalid 'data' property returned from the generateQr method.`
+      );
+    }
+  } catch (e: any) {
+    console.error(e);
+    if (process.env.NODE_ENV === "development") {
+      console.warn(
+        `An error occurred in the generateQr method. To debug the error see: ${
+          config.siteUrl + config.apis.diagnostics
+        }`
+      );
+    }
 
-  if (base64Regex.test(data)) {
-    const buffer = data.replace(base64Regex, "");
+    return { error: "Something went wrong" };
+  }
+
+  if (base64Regex.test(generation.data)) {
+    const buffer = generation.data.replace(base64Regex, "");
     return {
       headers: {
-        "content-type": fileTypeHeaders[type],
+        "content-type": fileTypeHeaders[generation.type],
         "content-length": buffer.length.toString(),
         "cache-control": `public, max-age=${cacheDuration}`,
       },
       response: Buffer.from(buffer, "base64"),
     };
-  } else if (type === "svg") {
+  } else if (generation.type === "svg") {
     return {
       headers: {
-        "content-type": fileTypeHeaders[type],
+        "content-type": fileTypeHeaders[generation.type],
         "cache-control": `public, max-age=${cacheDuration}`,
       },
-      response: data,
+      response: generation.data,
     };
   }
 

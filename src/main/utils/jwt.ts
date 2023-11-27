@@ -2,16 +2,13 @@ import * as jose from "jose";
 
 import { Config } from "../config/index";
 
-export async function generateIdToken(pubkey: string, config: Config) {
+export async function generateIdToken(
+  pubkey: string,
+  name: string,
+  image: string,
+  config: Config
+) {
   const secret = Buffer.from(config.secret);
-
-  const { name } = config?.generateName
-    ? await config.generateName(pubkey, config)
-    : { name: "" };
-
-  const image = config?.generateAvatar
-    ? `${config.siteUrl}${config.apis.avatar}/${pubkey}`
-    : "";
 
   const expires = Math.floor(Date.now() / 1000 + config.intervals.idToken);
 
