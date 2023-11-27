@@ -1,5 +1,7 @@
 import { hardConfig } from "../../main/config/hard";
 
+const maxNetworkRequestsFailures = 3;
+
 export const pollApiRequest = (function () {
   var networkRequestCount: number = 0;
 
@@ -18,11 +20,15 @@ export const pollApiRequest = (function () {
         signal,
       })
         .then(function (r) {
+          if (r.status === 404) {
+            // if resource not found throw error immediately
+            networkRequestCount = maxNetworkRequestsFailures;
+          }
           return r.json();
         })
         .catch((e: any) => {
           networkRequestCount++;
-          if (networkRequestCount >= 3) {
+          if (networkRequestCount >= maxNetworkRequestsFailures) {
             throw e;
           }
         })

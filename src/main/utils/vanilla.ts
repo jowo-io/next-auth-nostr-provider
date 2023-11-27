@@ -1,5 +1,7 @@
 import { HardConfig } from "../config/index";
 
+const maxNetworkRequestsFailures = 3;
+
 export const vanilla = function ({
   hardConfig,
   query,
@@ -42,11 +44,16 @@ export const vanilla = function ({
       cache: "default",
     })
       .then(function (r) {
+        if (r.status === 404) {
+          // if resource not found throw error immediately
+          networkRequestCount = maxNetworkRequestsFailures;
+        }
         return r.json();
       })
       .catch(function (e: any) {
+        console.log(e, e.status);
         networkRequestCount++;
-        if (networkRequestCount >= 3) {
+        if (networkRequestCount >= maxNetworkRequestsFailures) {
           pollTimeoutId = setTimeout(poll, hardConfig.intervals.poll);
           throw e;
         }
