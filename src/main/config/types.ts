@@ -115,7 +115,10 @@ export type OptionalConfig = {
   title: string | null;
   generateAvatar: AvatarGenerator | null;
   generateName: NameGenerator | null;
-
+  flags: {
+    diagnostics: boolean;
+    logs: boolean;
+  };
   theme: {
     colorScheme?: "dark" | "light";
   } & Partial<ThemeStyles>;

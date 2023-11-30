@@ -349,6 +349,29 @@ const config: NextAuthLightningConfig = {
   },
 
   /**
+   * Feature flags.
+   */
+  flags: {
+    /**
+     * @param {string} diagnostics
+     *
+     * Toggle on / off the diagnostics page.
+     *
+     * @default enabled for development build only
+     */
+    diagnostics: true | false
+
+    /**
+     * @param {string} logs
+     *
+     * Toggle on / off the error logging.
+     *
+     * @default enabled for development build only
+     */
+    logs: true | false
+  },
+
+  /**
    * Control the color scheme of the "Login with Lightning" page and button.
    */
   theme: {
@@ -491,7 +514,39 @@ You can also pass in your own custom session values via the query params:
 http://localhost:3000/api/lnauth/diagnostics?k1=custom-k1&state=custom-state&pubkey=custom-pubkey&sig=custom-sig
 ```
 
-> ℹ️ The diagnostics page will be **disabled** for production builds.
+> ℹ️ The diagnostics page will be **disabled** by default for production builds. To enable on production see the flags config options.
+
+### Error page
+
+By default users are sent to the default `next-auth` error page and a generic error message is shown.
+
+The error page path can be overridden and a custom error page can be configured (See the pages config options).
+
+The following error codes are passed via query parameter to the error page:
+
+```typescript
+enum ErrorCodes {
+  // An attempted API request was made to an auth endpoint while already logged in.
+  Forbidden = "You are already logged in.",
+
+  // An API request was made to a non existent `lnurl-auth` API path.
+  NotFound = "Path not found.",
+
+  // Authorizing the user failed because the `lnurl-auth` callback received an invalid `signature` / `pubkey`
+  Unauthorized = "You could not be signed in.",
+
+  // The user's session has been deleted. Either their session expired or they had a failed sign in attempt and must create a new session.
+  Gone = "Session not found.",
+
+  // An API request was made to the `lnurl-auth` APIs with a missing required query param or body arguments.
+  BadRequest = "Missing required query or body arguments.",
+
+  // Generic catch-all error code when one of the above errors is not matched.
+  Default = "Unable to sign in.",
+}
+```
+
+Example: `/error?error=Default&message=Unable+to+sign+in.`
 
 # Next.js Routers
 

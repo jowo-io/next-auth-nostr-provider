@@ -6,11 +6,7 @@ import { vanilla } from "../utils/vanilla";
 import { LightningAuth } from "../../react/components/LightningAuth";
 import { Loading } from "../../react/components/Loading";
 import { HandlerArguments, HandlerReturn } from "../utils/handlers";
-import {
-  signInValidation,
-  errorMap,
-  formatErrorMessage,
-} from "../validation/lnauth";
+import { signInValidation } from "../validation/lnauth";
 
 function LightningAuthPage({ config }: { config: Config }) {
   return (
@@ -102,8 +98,6 @@ function LightningAuthPage({ config }: { config: Config }) {
   );
 }
 
-export const test = "tet";
-
 export default async function handler({
   query,
   cookies,
@@ -113,14 +107,20 @@ export default async function handler({
 }: HandlerArguments): Promise<HandlerReturn> {
   try {
     try {
-      signInValidation.parse(query, { errorMap });
+      signInValidation.parse(query);
     } catch (e: any) {
-      console.error(e);
-      return { error: formatErrorMessage(e), isRedirect: true };
+      return {
+        error: "BadRequest",
+        status: 302, // 302 trigger a redirect
+        log: e.message,
+      };
     }
 
     if (cookies.sessionToken) {
-      return { error: "You are already logged in", isRedirect: true };
+      return {
+        error: "Forbidden",
+        status: 302, // 302 trigger a redirect
+      };
     }
 
     // if a custom auth page is specified, send them there if they try and access this API
@@ -132,7 +132,6 @@ export default async function handler({
     }
 
     const title = config.title || config.siteUrl;
-    const errorUrl = config.siteUrl + config.pages.error;
     const html = renderToStaticMarkup(<LightningAuthPage config={config} />);
 
     return {
@@ -164,13 +163,16 @@ export default async function handler({
     <script>
       var init = ${vanilla.toString()};
       window.onload = function(){
-        init(${JSON.stringify({ hardConfig, query, errorUrl })})
+        init(${JSON.stringify({ hardConfig, query })})
       };
     </script>
     </html>`,
     };
   } catch (e: any) {
-    console.error(e);
-    return { error: e.message || "Something went wrong", isRedirect: true };
+    return {
+      error: "Default",
+      message: e.message,
+      status: 302, // 302 trigger a redirect
+    };
   }
 }

@@ -16,14 +16,14 @@ export default async function handler({
   url,
   config,
 }: HandlerArguments): Promise<HandlerReturn> {
-  if (!config.generateQr) return { error: "QRs are not enabled" };
-  if (!path) return { error: "Invalid url" };
-
   const k1 = path.split("/").slice(-1)[0];
-  if (!k1) return { error: "Invalid k1" };
+  if (!k1) return { error: "NotFound", status: 404 };
 
   let generation;
   try {
+    if (!config.generateQr) {
+      throw new Error(`The generateQr method is not defined.`);
+    }
     generation = await config.generateQr(`lightning:${k1}`, config);
     if (
       !generation.type ||
@@ -42,8 +42,7 @@ export default async function handler({
       );
     }
   } catch (e: any) {
-    console.error(e);
-    if (process.env.NODE_ENV === "development") {
+    if (config.flags.diagnostics && config.flags.logs) {
       console.warn(
         `An error occurred in the generateQr method. To debug the error see: ${
           config.siteUrl + config.apis.diagnostics
@@ -51,7 +50,7 @@ export default async function handler({
       );
     }
 
-    return { error: "Something went wrong" };
+    return { error: "Default", log: e.message };
   }
 
   if (base64Regex.test(generation.data)) {
@@ -74,5 +73,5 @@ export default async function handler({
     };
   }
 
-  return { error: "Something went wrong" };
+  return { error: "Default" };
 }

@@ -1,4 +1,4 @@
-import { tokenValidation, errorMap } from "../validation/lnauth";
+import { tokenValidation } from "../validation/lnauth";
 import {
   generateIdToken,
   generateRefreshToken,
@@ -13,38 +13,56 @@ export default async function handler({
   url,
   config,
 }: HandlerArguments): Promise<HandlerReturn> {
-  const {
-    grant_type: grantType,
-    code: k1,
-    refresh_token: refreshToken,
-  } = tokenValidation.parse(body, { errorMap });
+  let grantType, k1, refreshToken;
+  try {
+    ({
+      grant_type: grantType,
+      code: k1,
+      refresh_token: refreshToken,
+    } = tokenValidation.parse(body));
+  } catch (e: any) {
+    return { error: "BadRequest", log: e.message };
+  }
 
   let pubkey: string;
   if (grantType === "authorization_code") {
-    if (!k1) return { error: "Missing code" };
+    if (!k1) {
+      return {
+        error: "BadRequest",
+        log: "The 'code' query param is undefined",
+      };
+    }
     let session;
     try {
       session = await config.storage.get({ k1 }, path, config);
     } catch (e: any) {
-      console.error(e);
-      if (process.env.NODE_ENV === "development") {
+      if (config.flags.diagnostics && config.flags.logs) {
         console.warn(
           `An error occurred in the storage.get method. To debug the error see: ${
             config.siteUrl + config.apis.diagnostics
           }`
         );
       }
-      return { error: "Something went wrong" };
+      return { error: "Default", log: e.message };
     }
-    if (!session?.success) return { error: "Login was not successful" };
-    if (!session?.pubkey) return { error: "Missing pubkey" };
+    if (!session?.success) {
+      return {
+        error: "Unauthorized",
+        log: "The 'success' boolean was undefined",
+      };
+    }
+    if (!session?.pubkey) {
+      return { error: "Unauthorized", log: "The 'pubkey' was undefined" };
+    }
     pubkey = session.pubkey;
 
     try {
       await config.storage.delete({ k1 }, path, config);
     } catch (e: any) {
-      console.error(e);
-      if (process.env.NODE_ENV === "development") {
+      if (config.flags.logs) {
+        console.error(e);
+      }
+      if (config.flags.diagnostics && config.flags.logs) {
         console.warn(
           `An error occurred in the storage.delete method. To debug the error see: ${
             config.siteUrl + config.apis.diagnostics
@@ -53,12 +71,25 @@ export default async function handler({
       }
     }
   } else if (grantType === "refresh_token") {
-    if (!refreshToken) return { error: "Missing refresh token" };
+    if (!refreshToken) {
+      return {
+        error: "BadRequest",
+        log: "The 'refresh_token' query param is undefined",
+      };
+    }
     const data = await verifyRefreshToken(refreshToken, config);
-    if (!data.pubkey) return { error: "Missing pubkey" };
+    if (!data.pubkey) {
+      return {
+        error: "BadRequest",
+        log: "The 'pubkey' is undefined in the refresh token",
+      };
+    }
     pubkey = data.pubkey;
   } else {
-    return { error: "Invalid grant type" };
+    return {
+      error: "BadRequest",
+      log: "Invalid 'grant_type' query param, supported: 'authorization_code' and 'refresh_token'",
+    };
   }
 
   let name = "";
@@ -71,15 +102,14 @@ export default async function handler({
         );
       }
     } catch (e: any) {
-      console.error(e);
-      if (process.env.NODE_ENV === "development") {
+      if (config.flags.diagnostics && config.flags.logs) {
         console.warn(
           `An error occurred in the generateName method. To debug the error see: ${
             config.siteUrl + config.apis.diagnostics
           }`
         );
       }
-      return { error: "Something went wrong" };
+      return { error: "Default", log: e.message };
     }
   }
   const image = config?.generateAvatar

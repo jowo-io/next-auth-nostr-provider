@@ -3,7 +3,7 @@ const require = createRequire(import.meta.url);
 
 import { randomBytes } from "crypto";
 
-import { createValidation, errorMap } from "../validation/lnauth";
+import { createValidation } from "../validation/lnauth";
 import { HandlerArguments, HandlerReturn } from "../utils/handlers";
 
 export default async function handler({
@@ -13,15 +13,22 @@ export default async function handler({
   url,
   config,
 }: HandlerArguments): Promise<HandlerReturn> {
-  const { state } = createValidation.parse(body, { errorMap });
+  let state;
+  try {
+    ({ state } = createValidation.parse(body));
+  } catch (e: any) {
+    return { error: "BadRequest", log: e.message };
+  }
 
   // if an old k1 is provided, delete it
   if (typeof body?.k1 === "string") {
     try {
       await config.storage.delete({ k1: body.k1 }, path, config);
     } catch (e: any) {
-      console.error(e);
-      if (process.env.NODE_ENV === "development") {
+      if (config.flags.logs) {
+        console.error(e);
+      }
+      if (config.flags.diagnostics && config.flags.logs) {
         console.warn(
           `An error occurred in the storage.delete method. To debug the error see: ${
             config.siteUrl + config.apis.diagnostics
@@ -43,15 +50,14 @@ export default async function handler({
   try {
     await config.storage.set({ k1, session: { k1, state } }, path, config);
   } catch (e: any) {
-    console.error(e);
-    if (process.env.NODE_ENV === "development") {
+    if (config.flags.diagnostics && config.flags.logs) {
       console.warn(
         `An error occurred in the storage.set method. To debug the error see: ${
           config.siteUrl + config.apis.diagnostics
         }`
       );
     }
-    return { error: "Something went wrong" };
+    return { error: "Default", log: e.message };
   }
 
   return {

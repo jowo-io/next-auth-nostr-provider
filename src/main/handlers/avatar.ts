@@ -16,14 +16,14 @@ export default async function handler({
   url,
   config,
 }: HandlerArguments): Promise<HandlerReturn> {
-  if (!config.generateAvatar) return { error: "Avatars are not enabled" };
-  if (!path) return { error: "Invalid url" };
-
   const pubkey = path.split("/").slice(-1)[0];
-  if (!pubkey) return { error: "Invalid pubkey" };
+  if (!pubkey) return { error: "NotFound", status: 404 };
 
   let generation;
   try {
+    if (!config.generateAvatar) {
+      throw new Error(`The generateAvatar method is not defined.`);
+    }
     generation = await config.generateAvatar(pubkey, config);
     if (
       !generation.type ||
@@ -42,15 +42,14 @@ export default async function handler({
       );
     }
   } catch (e: any) {
-    console.error(e);
-    if (process.env.NODE_ENV === "development") {
+    if (config.flags.diagnostics && config.flags.logs) {
       console.warn(
         `An error occurred in the generateAvatar method. To debug the error see: ${
           config.siteUrl + config.apis.diagnostics
         }`
       );
     }
-    return { error: "Something went wrong" };
+    return { error: "Default", log: e.message };
   }
 
   if (base64Regex.test(generation.data)) {
@@ -73,5 +72,5 @@ export default async function handler({
     };
   }
 
-  return { error: "Something went wrong" };
+  return { error: "Default" };
 }

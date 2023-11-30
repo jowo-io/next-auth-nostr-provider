@@ -59,6 +59,12 @@ const configValidation = z
         error: z.string().optional(),
       })
       .nullish(),
+    flags: z
+      .object({
+        diagnostics: z.string().optional(),
+        logs: z.string().optional(),
+      })
+      .nullish(),
     title: z.string().nullable().optional(),
     theme: z
       .object({
@@ -83,11 +89,21 @@ export function formatConfig(userConfig: UserConfig): Config {
       ? colorSchemeDark
       : colorSchemeLight;
 
+  const flags = {
+    diagnostics: process?.env?.NODE_ENV === "development",
+    logs: true,
+  };
+
   configValidation.parse(userConfig, {
     errorMap: (issue) => {
       return { message: `Config option ${issue.path} of ${issue.code}` };
     },
   });
 
-  return merge(defaultConfig, { theme }, userConfig, hardConfig) as Config;
+  return merge(
+    defaultConfig,
+    { theme, flags },
+    userConfig,
+    hardConfig
+  ) as Config;
 }

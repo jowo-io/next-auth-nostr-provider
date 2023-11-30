@@ -1,6 +1,6 @@
 import { randomBytes } from "crypto";
 
-import { LightningAuthSession } from "../config/types";
+import { Config, LightningAuthSession } from "../config/types";
 import { HandlerArguments, HandlerReturn } from "../utils/handlers";
 
 type Check = {
@@ -23,7 +23,8 @@ export function testField(
 }
 
 export async function testSet(
-  setMethod: () => Promise<undefined>
+  setMethod: () => Promise<undefined>,
+  config: Config
 ): Promise<Check[]> {
   const checks: Check[] = [];
   try {
@@ -36,7 +37,9 @@ export async function testSet(
 
     return checks;
   } catch (e: any) {
-    console.error(e);
+    if (config.flags.logs) {
+      console.error(e);
+    }
     checks.push({
       state: "failed",
       method: "set",
@@ -48,7 +51,8 @@ export async function testSet(
 
 export async function testGet(
   expectedSession: { k1: string; state: string },
-  getMethod: () => Promise<LightningAuthSession | null | undefined>
+  getMethod: () => Promise<LightningAuthSession | null | undefined>,
+  config: Config
 ): Promise<Check[]> {
   const checks: Check[] = [];
 
@@ -73,7 +77,9 @@ export async function testGet(
 
     return checks;
   } catch (e: any) {
-    console.error(e);
+    if (config.flags.logs) {
+      console.error(e);
+    }
     checks.push({
       state: "failed",
       method: "get",
@@ -86,7 +92,8 @@ export async function testGet(
 export async function testUpdate(
   expectedSession: { k1: string; state: string },
   updateMethod: () => Promise<undefined>,
-  getMethod: () => Promise<LightningAuthSession | null | undefined>
+  getMethod: () => Promise<LightningAuthSession | null | undefined>,
+  config: Config
 ): Promise<Check[]> {
   const checks: Check[] = [];
   try {
@@ -101,7 +108,9 @@ export async function testUpdate(
     try {
       receivedSession = await getMethod();
     } catch (e: any) {
-      console.error(e);
+      if (config.flags.logs) {
+        console.error(e);
+      }
       checks.push({
         state: "failed",
         method: "get",
@@ -126,7 +135,9 @@ export async function testUpdate(
 
     return checks;
   } catch (e: any) {
-    console.error(e);
+    if (config.flags.logs) {
+      console.error(e);
+    }
     checks.push({
       state: "failed",
       method: "update",
@@ -138,7 +149,8 @@ export async function testUpdate(
 
 export async function testDelete(
   deleteMethod: () => Promise<undefined>,
-  getMethod: () => Promise<LightningAuthSession | null | undefined>
+  getMethod: () => Promise<LightningAuthSession | null | undefined>,
+  config: Config
 ): Promise<Check[]> {
   const checks: Check[] = [];
 
@@ -155,7 +167,9 @@ export async function testDelete(
     try {
       receivedSession = await getMethod();
     } catch (e: any) {
-      console.error(e);
+      if (config.flags.logs) {
+        console.error(e);
+      }
       checks.push({
         state: "failed",
         method: "get",
@@ -180,7 +194,9 @@ export async function testDelete(
     });
     return checks;
   } catch (e: any) {
-    console.error(e);
+    if (config.flags.logs) {
+      console.error(e);
+    }
     checks.push({
       state: "failed",
       method: "delete",
@@ -228,26 +244,29 @@ export default async function handler({
       await config.storage.delete({ k1 }, path, config);
 
     // set
-    checks.push(...(await testSet(setMethod)));
+    checks.push(...(await testSet(setMethod, config)));
 
     // get
-    checks.push(...(await testGet(setSession, getMethod)));
+    checks.push(...(await testGet(setSession, getMethod, config)));
 
     // update
     checks.push(
       ...(await testUpdate(
         { ...setSession, ...updateSession },
         updateMethod,
-        getMethod
+        getMethod,
+        config
       ))
     );
 
     // delete
-    checks.push(...(await testDelete(deleteMethod, getMethod)));
+    checks.push(...(await testDelete(deleteMethod, getMethod, config)));
 
     // generic throw
   } catch (e: any) {
-    console.error(e);
+    if (config.flags.logs) {
+      console.error(e);
+    }
     checks.push({
       state: "failed",
       method: null,

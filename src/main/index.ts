@@ -1,6 +1,11 @@
 import { NextApiRequest, NextApiResponse } from "next/types";
 import { OAuthConfig } from "next-auth/providers/oauth";
 
+import { formatConfig, UserConfig } from "./config/index";
+import { NextRequest, NextResponse } from "next/server";
+import { formatRouter } from "./utils/router";
+import dynamicHandler from "./utils/handlers";
+
 // auth apis
 import createHandler from "./handlers/create";
 import pollHandler from "./handlers/poll";
@@ -14,12 +19,6 @@ import signInHandler from "./handlers/signin";
 import avatarHandler from "./handlers/avatar";
 import qrHandler from "./handlers/qr";
 import diagnosticsHandler from "./handlers/diagnostics";
-
-import { formatConfig, UserConfig } from "./config/index";
-import { NextRequest, NextResponse } from "next/server";
-import { formatRouter } from "./utils/router";
-
-import dynamicHandler from "./utils/handlers";
 
 /**
  * Generate a provider and handler to setup Lightning auth.
@@ -85,13 +84,14 @@ export default function NextAuthLightning(userConfig: UserConfig) {
       return await dynamicHandler(req, res, config, qrHandler);
     } else if (
       path?.indexOf(config.apis.diagnostics) === 0 &&
-      process.env.NODE_ENV === "development"
+      config.flags.diagnostics
     ) {
       return await dynamicHandler(req, res, config, diagnosticsHandler);
     }
 
     return await dynamicHandler(req, res, config, async () => ({
-      error: "Unknown path",
+      error: "NotFound",
+      status: 404,
     }));
   };
 

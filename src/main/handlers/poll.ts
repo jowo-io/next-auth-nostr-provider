@@ -1,4 +1,4 @@
-import { pollValidation, errorMap } from "../validation/lnauth";
+import { pollValidation } from "../validation/lnauth";
 import { HandlerArguments, HandlerReturn } from "../utils/handlers";
 
 export default async function handler({
@@ -8,25 +8,32 @@ export default async function handler({
   url,
   config,
 }: HandlerArguments): Promise<HandlerReturn> {
-  const { k1 } = pollValidation.parse(body, { errorMap });
+  let k1;
+  try {
+    ({ k1 } = pollValidation.parse(body));
+  } catch (e: any) {
+    return { error: "BadRequest", log: e.message };
+  }
 
   let session;
   try {
     session = await config.storage.get({ k1 }, path, config);
   } catch (e: any) {
-    console.error(e);
-    if (process.env.NODE_ENV === "development") {
+    if (config.flags.diagnostics && config.flags.logs) {
       console.warn(
         `An error occurred in the storage.get get. To debug the error see: ${
           config.siteUrl + config.apis.diagnostics
         }`
       );
     }
-    return { error: "Something went wrong" };
+    return { error: "Default", log: e.message };
   }
 
   if (!session) {
-    return { error: "Session not found", status: 404 };
+    return {
+      error: "Gone",
+      status: 410, // return a 410 status so the client knows the session no longer exists
+    };
   }
 
   return {

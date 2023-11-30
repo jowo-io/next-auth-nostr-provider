@@ -1,7 +1,7 @@
 import { createRequire } from "module";
 const require = createRequire(import.meta.url);
 
-import { callbackValidation, errorMap } from "../validation/lnauth";
+import { callbackValidation } from "../validation/lnauth";
 import { HandlerArguments, HandlerReturn } from "../utils/handlers";
 
 export default async function handler({
@@ -11,26 +11,29 @@ export default async function handler({
   url,
   config,
 }: HandlerArguments): Promise<HandlerReturn> {
-  const {
-    k1,
-    key: pubkey,
-    sig,
-  } = callbackValidation.parse(query, { errorMap });
+  let k1, pubkey, sig;
+  try {
+    ({ k1, key: pubkey, sig } = callbackValidation.parse(query));
+  } catch (e: any) {
+    return { error: "BadRequest", log: e.message };
+  }
 
   const lnurl = require("lnurl");
   let authorize;
   try {
     authorize = await lnurl.verifyAuthorizationSignature(sig, k1, pubkey);
   } catch (e: any) {
-    console.error(e);
+    return { error: "Unauthorized", log: e.message };
   }
 
   if (!authorize) {
     try {
       await config.storage.delete({ k1 }, path, config);
     } catch (e: any) {
-      console.error(e);
-      if (process.env.NODE_ENV === "development") {
+      if (config.flags.logs) {
+        console.error(e);
+      }
+      if (config.flags.diagnostics && config.flags.logs) {
         console.warn(
           `An error occurred in the storage.delete method. To debug the error see: ${
             config.siteUrl + config.apis.diagnostics
@@ -39,7 +42,7 @@ export default async function handler({
       }
     }
 
-    return { error: "Error in keys" };
+    return { error: "Unauthorized" };
   }
 
   try {
@@ -49,15 +52,14 @@ export default async function handler({
       config
     );
   } catch (e: any) {
-    console.error(e);
-    if (process.env.NODE_ENV === "development") {
+    if (config.flags.diagnostics && config.flags.logs) {
       console.warn(
         `An error occurred in the storage.update method. To debug the error see: ${
           config.siteUrl + config.apis.diagnostics
         }`
       );
     }
-    return { error: "Something went wrong" };
+    return { error: "Default", log: e.message };
   }
 
   return {
