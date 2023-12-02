@@ -290,7 +290,7 @@ const config: NextAuthLightningConfig = {
      *
      * @see https://github.com/jowo-io/next-auth-lightning-provider/tree/main/examples/custom-pages/
      *
-     * @default "/api/auth/signin"
+     * @default "/api/auth/error"
      */
     error: "/example-custom-error"
   },

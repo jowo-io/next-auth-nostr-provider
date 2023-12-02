@@ -9,10 +9,6 @@ Below is a TODO list for further development of `next-auth-lightning-provider`
 - test diagnostics API with KV and
 - look into dicebear console warnings when running app-router example
 - test deploy all the various example apps
-- rename default error path from `/api/auth/signin` to `/api/auth/error`
-  - rename `error` to `lnauth`
-  - remove message from query params
-  - always supply default `error=OAuthSignin` query param
 - look into supporting different versions of node (`require`)
   ```javascript
   import { createRequire } from "module";

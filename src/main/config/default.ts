@@ -29,7 +29,7 @@ const colorSchemeDark: ThemeStyles = {
 const defaultConfig: Partial<OptionalConfig> = {
   pages: {
     signIn: "/api/lnauth/signin", // default lightning auth page
-    error: "/api/auth/signin", // default next-auth error page
+    error: "/api/auth/error", // default next-auth error page
   },
   title: "Login with Lightning",
   theme: {

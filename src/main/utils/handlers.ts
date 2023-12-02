@@ -1,6 +1,3 @@
-import { createRequire } from "module";
-const require = createRequire(import.meta.url);
-
 import { NextApiRequest, NextApiResponse } from "next/types";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -107,8 +104,14 @@ async function pagesHandler(
     }
 
     const errorUrl = new URL(config.siteUrl + config.pages.error);
-    errorUrl.searchParams.append("error", output.error);
-    errorUrl.searchParams.append("message", HandlerErrorCodes[output.error]);
+    if (config.pages.error === "/api/auth/error") {
+      // if using default next-auth error screen
+      errorUrl.searchParams.append("error", "OAuthSignin");
+    } else {
+      // otherwise use `next-auth-lightning-provider` params
+      errorUrl.searchParams.append("error", output.error);
+      errorUrl.searchParams.append("message", HandlerErrorCodes[output.error]);
+    }
 
     if (output.status === 302) {
       return res.redirect(errorUrl.toString()).end();
@@ -191,11 +194,17 @@ async function appHandler(
     }
 
     const errorUrl = new URL(config.siteUrl + config.pages.error);
-    errorUrl.searchParams.append("error", output.error);
-    errorUrl.searchParams.append("message", HandlerErrorCodes[output.error]);
+    if (config.pages.error === "/api/auth/error") {
+      // if using default next-auth error screen
+      errorUrl.searchParams.append("error", "OAuthSignin");
+    } else {
+      // otherwise use `next-auth-lightning-provider` params
+      errorUrl.searchParams.append("error", output.error);
+      errorUrl.searchParams.append("message", HandlerErrorCodes[output.error]);
+    }
+
     if (output.status === 302) {
-      const { redirect } = require("next/navigation");
-      redirect(errorUrl.toString());
+      return Response.redirect(errorUrl.toString());
     } else {
       return Response.json(
         {
@@ -212,8 +221,7 @@ async function appHandler(
   }
 
   if ("redirect" in output) {
-    const { redirect } = require("next/navigation");
-    redirect(output.redirect.toString());
+    return Response.redirect(output.redirect.toString());
   }
 
   if ("response" in output) {

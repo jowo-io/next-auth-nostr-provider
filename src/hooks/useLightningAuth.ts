@@ -60,7 +60,7 @@ export function useLightningAuth({
         // if no errorUrl exists send to defaul `next-auth` error page
         const params = new URLSearchParams();
         params.append("error", "OAuthSignin");
-        window.location.replace(`/api/auth/signin?${params.toString()}`);
+        window.location.replace(`/api/auth/error?${params.toString()}`);
       }
     }
 
