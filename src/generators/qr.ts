@@ -12,7 +12,7 @@ import { QRGenerator } from "../main/config/types";
  * @returns {String} data - a base64 encoded png/jpg OR svg XML markup
  * @returns {String} type - image type: "svg" | "png" | "jpg"
  */
-export const generateQr: QRGenerator = async (data, config) => {
+const generateQr: QRGenerator = async (data, config) => {
   const options: any = {
     color: {
       dark: config.theme.qrForeground,
@@ -29,3 +29,5 @@ export const generateQr: QRGenerator = async (data, config) => {
     type: "svg",
   };
 };
+
+export default generateQr;

@@ -16,7 +16,7 @@ import { NameGenerator } from "../main/config/types";
  * @returns {Object}
  * @returns {String} name - a deterministically generated username
  */
-export const generateName: NameGenerator = async (seed, config) => {
+const generateName: NameGenerator = async (seed, config) => {
   return {
     name: uniqueNamesGenerator({
       dictionaries: [adjectives, colors, animals],
@@ -25,3 +25,5 @@ export const generateName: NameGenerator = async (seed, config) => {
     }),
   };
 };
+
+export default generateName;

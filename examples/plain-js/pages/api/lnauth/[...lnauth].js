@@ -1,7 +1,7 @@
 import NextAuthLightning from "next-auth-lightning-provider";
-import { generateQr } from "next-auth-lightning-provider/generators/qr";
-import { generateName } from "next-auth-lightning-provider/generators/name";
-import { generateAvatar } from "next-auth-lightning-provider/generators/avatar";
+import generateQr from "next-auth-lightning-provider/generators/qr";
+import generateName from "next-auth-lightning-provider/generators/name";
+import generateAvatar from "next-auth-lightning-provider/generators/avatar";
 
 import storage from "node-persist"; // ⚠️ WARNING using node-persist is not recommended in lambda or edge environments.
 

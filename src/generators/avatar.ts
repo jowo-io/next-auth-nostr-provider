@@ -13,9 +13,11 @@ import { AvatarGenerator } from "../main/config/types";
  * @returns {String} data - a base64 encoded png/jpg OR svg XML markup
  * @returns {String} type - image type: "svg" | "png" | "jpg"
  */
-export const generateAvatar: AvatarGenerator = async (seed, config) => {
+const generateAvatar: AvatarGenerator = async (seed, config) => {
   return {
     data: createAvatar(bottts, { seed }).toString(),
     type: "svg",
   };
 };
+
+export default generateAvatar;

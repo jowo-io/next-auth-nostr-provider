@@ -25,6 +25,7 @@ Below is a TODO list for further development of `next-auth-lightning-provider`
   - carefully scan for errors and typos
   - ensure consistent formatting is used. full stops, caps, etc
   - add suggestion: cleaning up old and unused lnauth session data that was created but never reached success state.
+  - add OpenSats logo
 
 ### Release
 
@@ -36,10 +37,9 @@ Below is a TODO list for further development of `next-auth-lightning-provider`
 
 Stuff I may or may not get around to:
 
-- add `auto` color scheme that uses browser's preferred dark/light settings
+- add `auto` color scheme that user browser's preferred dark/light settings
 - consider adding various styles of avatar and name generators
 - consider / investigate how to SSR react components so the `vanilla.ts` shim can be deprecated
 - add JSDocs comments to all internally used functions
-- consider alternatives to throwing error "You are already logged in"
 - add comments to code
 - 404 page?

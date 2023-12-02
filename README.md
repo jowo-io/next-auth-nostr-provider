@@ -80,9 +80,9 @@ import NextAuthLightning, {
   LightningAuthSession,
   NextAuthLightningConfig,
 } from "next-auth-lightning-provider";
-import { generateQr } from "next-auth-lightning-provider/generators/qr";
-import { generateName } from "next-auth-lightning-provider/generators/name";
-import { generateAvatar } from "next-auth-lightning-provider/generators/avatar";
+import generateQr from "next-auth-lightning-provider/generators/qr";
+import generateName from "next-auth-lightning-provider/generators/name";
+import generateAvatar from "next-auth-lightning-provider/generators/avatar";
 
 const config: NextAuthLightningConfig = {
   // required
@@ -150,9 +150,9 @@ As well as the avatar and image generators, there's also a QR code generator.
 The generators are tree-shakeable. If you don't need them, simply don't import them and they'll not be included in your app's bundle.
 
 ```typescript
-import { generateQr } from "next-auth-lightning-provider/generators/qr";
-import { generateName } from "next-auth-lightning-provider/generators/name";
-import { generateAvatar } from "next-auth-lightning-provider/generators/avatar";
+import generateQr from "next-auth-lightning-provider/generators/qr";
+import generateName from "next-auth-lightning-provider/generators/name";
+import generateAvatar from "next-auth-lightning-provider/generators/avatar";
 ```
 
 > ℹ️ You can write your own generator functions if those provided don't suit your needs!
@@ -251,7 +251,7 @@ const config: NextAuthLightningConfig = {
    * It must return a base64 encoded png/jpg OR svg XML markup.
    *
    * A default QR code generator is provided. It can be imported from:
-   * import { generateQr } from "next-auth-lightning-provider/generators/qr";
+   * import generateQr from "next-auth-lightning-provider/generators/qr";
    *
    * the default library used is:
    * @see https://www.npmjs.com/package/qrcode
@@ -313,7 +313,7 @@ const config: NextAuthLightningConfig = {
    * Or, it can be set to null to disable avatars.
    *
    * A default avatar generator is provided. It can be imported from:
-   * import { generateAvatar } from "next-auth-lightning-provider/generators/avatar";
+   * import generateAvatar from "next-auth-lightning-provider/generators/avatar";
    *
    * The default avatar generation library that's used is dicebear's bottts style.
    * @see https://www.dicebear.com/styles/bottts/
@@ -337,7 +337,7 @@ const config: NextAuthLightningConfig = {
    * Or, it can be set to null to disable names
    *
    * A default name generator is provided. It can be imported from:
-   * import { generateName } from "next-auth-lightning-provider/generators/name";
+   * import generateName from "next-auth-lightning-provider/generators/name";
    *
    * The default name generation library used is `unique-names-generator`
    * @see https://www.npmjs.com/package/unique-names-generator
