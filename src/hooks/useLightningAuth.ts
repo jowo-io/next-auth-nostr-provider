@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 
-import { hardConfig } from "../../main/config/hard";
+import { hardConfig } from "../main/config/hard";
 import { formatLightningAuth } from "../utils/lnurl";
 
 const maxNetworkRequestsFailures = 3;

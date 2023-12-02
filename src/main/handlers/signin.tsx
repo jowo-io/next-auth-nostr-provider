@@ -3,8 +3,8 @@ import { renderToStaticMarkup } from "preact-render-to-string";
 import { hardConfig, Config } from "../config/index";
 import { vanilla } from "../utils/vanilla";
 
-import { LightningAuth } from "../../react/components/LightningAuth";
-import { Loading } from "../../react/components/Loading";
+import { LightningAuth } from "../components/LightningAuth";
+import { Loading } from "../components/Loading";
 import { HandlerArguments, HandlerReturn } from "../utils/handlers";
 import { signInValidation } from "../validation/lnauth";
 

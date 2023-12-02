@@ -5,7 +5,7 @@ import { QrCode } from "./QrCode";
 import { CopyCode } from "./CopyCode";
 import { Button } from "./Button";
 
-import { hardConfig } from "../../main/config/hard";
+import { hardConfig } from "../config/hard";
 
 export function LightningAuth({
   title,

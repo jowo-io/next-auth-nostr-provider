@@ -1,4 +1,4 @@
-import { useLightningAuth } from "next-auth-lightning-provider/react";
+import { useLightningAuth } from "next-auth-lightning-provider/hooks";
 
 export default function LightningAuth({
   redirectUri,

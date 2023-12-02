@@ -17,7 +17,8 @@ yarn-error.log*
 
 # build
 /main
-/react
+/hooks
+/utils
 /generators
 /index.d.ts*
 /index.js

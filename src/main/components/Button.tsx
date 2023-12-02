@@ -1,7 +1,7 @@
 import { HTMLAttributes } from "preact/compat";
 
-import { formatLightningAuth } from "../utils/lnurl"
-import { hardConfig } from "../../main/config/hard"
+import { formatLightningAuth } from "../../utils/lnurl";
+import { hardConfig } from "../config/hard";
 
 export function Button({
   lnurl,

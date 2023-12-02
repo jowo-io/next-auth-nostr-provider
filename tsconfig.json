@@ -1,12 +1,14 @@
 {
   "compilerOptions": {
     "moduleResolution": "node",
-    "lib": ["dom", "esnext"],
+    "lib": [
+      "dom",
+      "esnext"
+    ],
     "jsx": "react-jsx",
     "jsxImportSource": "preact",
     "target": "ES2020",
     "module": "ESNext",
-
     "forceConsistentCasingInFileNames": true,
     "strict": true,
     "isolatedModules": false,
@@ -18,37 +20,39 @@
     "stripInternal": true,
     "declarationMap": true,
     "declaration": true,
-
     "outDir": "./",
     "rootDir": "./src",
     "baseUrl": "./",
-
-    "paths": {
-    }
   },
-  "include": ["./src"],
+  "include": [
+    "src"
+  ],
   "exclude": [
+    "**/*.jsx",
     "**/*.js",
     "**/*.d.ts",
     "**/*.test.ts",
-    "./main/**",
-    "./generators/**",
-    "./react/**",
-    "./examples/**"
+    "main",
+    "generators",
+    "hooks",
+    "utils",
+    "examples",
+    "node_modules"
   ],
   "tsc-alias": {
-    "resolveFullPaths": true,
+    "resolveFullPaths": false,
     "verbose": false,
-
     "replacers": {
       "base-url": {
         "enabled": false
       }
     },
-
     "fileExtensions": {
       "inputGlob": "{js,jsx}",
-      "outputCheck": ["js", "jsx"]
+      "outputCheck": [
+        "js",
+        "jsx"
+      ]
     }
   }
 }

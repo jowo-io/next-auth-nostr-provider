@@ -30,19 +30,21 @@
     "lnurl-auth"
   ],
   "files": [
-    "generators/**/*.d.ts*",
+    "generators/**/*.d.ts",
     "generators/**/*.js",
-    "react/**/*.d.ts*",
-    "react/**/*.js",
-    "main/**/*.d.ts*",
+    "hooks/**/*.d.ts",
+    "hooks/**/*.js",
+    "utils/**/*.d.ts",
+    "utils/**/*.js",
+    "main/**/*.d.ts",
     "main/**/*.js",
-    "index.d.ts*",
+    "index.d.ts",
     "index.js"
   ],
   "main": "./index.js",
   "scripts": {
     "build": "tsc && tsc-alias",
-    "clean": "rm -rf main react generators index.d.ts index.d.ts.map index.js",
+    "clean": "rm -rf main hooks utils generators index.d.ts index.d.ts.map index.js",
     "dev": "concurrently \"tsc -w\" \"tsc-alias -w\"",
     "test": "jest --watch",
     "prebuild": "npm run clean"
