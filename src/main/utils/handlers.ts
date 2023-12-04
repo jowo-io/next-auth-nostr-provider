@@ -12,7 +12,6 @@ export type HandlerArguments = {
   cookies: {
     sessionToken?: string;
   };
-  path: string;
   url: URL;
   config: Config;
 };
@@ -66,7 +65,6 @@ export type HandlerReturn = HandlerRedirect | HandlerError | HandlerResponse;
 async function pagesHandler(
   req: NextApiRequest,
   res: NextApiResponse,
-  path: string,
   config: Config,
   handler: (args: HandlerArguments) => Promise<HandlerReturn>
 ) {
@@ -81,7 +79,6 @@ async function pagesHandler(
     cookies: {
       sessionToken: req.cookies["next-auth.session-token"],
     },
-    path,
     url,
     config,
   };
@@ -154,7 +151,6 @@ async function pagesHandler(
 
 async function appHandler(
   req: NextRequest,
-  path: string,
   config: Config,
   handler: (args: HandlerArguments) => Promise<HandlerReturn>
 ) {
@@ -171,7 +167,6 @@ async function appHandler(
     cookies: {
       sessionToken: req.cookies.get("next-auth.session-token")?.value,
     },
-    path,
     url,
     config,
   };
@@ -248,11 +243,11 @@ export default async function dynamicHandler(
   config: Config,
   handler: (args: HandlerArguments) => Promise<HandlerReturn>
 ) {
-  const { req, res, path, routerType } = formatRouter(request, response);
+  const { req, res, routerType } = formatRouter(request, response);
 
   if (routerType === "APP") {
-    return await appHandler(req, path, config, handler);
+    return await appHandler(req, config, handler);
   } else {
-    return await pagesHandler(req, res, path, config, handler);
+    return await pagesHandler(req, res, config, handler);
   }
 }

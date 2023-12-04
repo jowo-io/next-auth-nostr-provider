@@ -209,7 +209,6 @@ export async function testDelete(
 export default async function handler({
   query,
   cookies,
-  path,
   url,
   config,
 }: HandlerArguments): Promise<HandlerReturn> {
@@ -235,13 +234,12 @@ export default async function handler({
     const updateSession = { pubkey, sig, success: true };
 
     const setMethod = async () =>
-      await config.storage.set({ k1, session: setSession }, path, config);
-    const getMethod = async () =>
-      await config.storage.get({ k1 }, path, config);
+      await config.storage.set({ k1, session: setSession }, url, config);
+    const getMethod = async () => await config.storage.get({ k1 }, url, config);
     const updateMethod = async () =>
-      await config.storage.update({ k1, session: updateSession }, path, config);
+      await config.storage.update({ k1, session: updateSession }, url, config);
     const deleteMethod = async () =>
-      await config.storage.delete({ k1 }, path, config);
+      await config.storage.delete({ k1 }, url, config);
 
     // set
     checks.push(...(await testSet(setMethod, config)));

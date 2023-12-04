@@ -12,11 +12,10 @@ const fileTypeHeaders = {
 export default async function handler({
   query,
   cookies,
-  path,
   url,
   config,
 }: HandlerArguments): Promise<HandlerReturn> {
-  const pubkey = path.split("/").slice(-1)[0];
+  const pubkey = url.pathname.split("/").slice(-1)[0];
   if (!pubkey) return { error: "NotFound", status: 404 };
 
   let generation;

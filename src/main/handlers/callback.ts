@@ -7,7 +7,6 @@ import { HandlerArguments, HandlerReturn } from "../utils/handlers";
 export default async function handler({
   query,
   cookies,
-  path,
   url,
   config,
 }: HandlerArguments): Promise<HandlerReturn> {
@@ -28,7 +27,7 @@ export default async function handler({
 
   if (!authorize) {
     try {
-      await config.storage.delete({ k1 }, path, config);
+      await config.storage.delete({ k1 }, url, config);
     } catch (e: any) {
       if (config.flags.logs) {
         console.error(e);
@@ -48,7 +47,7 @@ export default async function handler({
   try {
     await config.storage.update(
       { k1, session: { pubkey, sig, success: true } },
-      path,
+      url,
       config
     );
   } catch (e: any) {

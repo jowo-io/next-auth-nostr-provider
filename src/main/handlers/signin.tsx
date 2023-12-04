@@ -101,7 +101,6 @@ function LightningAuthPage({ config }: { config: Config }) {
 export default async function handler({
   query,
   cookies,
-  path,
   url,
   config,
 }: HandlerArguments): Promise<HandlerReturn> {

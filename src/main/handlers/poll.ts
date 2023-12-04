@@ -4,7 +4,6 @@ import { HandlerArguments, HandlerReturn } from "../utils/handlers";
 export default async function handler({
   body,
   cookies,
-  path,
   url,
   config,
 }: HandlerArguments): Promise<HandlerReturn> {
@@ -17,7 +16,7 @@ export default async function handler({
 
   let session;
   try {
-    session = await config.storage.get({ k1 }, path, config);
+    session = await config.storage.get({ k1 }, url, config);
   } catch (e: any) {
     if (config.flags.diagnostics && config.flags.logs) {
       console.warn(

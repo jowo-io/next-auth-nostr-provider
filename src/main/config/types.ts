@@ -67,12 +67,12 @@ export type RequiredConfig = {
           state: string;
         };
       },
-      path: string,
+      url: URL,
       config: Config
     ) => Promise<undefined>;
     get: (
       args: { k1: string },
-      path: string,
+      url: URL,
       config: Config
     ) => Promise<LightningAuthSession | null | undefined>;
     update: (
@@ -84,12 +84,12 @@ export type RequiredConfig = {
           success: boolean;
         };
       },
-      path: string,
+      url: URL,
       config: Config
     ) => Promise<undefined>;
     delete: (
       args: { k1: string },
-      path: string,
+      url: URL,
       config: Config
     ) => Promise<undefined>;
   };

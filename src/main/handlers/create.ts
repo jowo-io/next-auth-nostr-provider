@@ -9,7 +9,6 @@ import { HandlerArguments, HandlerReturn } from "../utils/handlers";
 export default async function handler({
   body,
   cookies,
-  path,
   url,
   config,
 }: HandlerArguments): Promise<HandlerReturn> {
@@ -23,7 +22,7 @@ export default async function handler({
   // if an old k1 is provided, delete it
   if (typeof body?.k1 === "string") {
     try {
-      await config.storage.delete({ k1: body.k1 }, path, config);
+      await config.storage.delete({ k1: body.k1 }, url, config);
     } catch (e: any) {
       if (config.flags.logs) {
         console.error(e);
@@ -48,7 +47,7 @@ export default async function handler({
   const encoded = lnurl.encode(callbackUrl.toString()).toUpperCase();
 
   try {
-    await config.storage.set({ k1, session: { k1, state } }, path, config);
+    await config.storage.set({ k1, session: { k1, state } }, url, config);
   } catch (e: any) {
     if (config.flags.diagnostics && config.flags.logs) {
       console.warn(
