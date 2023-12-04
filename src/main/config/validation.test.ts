@@ -7,7 +7,7 @@ const requiredConfig = {
   siteUrl: "http://a.b",
   secret: "1234567890",
   storage: {
-    set: async () => {},
+    set: async () => undefined,
     get: async () => ({
       k1: "k1",
       state: "state",
@@ -15,10 +15,10 @@ const requiredConfig = {
       pubkey: "pubkey",
       success: true,
     }),
-    update: async () => {},
-    delete: async () => {},
+    update: async () => undefined,
+    delete: async () => undefined,
   },
-  generateQr: async () => ({ data: "qr-data", type: "svg" }),
+  generateQr: async () => ({ data: "qr-data", type: "svg" as "svg" }),
 };
 
 function parse(data: Record<string, any>, input: any) {
@@ -486,7 +486,10 @@ describe("generateAvatar", () => {
 
   test("passes when generateAvatar is valid type", () => {
     const userConfig = merge({}, requiredConfig, {
-      generateAvatar: async () => ({ data: "avatar-data", type: "svg" }),
+      generateAvatar: async () => ({
+        data: "avatar-data",
+        type: "svg" as "svg",
+      }),
     });
     const expected: any = [];
     const output = parse(configValidation, userConfig);

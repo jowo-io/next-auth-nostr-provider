@@ -10,14 +10,17 @@ import {
 import { hardConfig } from "./hard";
 import { UserConfig } from "./types";
 
-const generateQr = jest.fn(async () => ({ data: "qr-data", type: "svg" }));
+const generateQr = jest.fn(async () => ({
+  data: "qr-data",
+  type: "svg" as "svg",
+}));
 const generateAvatar = jest.fn(async () => ({
   data: "avatar-data",
-  type: "svg",
+  type: "svg" as "svg",
 }));
 const generateName = jest.fn(async () => ({ name: "name" }));
 const storage = {
-  set: jest.fn(async () => {}),
+  set: jest.fn(async () => undefined),
   get: jest.fn(async () => ({
     k1: "k1",
     state: "state",
@@ -25,8 +28,8 @@ const storage = {
     pubkey: "pubkey",
     success: true,
   })),
-  update: jest.fn(async () => {}),
-  delete: jest.fn(async () => {}),
+  update: jest.fn(async () => undefined),
+  delete: jest.fn(async () => undefined),
 };
 
 const requiredConfig = {
