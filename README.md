@@ -421,6 +421,28 @@ const config: NextAuthLightningConfig = {
     text: "#0000ff",
 
     /**
+     * @param {string} signInButtonBackground
+     *
+     * Override the theme's button background color. This is the button that's shown in the
+     * `next-auth` auth page alongside your other providers.
+     *
+     * @default light "#24292f"
+     * @default dark "#24292f"
+     */
+    signInButtonBackground: "#00ff00",
+
+    /**
+     * @param {string} signInButtonText
+     *
+     * Override the theme's button text color. This is the button that's shown in the
+     * `next-auth` auth page alongside your other providers.
+     *
+     * @default light "#ffffff"
+     * @default dark "#ffffff"
+     */
+    signInButtonText: "#ff00ff",
+
+    /**
      * @param {object} color
      *
      * Override the theme's background color.
@@ -450,28 +472,6 @@ const config: NextAuthLightningConfig = {
      * @default dark 0.5
      */
     qrMargin: 1,
-
-    /**
-     * @param {string} signInButtonBackground
-     *
-     * Override the theme's button background color. This is the button that's shown in the
-     * `next-auth` auth page alongside your other providers.
-     *
-     * @default light "#24292f"
-     * @default dark "#24292f"
-     */
-    signInButtonBackground: "#00ff00",
-
-    /**
-     * @param {string} signInButtonText
-     *
-     * Override the theme's button text color. This is the button that's shown in the
-     * `next-auth` auth page alongside your other providers.
-     *
-     * @default light "#ffffff"
-     * @default dark "#ffffff"
-     */
-    signInButtonText: "#ff00ff",
   },
 
 };

@@ -5,29 +5,29 @@ import { Config, UserConfig, OptionalConfig, ThemeStyles } from "./types";
 import { hardConfig } from "./hard";
 import { configValidation } from "./validation";
 
-const colorSchemeLight: ThemeStyles = {
+export const colorSchemeLight: ThemeStyles = {
   background: "#ececec",
   backgroundCard: "#ffffff",
   text: "#000000",
+  signInButtonBackground: "#24292f",
+  signInButtonText: "#ffffff",
   qrBackground: "#ffffff",
   qrForeground: "#0d1117",
   qrMargin: 0,
-  signInButtonBackground: "#24292f",
-  signInButtonText: "#ffffff",
 };
 
-const colorSchemeDark: ThemeStyles = {
+export const colorSchemeDark: ThemeStyles = {
   background: "#161b22",
   backgroundCard: "#0d1117",
   text: "#ffffff",
+  signInButtonBackground: "#24292f",
+  signInButtonText: "#ffffff",
   qrBackground: "#ffffff",
   qrForeground: "#0d1117",
   qrMargin: 0.5,
-  signInButtonBackground: "#24292f",
-  signInButtonText: "#ffffff",
 };
 
-const defaultConfig: Partial<OptionalConfig> = {
+export const defaultConfig: Partial<OptionalConfig> = {
   pages: {
     signIn: "/api/lnauth/signin", // default lightning auth page
     error: "/api/auth/error", // default next-auth error page

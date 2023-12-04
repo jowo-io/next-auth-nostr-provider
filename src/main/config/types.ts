@@ -100,11 +100,11 @@ export type ThemeStyles = {
   background: string;
   backgroundCard: string;
   text: string;
+  signInButtonBackground: string;
+  signInButtonText: string;
   qrBackground: string;
   qrForeground: string;
   qrMargin: number;
-  signInButtonBackground: string;
-  signInButtonText: string;
 };
 
 export type OptionalConfig = {

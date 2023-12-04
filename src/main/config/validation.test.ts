@@ -1,7 +1,7 @@
 import { describe, expect, test } from "@jest/globals";
+import merge from "lodash.merge";
 
 import { configValidation } from "./validation";
-import merge from "lodash.merge";
 
 const requiredConfig = {
   siteUrl: "http://a.b",
