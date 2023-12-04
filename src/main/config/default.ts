@@ -3,6 +3,7 @@ import { z } from "zod";
 
 import { Config, UserConfig, OptionalConfig, ThemeStyles } from "./types";
 import { hardConfig } from "./hard";
+import { configValidation } from "./validation";
 
 const colorSchemeLight: ThemeStyles = {
   background: "#ececec",
@@ -37,52 +38,6 @@ const defaultConfig: Partial<OptionalConfig> = {
   },
 };
 
-const configValidation = z
-  .object({
-    // required
-    siteUrl: z.string(),
-    secret: z.string(),
-    storage: z.object({
-      set: z.function(),
-      get: z.function(),
-      update: z.function(),
-      delete: z.function(),
-    }),
-    generateQr: z.function(),
-
-    // optional
-    generateAvatar: z.function().nullable().optional(),
-    generateName: z.function().nullable().optional(),
-    pages: z
-      .object({
-        signIn: z.string().optional(),
-        error: z.string().optional(),
-      })
-      .nullish(),
-    flags: z
-      .object({
-        diagnostics: z.string().optional(),
-        logs: z.string().optional(),
-      })
-      .nullish(),
-    title: z.string().nullable().optional(),
-    theme: z
-      .object({
-        colorScheme: z.string().optional(),
-        background: z.string().optional(),
-        backgroundCard: z.string().optional(),
-        text: z.string().optional(),
-        error: z.string().optional(),
-        signInButtonBackground: z.string().optional(),
-        signInButtonText: z.string().optional(),
-        qrBackground: z.string().optional(),
-        qrForeground: z.string().optional(),
-        qrMargin: z.number().optional(),
-      })
-      .nullish(),
-  })
-  .strict();
-
 export function formatConfig(userConfig: UserConfig): Config {
   const theme =
     userConfig.theme?.colorScheme === "dark"
@@ -101,6 +56,7 @@ export function formatConfig(userConfig: UserConfig): Config {
   });
 
   return merge(
+    {}, // empty object to merge into
     defaultConfig,
     { theme, flags },
     userConfig,

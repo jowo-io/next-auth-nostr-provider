@@ -14,6 +14,7 @@ Below is a TODO list for further development of `next-auth-lightning-provider`
   import { createRequire } from "module";
   const require = createRequire(import.meta.url);
   ```
+- make jest typescript settings the same as project
 
 ### Beta
 

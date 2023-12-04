@@ -275,6 +275,8 @@ const config: NextAuthLightningConfig = {
      * `signIn` path is specified. It lets you define your own page where
      * you can configure a custom Next.js page and customize the UI.
      *
+     * @note the path must begin with a leading `/`. For example, `/signin`, not `signin`.
+     *
      * @see https://github.com/jowo-io/next-auth-lightning-provider/tree/main/examples/custom-pages/
      *
      * @default "/api/lnauth/signin"
@@ -287,6 +289,8 @@ const config: NextAuthLightningConfig = {
      * By default users will be redirected to the `next-auth` sign in page
      * and shown an error message there. If you want a custom error page,
      * you can define the path here.
+     *
+     * @note the path must begin with a leading `/`. For example, `/error`, not `error`.
      *
      * @see https://github.com/jowo-io/next-auth-lightning-provider/tree/main/examples/custom-pages/
      *
