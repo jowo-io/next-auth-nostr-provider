@@ -1,4 +1,4 @@
-import { IssueData, z } from "zod";
+import { z } from "zod";
 
 export const callbackValidation = z.object({
   k1: z.string().min(1),
@@ -8,9 +8,12 @@ export const callbackValidation = z.object({
 
 export type CallbackValidation = z.infer<typeof callbackValidation>;
 
-export const createValidation = z.object({
-  state: z.string().min(1),
-});
+export const createValidation = z
+  .object({
+    state: z.string().min(1),
+    k1: z.string().min(1).optional(),
+  })
+  .strict();
 
 export type CreateValidation = z.infer<typeof callbackValidation>;
 
@@ -21,9 +24,11 @@ export const signInValidation = z.object({
 
 export type SignInValidation = z.infer<typeof callbackValidation>;
 
-export const pollValidation = z.object({
-  k1: z.string().min(1),
-});
+export const pollValidation = z
+  .object({
+    k1: z.string().min(1),
+  })
+  .strict();
 
 export type PingValidation = z.infer<typeof callbackValidation>;
 
@@ -37,9 +42,3 @@ export const tokenValidation = z.object({
 });
 
 export type TokenValidation = z.infer<typeof callbackValidation>;
-
-export const userValidation = z.object({
-  access_token: z.string().min(1),
-});
-
-export type UserValidation = z.infer<typeof callbackValidation>;
