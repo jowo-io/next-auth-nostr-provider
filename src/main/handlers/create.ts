@@ -1,6 +1,3 @@
-import { createRequire } from "module";
-const require = createRequire(import.meta.url);
-
 import { randomBytes } from "crypto";
 
 import { createValidation } from "../validation/lnauth";
@@ -12,17 +9,17 @@ export default async function handler({
   url,
   config,
 }: HandlerArguments): Promise<HandlerReturn> {
-  let state;
+  let state, oldK1;
   try {
-    ({ state } = createValidation.parse(body));
+    ({ state, k1: oldK1 } = createValidation.parse(body));
   } catch (e: any) {
     return { error: "BadRequest", log: e.message };
   }
 
   // if an old k1 is provided, delete it
-  if (typeof body?.k1 === "string") {
+  if (typeof oldK1 === "string") {
     try {
-      await config.storage.delete({ k1: body.k1 }, url, config);
+      await config.storage.delete({ k1: oldK1 }, url, config);
     } catch (e: any) {
       if (config.flags.logs) {
         console.error(e);

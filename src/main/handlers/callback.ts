@@ -1,6 +1,3 @@
-import { createRequire } from "module";
-const require = createRequire(import.meta.url);
-
 import { callbackValidation } from "../validation/lnauth";
 import { HandlerArguments, HandlerReturn } from "../utils/handlers";
 
