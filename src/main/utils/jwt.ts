@@ -11,14 +11,13 @@ export async function generateIdToken(
   const secret = Buffer.from(config.secret);
 
   const expires = Math.floor(Date.now() / 1000 + config.intervals.idToken);
-
   const jwt = await new jose.SignJWT({
     id: pubkey,
     name,
     image,
   })
     .setProtectedHeader({ alg: "HS256" })
-    .setIssuedAt()
+    .setIssuedAt(Math.floor(Date.now() / 1000))
     .setIssuer(config.siteUrl)
     .setAudience(config.siteUrl)
     .setExpirationTime(expires)
@@ -37,7 +36,7 @@ export async function generateRefreshToken(pubkey: string, config: Config) {
     id: pubkey,
   })
     .setProtectedHeader({ alg: "HS256" })
-    .setIssuedAt()
+    .setIssuedAt(Math.floor(Date.now() / 1000))
     .setIssuer(config.siteUrl)
     .setAudience(config.siteUrl)
     .setExpirationTime(expires)
