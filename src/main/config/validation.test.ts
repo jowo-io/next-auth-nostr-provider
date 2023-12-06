@@ -1,4 +1,5 @@
 import { describe, expect, test } from "@jest/globals";
+import { ZodObject } from "zod";
 import merge from "lodash.merge";
 
 import { configValidation } from "./validation";
@@ -21,9 +22,9 @@ const requiredConfig = {
   generateQr: async () => ({ data: "qr-data", type: "svg" as "svg" }),
 };
 
-function parse(data: Record<string, any>, input: any) {
+function parse(zod: ZodObject<any>, input: any) {
   try {
-    data.parse(input);
+    zod.parse(input);
   } catch (e: any) {
     if (e?.issues) {
       return JSON.parse(JSON.stringify(e.issues));
