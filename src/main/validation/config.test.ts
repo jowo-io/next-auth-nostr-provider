@@ -2,7 +2,7 @@ import { describe, expect, test } from "@jest/globals";
 import { ZodObject } from "zod";
 import merge from "lodash.merge";
 
-import { configValidation } from "./validation";
+import { configValidation } from "./config";
 
 const requiredConfig = {
   siteUrl: "http://a.b",

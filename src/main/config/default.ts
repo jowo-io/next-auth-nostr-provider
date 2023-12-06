@@ -3,7 +3,7 @@ import { z } from "zod";
 
 import { Config, UserConfig, OptionalConfig, ThemeStyles } from "./types";
 import { hardConfig } from "./hard";
-import { configValidation } from "./validation";
+import { configValidation } from "../validation/config";
 
 export const colorSchemeLight: ThemeStyles = {
   background: "#ececec",
