@@ -30,17 +30,9 @@ const requiredConfig = {
 const pubkey = "0123456789";
 
 describe("avatar handler", () => {
-  let consoleError: any;
-  let consoleWarn: any;
-  beforeAll(() => {
-    consoleError = console.error;
-    consoleWarn = console.warn;
-    console.error = jest.fn();
-    console.warn = jest.fn();
-  });
-  afterAll(() => {
-    console.error = consoleError;
-    console.warn = consoleWarn;
+  beforeEach(() => {
+    jest.spyOn(console, "warn").mockImplementation();
+    jest.spyOn(console, "error").mockImplementation();
   });
 
   test("missing pubkey from url", async () => {

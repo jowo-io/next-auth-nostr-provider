@@ -36,17 +36,9 @@ const requiredConfig = {
 };
 
 describe("create handler", () => {
-  let consoleError: any;
-  let consoleWarn: any;
-  beforeAll(() => {
-    consoleError = console.error;
-    consoleWarn = console.warn;
-    console.error = jest.fn();
-    console.warn = jest.fn();
-  });
-  afterAll(() => {
-    console.error = consoleError;
-    console.warn = consoleWarn;
+  beforeEach(() => {
+    jest.spyOn(console, "warn").mockImplementation();
+    jest.spyOn(console, "error").mockImplementation();
   });
 
   test("doesn't calls delete if no old k1 is provided", async () => {

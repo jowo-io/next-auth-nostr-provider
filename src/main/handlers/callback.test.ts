@@ -38,17 +38,9 @@ const sig =
   "3045022100c888791a4025396d822c06fa72756364b9aea4fd864889f3203a52c3342545eb022005d7acefee963101985b3f898a084323a179bf98a226f5f39f6823bc31d16a55";
 
 describe("callback handler", () => {
-  let consoleError: any;
-  let consoleWarn: any;
-  beforeAll(() => {
-    consoleError = console.error;
-    consoleWarn = console.warn;
-    console.error = jest.fn();
-    console.warn = jest.fn();
-  });
-  afterAll(() => {
-    console.error = consoleError;
-    console.warn = consoleWarn;
+  beforeEach(() => {
+    jest.spyOn(console, "warn").mockImplementation();
+    jest.spyOn(console, "error").mockImplementation();
   });
 
   test("throws when k1 is invalid", async () => {
