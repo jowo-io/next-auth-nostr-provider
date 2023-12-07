@@ -28,7 +28,7 @@ export default async function handler({
     if (!k1) {
       return {
         error: "BadRequest",
-        log: "The 'code' query param is undefined",
+        log: "The 'code' body argument is undefined",
       };
     }
     let session;
@@ -73,7 +73,7 @@ export default async function handler({
     if (!refreshToken) {
       return {
         error: "BadRequest",
-        log: "The 'refresh_token' query param is undefined",
+        log: "The 'refresh_token' body argument is undefined",
       };
     }
     const data = await verifyRefreshToken(refreshToken, config);
@@ -87,7 +87,7 @@ export default async function handler({
   } else {
     return {
       error: "BadRequest",
-      log: "Invalid 'grant_type' query param, supported: 'authorization_code' and 'refresh_token'",
+      log: "Invalid 'grant_type' body argument, supported: 'authorization_code' and 'refresh_token'",
     };
   }
 
