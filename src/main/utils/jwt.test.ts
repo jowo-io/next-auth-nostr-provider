@@ -103,7 +103,6 @@ describe("jwt", () => {
   describe("generateRefreshToken", () => {
     test("returns a valid refresh token with pubkey", async () => {
       const output = await generateRefreshToken(pubkey, config);
-      console.log(output);
       const decoded = await jose.jwtVerify(output, secret);
       const expected = {
         payload: {

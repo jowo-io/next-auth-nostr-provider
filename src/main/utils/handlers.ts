@@ -117,11 +117,13 @@ async function pagesHandler(
         res.setHeader(key, value)
       );
       res.status(output.status || 500);
-      return res.send({
-        message: HandlerErrorCodes[output.error],
-        error: output.error,
-        url: errorUrl.toString(),
-      });
+      return res.send(
+        JSON.stringify({
+          error: output.error,
+          message: HandlerErrorCodes[output.error],
+          url: errorUrl.toString(),
+        })
+      );
     }
   }
 
@@ -130,20 +132,17 @@ async function pagesHandler(
   }
 
   if ("response" in output) {
+    Object.entries(output.headers || {}).forEach(([key, value]) =>
+      res.setHeader(key, value)
+    );
+
+    res.status(output.status || 200);
     if (
       typeof output.response === "string" ||
       output.response instanceof Buffer
     ) {
-      Object.entries(output.headers || {}).forEach(([key, value]) =>
-        res.setHeader(key, value)
-      );
-      res.status(output.status || 200);
       return res.send(output.response);
     } else if (typeof output.response === "object") {
-      Object.entries(output.headers || {}).forEach(([key, value]) =>
-        res.setHeader(key, value)
-      );
-      res.status(output.status || 200);
       return res.send(JSON.stringify(output.response));
     }
   }
@@ -159,7 +158,7 @@ async function appHandler(
   const params = new URLSearchParams(text);
   const body = paramsToObject(params);
 
-  const url = new URL(req.nextUrl);
+  const url = new URL(config.siteUrl + req.nextUrl.pathname);
 
   const args: HandlerArguments = {
     query,
@@ -203,8 +202,8 @@ async function appHandler(
     } else {
       return Response.json(
         {
-          message: HandlerErrorCodes[output.error],
           error: output.error,
+          message: HandlerErrorCodes[output.error],
           url: errorUrl.toString(),
         },
         {
@@ -220,19 +219,17 @@ async function appHandler(
   }
 
   if ("response" in output) {
+    const options = {
+      status: output.status || 200,
+      headers: output.headers || {},
+    };
     if (
       typeof output.response === "string" ||
       output.response instanceof Buffer
     ) {
-      return new Response(output.response, {
-        status: output.status || 200,
-        headers: output.headers || {},
-      });
+      return new Response(output.response, options);
     } else if (typeof output.response === "object") {
-      return Response.json(output.response, {
-        status: output.status || 200,
-        headers: output.headers || {},
-      });
+      return Response.json(output.response, options);
     }
   }
 }
