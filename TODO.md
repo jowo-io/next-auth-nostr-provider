@@ -5,7 +5,6 @@ Below is a TODO list for further development of `next-auth-lightning-provider`
 ### Alpha
 
 - investigate CSRF for next-auth
-- add jest tests where applicable
 - test diagnostics API with KV and
 - look into dicebear console warnings when running app-router example
 - test deploy all the various example apps
