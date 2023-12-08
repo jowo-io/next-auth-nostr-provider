@@ -31,6 +31,9 @@ As well as providing the basic authentication functionality that you'd expect, `
     "next-auth": "^4",
     "react": "^17.0.2 || ^18",
     "react-dom": "^17.0.2 || ^18"
+  },
+  "engines": {
+    "node": ">=14"
   }
 }
 ```

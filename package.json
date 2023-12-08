@@ -49,6 +49,9 @@
     "test": "jest --watch",
     "prebuild": "npm run clean && jest"
   },
+  "engines": {
+    "node": ">=14"
+  },
   "peerDependencies": {
     "next": "^12.2.5 || ^13 || ^14",
     "next-auth": "^4",
