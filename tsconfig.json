@@ -40,19 +40,7 @@
     "node_modules"
   ],
   "tsc-alias": {
-    "resolveFullPaths": false,
+    "resolveFullPaths": true,
     "verbose": false,
-    "replacers": {
-      "base-url": {
-        "enabled": false
-      }
-    },
-    "fileExtensions": {
-      "inputGlob": "{js,jsx}",
-      "outputCheck": [
-        "js",
-        "jsx"
-      ]
-    }
   }
 }
