@@ -1,6 +1,6 @@
 {
   "name": "next-auth-lightning-provider",
-  "version": "1.0.0-alpha.29",
+  "version": "1.0.0-alpha.30",
   "type": "module",
   "description": "A light-weight Lightning auth provider for your Next.js app that's entirely self-hosted and plugs seamlessly into the next-auth framework.",
   "license": "ISC",
