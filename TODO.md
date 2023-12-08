@@ -1,31 +1,32 @@
 # TODO
 
-Below is a TODO list for further development of `next-auth-lightning-provider`
+Below is a TODO list for further development of `next-auth-lightning-provider`.
 
 ### Alpha
 
 - investigate CSRF for next-auth
-- test diagnostics API with KV and
 - look into dicebear console warnings when running app-router example
-- test deploy all the various example apps
 - look into supporting different versions of node (`require`)
   ```javascript
   import { createRequire } from "module";
   const require = createRequire(import.meta.url);
   ```
-- make jest typescript settings the same as project
 
 ### Beta
 
-- carefully run through the auth and data flow to look for bugs or oversights
+- test diagnostics API with KV and
+- test deploy all the various example apps
 - manual testing. pre beta release make list of all test criteria and go through them
-- deploy app to vercel and test remotely
+  - test node, next, next-auth versions for compatibility (including deployed)
+  - test all user configuration options
 - tidy up READMEs
   - add yellow notes to diagram.
   - carefully scan for errors and typos
   - ensure consistent formatting is used. full stops, caps, etc
   - add suggestion: cleaning up old and unused lnauth session data that was created but never reached success state.
   - add OpenSats logo
+- write SN post and publish it
+- update readme warning to BETA
 
 ### Release
 
@@ -43,3 +44,5 @@ Stuff I may or may not get around to:
 - add JSDocs comments to all internally used functions
 - add comments to code
 - 404 page?
+- make jest typescript settings the same as project
+- add extra tests for difficult code like signin / diagnostics pages, hooks, vanilla js etc.
