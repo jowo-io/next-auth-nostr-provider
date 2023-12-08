@@ -14,10 +14,12 @@ export default async function handler({
     return { error: "BadRequest", log: e.message };
   }
 
-  const lnurl = require("lnurl");
+  const lnurlVerifyAuthorizationSignature = // @ts-ignore
+    (await import("lnurl/lib/verifyAuthorizationSignature.js")).default;
+
   let authorize;
   try {
-    authorize = await lnurl.verifyAuthorizationSignature(sig, k1, pubkey);
+    authorize = await lnurlVerifyAuthorizationSignature(sig, k1, pubkey);
   } catch (e: any) {
     return { error: "Unauthorized", log: e.message };
   }

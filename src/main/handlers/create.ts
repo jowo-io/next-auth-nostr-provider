@@ -40,8 +40,9 @@ export default async function handler({
   callbackUrl.searchParams.append("k1", k1);
   callbackUrl.searchParams.append("tag", "login");
 
-  const lnurl = require("lnurl");
-  const encoded = lnurl.encode(callbackUrl.toString()).toUpperCase();
+  const lnurlEncode = // @ts-ignore
+    (await import("lnurl/lib/encode.js")).default;
+  const encoded = lnurlEncode(callbackUrl.toString()).toUpperCase();
 
   try {
     await config.storage.set({ k1, session: { k1, state } }, url, config);

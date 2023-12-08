@@ -6,11 +6,6 @@ Below is a TODO list for further development of `next-auth-lightning-provider`.
 
 - investigate CSRF for next-auth
 - look into dicebear console warnings when running app-router example
-- look into supporting different versions of node (`require`)
-  ```javascript
-  import { createRequire } from "module";
-  const require = createRequire(import.meta.url);
-  ```
 
 ### Beta
 
