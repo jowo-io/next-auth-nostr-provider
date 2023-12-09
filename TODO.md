@@ -4,7 +4,6 @@ Below is a TODO list for further development of `next-auth-lightning-provider`.
 
 ### Alpha
 
-- add custom polling / recreate time
 - investigate CSRF for next-auth
 - test deploy all the various example apps
   - app router generic
