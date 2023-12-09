@@ -3,7 +3,7 @@ import { useSession } from "next-auth/react";
 
 import LightningAuth from "@/components/LightningAuth";
 
-export default function LoginPage() {
+export default function SignInPage() {
   const { isReady, query } = useRouter();
   const session = useSession();
 
