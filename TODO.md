@@ -4,7 +4,6 @@ Below is a TODO list for further development of `next-auth-lightning-provider`.
 
 ### Alpha
 
-- investigate CSRF for next-auth
 - test deploy all the various example apps
   - app router generic
   - app router custom pages
@@ -45,3 +44,4 @@ Stuff I may or may not get around to:
 - make jest typescript settings the same as project
 - add extra tests for difficult code like signin / diagnostics pages, hooks, vanilla js etc.
 - look into dicebear console warnings in `custom-pages` example when running when running locally (they don't appear when when installed via npm, so low priority)
+- implement CSRF for poll and create endpoints (the rest are either GET requests or made under the `next-auth` hood, e.g. `token` request)
