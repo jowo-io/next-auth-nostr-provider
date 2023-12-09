@@ -4,11 +4,12 @@ Below is a TODO list for further development of `next-auth-lightning-provider`.
 
 ### Alpha
 
+- `Response body object should not be disturbed or locked` in `ui-app-router` example create request
 - test deploy all the various example apps
-  - app router generic
-  - app router custom pages
-  - pages router generic
-  - pages router custom pages
+  - ar-generic
+  - ar-custom
+  - pr-generic
+  - pr-custom
 
 ### Beta
 
@@ -43,5 +44,5 @@ Stuff I may or may not get around to:
 - 404 page?
 - make jest typescript settings the same as project
 - add extra tests for difficult code like signin / diagnostics pages, hooks, vanilla js etc.
-- look into dicebear console warnings in `custom-pages` example when running when running locally (they don't appear when when installed via npm, so low priority)
+- look into dicebear console warnings in `ui-pages-router` example when running when running locally (they don't appear when when installed via npm, so low priority)
 - implement CSRF for poll and create endpoints (the rest are either GET requests or made under the `next-auth` hood, e.g. `token` request)

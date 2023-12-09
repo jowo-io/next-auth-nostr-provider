@@ -1,5 +1,4 @@
 import NextAuthLightning, {
-  LightningAuthSession,
   NextAuthLightningConfig,
 } from "next-auth-lightning-provider";
 import generateQr from "next-auth-lightning-provider/generators/qr";

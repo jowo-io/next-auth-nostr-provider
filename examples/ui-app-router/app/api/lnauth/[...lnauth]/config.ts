@@ -5,9 +5,11 @@ import generateQr from "next-auth-lightning-provider/generators/qr";
 import generateName from "next-auth-lightning-provider/generators/name";
 import generateAvatar from "next-auth-lightning-provider/generators/avatar";
 
-import { kv } from "@vercel/kv";
-
 import { env } from "@/env.mjs";
+
+import storage from "node-persist"; // ⚠️ WARNING using node-persist is not recommended in lambda or edge environments.
+
+await storage.init();
 
 const config: NextAuthLightningConfig = {
   // required
@@ -15,17 +17,17 @@ const config: NextAuthLightningConfig = {
   secret: env.NEXTAUTH_SECRET,
   storage: {
     async set({ k1, session }) {
-      await kv.set(`k1:${k1}`, session);
+      await storage.setItem(`k1:${k1}`, session);
     },
     async get({ k1 }) {
-      return await kv.get(`k1:${k1}`);
+      return await storage.getItem(`k1:${k1}`);
     },
     async update({ k1, session }) {
-      const old = (await kv.get(`k1:${k1}`)) || {};
-      await kv.set(`k1:${k1}`, { ...old, ...session });
+      const old = await storage.getItem(`k1:${k1}`);
+      await storage.updateItem(`k1:${k1}`, { ...old, ...session });
     },
     async delete({ k1 }) {
-      await kv.del(`k1:${k1}`);
+      await storage.removeItem(`k1:${k1}`);
     },
   },
   generateQr,
@@ -33,6 +35,15 @@ const config: NextAuthLightningConfig = {
   // optional
   generateName,
   generateAvatar,
+
+  pages: {
+    signIn: "/signin",
+    error: "/error",
+  },
+  flags: {
+    diagnostics: true,
+    logs: true,
+  },
   theme: {
     colorScheme: "dark",
   },
@@ -42,4 +53,4 @@ const { provider, handler } = NextAuthLightning(config);
 
 export const lightningProvider = provider;
 
-export default handler;
+export { handler };

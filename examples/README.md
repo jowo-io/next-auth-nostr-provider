@@ -1,9 +1,5 @@
 # Examples
 
-### Custom Auth page
-
-The [examples/custom-pages/](https://github.com/jowo-io/next-auth-lightning-provider/tree/main/examples/custom-pages) example demonstrates how to configure a custom Lightning auth pages.
-
 ### App Router
 
 The [examples/app-router/](https://github.com/jowo-io/next-auth-lightning-provider/tree/main/examples/app-router) example demonstrates how to configure `next-auth-lightning-provider` using the Next.js App Router.
@@ -31,3 +27,13 @@ The [examples/drizzle/](https://github.com/jowo-io/next-auth-lightning-provider/
 ### Firebase
 
 > COMING SOON
+
+### Customized UI
+
+##### Pages router
+
+The [examples/ui-pages-router/](https://github.com/jowo-io/next-auth-lightning-provider/tree/main/examples/ui-pages-router) example demonstrates how to configure a custom UI for the Lightning auth pages in the pages router.
+
+##### App router
+
+The [examples/ui-app-router/](https://github.com/jowo-io/next-auth-lightning-provider/tree/main/examples/ui-app-router) example demonstrates how to configure a custom UI for the Lightning auth pages in the app router.

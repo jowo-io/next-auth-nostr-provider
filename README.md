@@ -80,7 +80,6 @@ Create a new API route under `pages/api/lnauth/[...lnauth].ts`
 // @/pages/api/lnauth/[...lnauth].ts
 
 import NextAuthLightning, {
-  LightningAuthSession,
   NextAuthLightningConfig,
 } from "next-auth-lightning-provider";
 import generateQr from "next-auth-lightning-provider/generators/qr";
@@ -280,7 +279,7 @@ const config: NextAuthLightningConfig = {
      *
      * @note the path must begin with a leading `/`. For example, `/signin`, not `signin`.
      *
-     * @see https://github.com/jowo-io/next-auth-lightning-provider/tree/main/examples/custom-pages/
+     * @see https://github.com/jowo-io/next-auth-lightning-provider/tree/main/examples/ui-pages-router/
      *
      * @default "/api/lnauth/signin"
      */
@@ -295,7 +294,7 @@ const config: NextAuthLightningConfig = {
      *
      * @note the path must begin with a leading `/`. For example, `/error`, not `error`.
      *
-     * @see https://github.com/jowo-io/next-auth-lightning-provider/tree/main/examples/custom-pages/
+     * @see https://github.com/jowo-io/next-auth-lightning-provider/tree/main/examples/ui-pages-router/
      *
      * @default "/api/auth/error"
      */
