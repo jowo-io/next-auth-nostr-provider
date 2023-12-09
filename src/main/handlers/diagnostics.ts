@@ -10,8 +10,8 @@ type Check = {
 };
 
 export function testField(
-  expected: Record<string, any>,
   received: Record<string, any>,
+  expected: Record<string, any>,
   field: "k1" | "state" | "pubkey" | "sig" | "success"
 ): Check {
   const state = received[field] !== expected[field] ? "failed" : "success";
