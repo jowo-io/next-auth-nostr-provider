@@ -10,7 +10,7 @@ function formatErrorCode(value: any): keyof typeof ErrorCodes {
   return "Default";
 }
 
-export default function ErrorPage() {
+export default function Error() {
   const { isReady, query } = useRouter();
 
   const errorCode = formatErrorCode(query.error);
