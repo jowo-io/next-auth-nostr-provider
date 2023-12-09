@@ -16,7 +16,7 @@ export default function Error() {
   const errorCode = formatErrorCode(query.error);
 
   // access an error message from the query parameters
-  const queryMessage = query.message || "Something went wrong";
+  const queryMessage = query.message || ErrorCodes.Default;
 
   // access an error message from the `ErrorCodes` enum
   const hardCodedMessage = ErrorCodes[errorCode];
