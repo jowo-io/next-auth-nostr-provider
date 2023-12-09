@@ -22,7 +22,8 @@ const config: NextAuthLightningConfig = {
       return await kv.get(`k1:${k1}`);
     },
     async update({ k1, session }) {
-      await kv.set(`k1:${k1}`, session);
+      const old = (await kv.get(`k1:${k1}`)) || {};
+      await kv.set(`k1:${k1}`, { ...old, ...session });
     },
     async delete({ k1 }) {
       await kv.del(`k1:${k1}`);
