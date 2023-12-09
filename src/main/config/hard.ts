@@ -29,7 +29,5 @@ export const hardConfig: HardConfig = {
   intervals: {
     refreshToken: 30 * 24 * 60 * 60, // seconds
     idToken: 4 * 60 * 60, // seconds
-    poll: 1000, // milliseconds
-    create: 5 * 60 * 1000, // milliseconds
   },
 };

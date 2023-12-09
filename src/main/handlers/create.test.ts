@@ -81,6 +81,10 @@ describe("create handler", () => {
             throw new Error("Foo bar");
           }),
         },
+        intervals: {
+          poll: 500,
+          create: 300000,
+        },
       })
     ) as Config;
     const url = new URL(`${requiredConfig.siteUrl}/api/lnauth/create`);
@@ -95,6 +99,8 @@ describe("create handler", () => {
         k1: newK1,
         lnurl,
         success: true,
+        pollInterval: 500,
+        createInterval: 300000,
       },
     };
     expect(output).toEqual(expected);
@@ -145,9 +151,14 @@ describe("create handler", () => {
   });
 
   test("returns formatted lnurl", async () => {
-    const config = formatConfig({
-      ...requiredConfig,
-    }) as Config;
+    const config = formatConfig(
+      merge({}, requiredConfig, {
+        intervals: {
+          poll: 500,
+          create: 300000,
+        },
+      })
+    ) as Config;
     const url = new URL(`${requiredConfig.siteUrl}/api/lnauth/create`);
     const output = await handler({
       body: { state },
@@ -160,6 +171,8 @@ describe("create handler", () => {
         k1: newK1,
         lnurl,
         success: true,
+        pollInterval: 500,
+        createInterval: 300000,
       },
     };
     expect(output).toEqual(expected);

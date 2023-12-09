@@ -35,7 +35,12 @@ export function useLightningAuth({
   const [lnurl, setUrl] = useState<string | null>(null);
 
   useEffect(() => {
-    let session: { k1?: string; lnurl?: string } | null;
+    let session: {
+      k1: string;
+      lnurl: string;
+      pollInterval: number;
+      createInterval: number;
+    } | null;
     let pollTimeoutId: NodeJS.Timeout | undefined;
     let createIntervalId: NodeJS.Timeout | undefined;
     let networkRequestCount: number = 0;
@@ -90,7 +95,7 @@ export function useLightningAuth({
           // if there are more than X network errors, then trigger redirect
           networkRequestCount++;
           if (networkRequestCount >= maxNetworkRequestsFailures) {
-            pollTimeoutId = setTimeout(poll, hardConfig.intervals.poll);
+            pollTimeoutId = setTimeout(poll, session!.pollInterval);
             throw e;
           }
         })
@@ -102,7 +107,7 @@ export function useLightningAuth({
 
           if (d) networkRequestCount = 0;
           if (d && d.message) throw new Error(d.message);
-          pollTimeoutId = setTimeout(poll, hardConfig.intervals.poll);
+          pollTimeoutId = setTimeout(poll, session!.pollInterval);
 
           if (d && d.success) {
             cleanup();
@@ -142,6 +147,10 @@ export function useLightningAuth({
           session = d;
           if (!session || !session.lnurl) return;
 
+          // setup intervals and create first qr code
+          pollTimeoutId = setTimeout(poll, session?.pollInterval);
+          createIntervalId = setInterval(create, session?.createInterval);
+
           setUrl(session?.lnurl || null);
         })
         .catch((e) => {
@@ -151,9 +160,6 @@ export function useLightningAuth({
         });
     }
 
-    // setup intervals and create first qr code
-    pollTimeoutId = setTimeout(poll, hardConfig.intervals.poll);
-    createIntervalId = setInterval(create, hardConfig.intervals.create);
     create();
 
     return () => cleanup();

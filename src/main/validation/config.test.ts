@@ -1353,7 +1353,7 @@ describe("theme", () => {
       expect(output).toEqual(expected);
     });
 
-    test("throws when theme.qrMargin is > 10", () => {
+    test("throws when theme.qrMargin too big", () => {
       const userConfig = merge({}, requiredConfig, {
         theme: { qrMargin: 11 },
       });
@@ -1375,6 +1375,138 @@ describe("theme", () => {
     test("passes when theme.qrMargin is a number", () => {
       const userConfig = merge({}, requiredConfig, {
         theme: { qrMargin: 1 },
+      });
+      const expected: any = [];
+      const output = parse(configValidation, userConfig);
+      expect(output).toEqual(expected);
+    });
+  });
+
+  describe("intervals.poll", () => {
+    test("throws when intervals.poll is invalid type", () => {
+      const userConfig = merge({}, requiredConfig, {
+        intervals: { poll: null },
+      });
+      const expected: any = [
+        {
+          code: "invalid_type",
+          expected: "number",
+          received: "null",
+          path: ["intervals", "poll"],
+          message: "Expected number, received null",
+        },
+      ];
+      const output = parse(configValidation, userConfig);
+      expect(output).toEqual(expected);
+    });
+
+    test("throws when intervals.poll too small", () => {
+      const userConfig = merge({}, requiredConfig, {
+        intervals: { poll: 499 },
+      });
+      const expected: any = [
+        {
+          code: "too_small",
+          minimum: 500,
+          type: "number",
+          inclusive: true,
+          exact: false,
+          message: "Number must be greater than or equal to 500",
+          path: ["intervals", "poll"],
+        },
+      ];
+      const output = parse(configValidation, userConfig);
+      expect(output).toEqual(expected);
+    });
+
+    test("throws when intervals.poll too big", () => {
+      const userConfig = merge({}, requiredConfig, {
+        intervals: { poll: 5001 },
+      });
+      const expected: any = [
+        {
+          code: "too_big",
+          maximum: 5000,
+          type: "number",
+          inclusive: true,
+          exact: false,
+          message: "Number must be less than or equal to 5000",
+          path: ["intervals", "poll"],
+        },
+      ];
+      const output = parse(configValidation, userConfig);
+      expect(output).toEqual(expected);
+    });
+
+    test("passes when intervals.poll is a number", () => {
+      const userConfig = merge({}, requiredConfig, {
+        intervals: { poll: 1050 },
+      });
+      const expected: any = [];
+      const output = parse(configValidation, userConfig);
+      expect(output).toEqual(expected);
+    });
+  });
+
+  describe("intervals.create", () => {
+    test("throws when intervals.create is invalid type", () => {
+      const userConfig = merge({}, requiredConfig, {
+        intervals: { create: null },
+      });
+      const expected: any = [
+        {
+          code: "invalid_type",
+          expected: "number",
+          received: "null",
+          path: ["intervals", "create"],
+          message: "Expected number, received null",
+        },
+      ];
+      const output = parse(configValidation, userConfig);
+      expect(output).toEqual(expected);
+    });
+
+    test("throws when intervals.create too small", () => {
+      const userConfig = merge({}, requiredConfig, {
+        intervals: { create: 29999 },
+      });
+      const expected: any = [
+        {
+          code: "too_small",
+          minimum: 30000,
+          type: "number",
+          inclusive: true,
+          exact: false,
+          message: "Number must be greater than or equal to 30000",
+          path: ["intervals", "create"],
+        },
+      ];
+      const output = parse(configValidation, userConfig);
+      expect(output).toEqual(expected);
+    });
+
+    test("throws when intervals.create too big", () => {
+      const userConfig = merge({}, requiredConfig, {
+        intervals: { create: 3600001 },
+      });
+      const expected: any = [
+        {
+          code: "too_big",
+          maximum: 3600000,
+          type: "number",
+          inclusive: true,
+          exact: false,
+          message: "Number must be less than or equal to 3600000",
+          path: ["intervals", "create"],
+        },
+      ];
+      const output = parse(configValidation, userConfig);
+      expect(output).toEqual(expected);
+    });
+
+    test("passes when intervals.create is a number", () => {
+      const userConfig = merge({}, requiredConfig, {
+        intervals: { create: 600000 },
       });
       const expected: any = [];
       const output = parse(configValidation, userConfig);

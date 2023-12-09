@@ -9,7 +9,12 @@ export const vanilla = function ({
   hardConfig: HardConfig;
   query: { redirect_uri: string; state: string };
 }) {
-  let session: { k1?: string; lnurl?: string } | null;
+  let session: {
+    k1: string;
+    lnurl: string;
+    pollInterval: number;
+    createInterval: number;
+  } | null;
   let pollTimeoutId: NodeJS.Timeout | undefined;
   let createIntervalId: NodeJS.Timeout | undefined;
   let networkRequestCount: number = 0;
@@ -59,7 +64,8 @@ export const vanilla = function ({
         // if there are more than X network errors, then trigger redirect
         networkRequestCount++;
         if (networkRequestCount >= maxNetworkRequestsFailures) {
-          pollTimeoutId = setTimeout(poll, hardConfig.intervals.poll);
+          // @ts-ignore
+          pollTimeoutId = setTimeout(poll, session.pollInterval);
           throw e;
         }
       })
@@ -71,7 +77,8 @@ export const vanilla = function ({
 
         if (d) networkRequestCount = 0;
         if (d && d.message) throw new Error(d.message);
-        pollTimeoutId = setTimeout(poll, hardConfig.intervals.poll);
+        // @ts-ignore
+        pollTimeoutId = setTimeout(poll, session.pollInterval);
 
         if (d && d.success) {
           cleanup();
@@ -150,6 +157,9 @@ export const vanilla = function ({
         if (button) {
           button.href = `lightning:${session.lnurl}`;
         }
+
+        pollTimeoutId = setTimeout(poll, session.pollInterval);
+        createIntervalId = setInterval(create, session.createInterval);
       })
       .catch(function (e) {
         if (!createController.signal.aborted) {
@@ -159,7 +169,5 @@ export const vanilla = function ({
   }
 
   // setup intervals and create first qr code
-  pollTimeoutId = setTimeout(poll, hardConfig.intervals.poll);
-  createIntervalId = setInterval(create, hardConfig.intervals.create);
   create();
 };

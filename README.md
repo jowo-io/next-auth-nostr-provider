@@ -477,6 +477,38 @@ const config: NextAuthLightningConfig = {
     qrMargin: 1,
   },
 
+  /**
+   * Control interval durations.
+   */
+  intervals: {
+    /**
+     * @param {number} poll
+     *
+     * Override the poll interval to increase or decrease the speed at which
+     * polling occurs on the QR Login page. If decreased, the login page will
+     * feel more responsive. If increased, the user may be waiting a bit longer
+     * before being redirected after a successful login.
+     *
+     * @min 500 ms (0.5 seconds)
+     * @max 5,000 (5 seconds)
+     *
+     * @default 1,000 ms (1 second)
+     */
+    poll: 500,
+
+    /**
+     * @param {number} create
+     *
+     * Override the create interval to increase or decrease the speed at which
+     * QR codes are refreshed.
+     *
+     * @min 30,000 ms (30 seconds)
+     * @max 3,600,000 ms (1 hour)
+     *
+     * @default 300,000 ms (5 minutes)
+     */
+    create: 30 * 1000,
+  },
 };
 ```
 

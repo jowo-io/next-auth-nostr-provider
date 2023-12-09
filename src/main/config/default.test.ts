@@ -64,6 +64,10 @@ describe("formatConfig", () => {
         signInButtonBackground: "#f0f",
         signInButtonText: "#f0f",
       },
+      intervals: {
+        poll: 500,
+        create: 300000,
+      },
     }) as UserConfig;
     const output = formatConfig(userConfig);
     const expected = merge(
@@ -91,6 +95,10 @@ describe("formatConfig", () => {
           qrMargin: 5,
           signInButtonBackground: "#f0f",
           signInButtonText: "#f0f",
+        },
+        intervals: {
+          poll: 500,
+          create: 300000,
         },
       },
       hardConfig

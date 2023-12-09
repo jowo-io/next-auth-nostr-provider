@@ -36,6 +36,10 @@ export const defaultConfig: Partial<OptionalConfig> = {
   theme: {
     colorScheme: "light",
   },
+  intervals: {
+    poll: 1000, // milliseconds
+    create: 5 * 60 * 1000, // milliseconds
+  },
 };
 
 export function formatConfig(userConfig: UserConfig): Config {

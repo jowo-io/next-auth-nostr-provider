@@ -52,5 +52,20 @@ export const configValidation = z
       })
       .strict()
       .nullish(),
+    intervals: z
+      .object({
+        poll: z
+          .number()
+          .min(500) // 0.5s
+          .max(5000) // 5s
+          .optional(),
+        create: z
+          .number()
+          .min(30 * 1000) // 30s
+          .max(60 * 60 * 1000) // 1h
+          .optional(),
+      })
+      .strict()
+      .optional(),
   })
   .strict();

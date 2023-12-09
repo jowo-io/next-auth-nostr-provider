@@ -62,6 +62,8 @@ export default async function handler({
       success: true,
       k1,
       lnurl: encoded,
+      pollInterval: config.intervals.poll,
+      createInterval: config.intervals.create,
     },
   };
 }

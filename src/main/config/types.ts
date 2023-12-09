@@ -25,8 +25,6 @@ export type HardConfig = {
   intervals: {
     refreshToken: number;
     idToken: number;
-    poll: number;
-    create: number;
   };
 };
 
@@ -122,6 +120,10 @@ export type OptionalConfig = {
   theme: {
     colorScheme?: "dark" | "light";
   } & Partial<ThemeStyles>;
+  intervals: {
+    poll: number;
+    create: number;
+  };
 };
 
 export type UserConfig = RequiredConfig & Partial<OptionalConfig>;
