@@ -17,6 +17,7 @@ yarn-error.log*
 
 # build
 /main
+/server
 /hooks
 /utils
 /generators

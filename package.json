@@ -36,6 +36,8 @@
     "hooks/**/*.js",
     "utils/**/*.d.ts",
     "utils/**/*.js",
+    "server/**/*.d.ts",
+    "server/**/*.js",
     "main/**/*.d.ts",
     "main/**/*.js",
     "index.d.ts",
@@ -44,7 +46,7 @@
   "main": "./index.js",
   "scripts": {
     "build": "tsc && tsc-alias",
-    "clean": "rm -rf main hooks utils generators index.d.ts index.d.ts.map index.js",
+    "clean": "rm -rf main server hooks utils generators index.d.ts index.d.ts.map index.js",
     "dev": "concurrently \"tsc -w\" \"tsc-alias -w\"",
     "test": "jest --watch",
     "prebuild": "npm run clean && jest"

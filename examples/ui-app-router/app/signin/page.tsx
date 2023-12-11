@@ -1,28 +1,26 @@
-"use client";
-
-import { useSearchParams } from "next/navigation";
-
 import LightningAuth from "@/app/components/LightningAuth";
 
-export default function SignIn() {
-  const searchParams = useSearchParams();
-  const redirectUri = searchParams?.get("redirect_uri");
-  const state = searchParams?.get("state");
+import { createLightningAuth } from "next-auth-lightning-provider/server";
 
-  if (!redirectUri || !state) {
-    return (
-      <div style={{ textAlign: "center", color: "red" }}>
-        Missing query params
-      </div>
-    );
+export default async function SignIn({
+  searchParams,
+}: {
+  searchParams: Record<string, string | string[]>;
+}) {
+  let session, error;
+  try {
+    session = await createLightningAuth(searchParams);
+  } catch (e: any) {
+    error = e.message || "Something went wrong";
+  }
+
+  if (error || !session) {
+    return <div style={{ textAlign: "center", color: "red" }}>{error}</div>;
   }
 
   return (
     <div>
-      <LightningAuth
-        redirectUri={redirectUri as string}
-        state={state as string}
-      />
+      <LightningAuth session={session} />
     </div>
   );
 }

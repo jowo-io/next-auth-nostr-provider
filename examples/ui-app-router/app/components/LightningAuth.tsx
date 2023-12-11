@@ -1,21 +1,14 @@
 "use client";
 
-import { useLightningAuth } from "next-auth-lightning-provider/hooks";
+import { useLightningPolling } from "next-auth-lightning-provider/hooks";
+import { LightningAuthClientSession } from "next-auth-lightning-provider/server";
 
 export default function LightningAuth({
-  redirectUri,
-  state,
+  session,
 }: {
-  redirectUri: string;
-  state: string;
+  session: LightningAuthClientSession;
 }) {
-  const { lnurl, qr, button } = useLightningAuth({ redirectUri, state });
-
-  if (!lnurl) {
-    return (
-      <div style={{ textAlign: "center", color: "black" }}>loading...</div>
-    );
-  }
+  const { lnurl, qr, button } = useLightningPolling(session);
 
   return (
     <div

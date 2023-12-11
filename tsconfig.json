@@ -35,6 +35,7 @@
     "main",
     "generators",
     "hooks",
+    "server",
     "utils",
     "examples",
     "node_modules"
