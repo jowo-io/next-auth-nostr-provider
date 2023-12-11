@@ -1,8 +1,10 @@
-export function pickFirstQueryParam(queryParam: string | string[] | undefined) {
+export function pickFirstQueryParam(
+  queryParam: string | string[] | undefined
+): string {
   if (Array.isArray(queryParam)) {
-    return queryParam[0];
+    return queryParam[0] || "";
   }
-  return queryParam;
+  return queryParam || "";
 }
 
 export function paramsToObject(params?: URLSearchParams) {
@@ -18,7 +20,7 @@ export function paramsToObject(params?: URLSearchParams) {
 
 export function cleanParams(
   params?: Record<string, any>
-): Record<string, string | boolean | number | undefined | null> {
+): Record<string, string | undefined> {
   if (!params) return {};
 
   return Object.entries(params).reduce(

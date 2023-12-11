@@ -1,4 +1,4 @@
-import { formatLightningAuth } from "../utils/lnurl";
+import { cleanParams } from "../main/utils/params";
 import { hardConfig } from "../main/config";
 
 export type LightningAuthClientSession = {
@@ -19,10 +19,12 @@ export type LightningAuthClientSession = {
 export default async function createLightningAuth(
   searchParams: any
 ): Promise<LightningAuthClientSession> {
-  const siteUrl = searchParams.client_id;
-  const state = searchParams.state;
-  const redirectUri = searchParams.redirect_uri;
-  if (!redirectUri || !state) {
+  const {
+    client_id: siteUrl = "",
+    state = "",
+    redirect_uri: redirectUri = "",
+  } = cleanParams(searchParams);
+  if (!siteUrl || !redirectUri || !state) {
     throw new Error("Missing query params");
   }
 

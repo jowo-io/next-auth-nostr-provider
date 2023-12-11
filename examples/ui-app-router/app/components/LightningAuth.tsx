@@ -35,7 +35,7 @@ export default function LightningAuth({
       <img
         width={500}
         height={500}
-        alt="Login with Lightning - QRCode"
+        alt="Login with Lightning QR Code"
         style={{
           display: "block",
           overflow: "hidden",

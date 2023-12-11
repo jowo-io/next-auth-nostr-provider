@@ -14,9 +14,9 @@ describe("pickFirstQueryParam", () => {
     expect(output).toEqual(expected);
   });
 
-  test("returns undefined", () => {
+  test("returns a string when undefined", () => {
     const output = pickFirstQueryParam(undefined);
-    const expected = undefined;
+    const expected = "";
     expect(output).toEqual(expected);
   });
 });
