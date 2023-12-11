@@ -10,6 +10,39 @@ This example demonstrates implementing a custom Lightning auth page UI.
 >
 > See the other examples in the examples folder for more info.
 
+## Example
+
+```tsx
+// @see pages/signin.tsx
+
+import { useSession } from "next-auth/react";
+import { useLightningAuth } from "next-auth-lightning-provider/hooks";
+
+export default function SignIn() {
+  const session = useSession();
+  const { lnurl, qr, button } = useLightningAuth();
+
+  if (!lnurl) {
+    return (
+      <div style={{ textAlign: "center", color: "black" }}>loading...</div>
+    );
+  }
+
+  return (
+    <div>
+      {/* ... */}
+      <img
+        width={500}
+        height={500}
+        alt="Login with Lightning QR Code"
+        src={qr}
+      />
+      {/* ... */}
+    </div>
+  );
+}
+```
+
 ## Getting Started
 
 #### Building `next-auth-lightning-provider`

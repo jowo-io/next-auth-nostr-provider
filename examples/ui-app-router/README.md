@@ -10,6 +10,65 @@ This example demonstrates implementing a custom Lightning auth page UI.
 >
 > See the other examples in the examples folder for more info.
 
+## Example
+
+```tsx
+// @see app/signin/page.tsx
+
+import { createLightningAuth } from "next-auth-lightning-provider/server";
+
+import LightningAuth from "@/app/components/LightningAuth";
+
+export default async function SignIn({
+  searchParams,
+}: {
+  searchParams: Record<string, string | string[]>;
+}) {
+  let session, error;
+  try {
+    session = await createLightningAuth(searchParams);
+  } catch (e: any) {
+    error = e.message || "Something went wrong";
+  }
+
+  if (error || !session) {
+    return <div style={{ textAlign: "center", color: "red" }}>{error}</div>;
+  }
+
+  return (
+    <div>
+      <LightningAuth session={session} />
+    </div>
+  );
+}
+```
+
+```tsx
+// @see app/components/LightningAuth.tsx
+
+"use client";
+
+import { useLightningPolling } from "next-auth-lightning-provider/hooks";
+import { ClientSession } from "next-auth-lightning-provider/server";
+
+export default function LightningAuth({ session }: { session: ClientSession }) {
+  const { lnurl, qr, button } = useLightningPolling(session);
+
+  return (
+    <div>
+      {/* ... */}
+      <img
+        width={500}
+        height={500}
+        alt="Login with Lightning QR Code"
+        src={qr}
+      />
+      {/* ... */}
+    </div>
+  );
+}
+```
+
 ## Getting Started
 
 #### Building `next-auth-lightning-provider`
