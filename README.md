@@ -280,6 +280,8 @@ const config: NextAuthLightningConfig = {
      * @note the path must begin with a leading `/`. For example, `/signin`, not `signin`.
      *
      * @see https://github.com/jowo-io/next-auth-lightning-provider/tree/main/examples/ui-pages-router/
+     * and
+     * @see https://github.com/jowo-io/next-auth-lightning-provider/tree/main/examples/ui-app-router/
      *
      * @default "/api/lnauth/signin"
      */
@@ -295,6 +297,8 @@ const config: NextAuthLightningConfig = {
      * @note the path must begin with a leading `/`. For example, `/error`, not `error`.
      *
      * @see https://github.com/jowo-io/next-auth-lightning-provider/tree/main/examples/ui-pages-router/
+     * and
+     * @see https://github.com/jowo-io/next-auth-lightning-provider/tree/main/examples/ui-app-router/
      *
      * @default "/api/auth/error"
      */
