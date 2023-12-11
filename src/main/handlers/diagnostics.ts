@@ -1,6 +1,6 @@
 import { randomBytes } from "crypto";
 
-import { Config, LightningAuthSession } from "../config/types";
+import { Config, StorageSession } from "../config/types";
 import { HandlerArguments, HandlerReturn } from "../utils/handlers";
 
 type Check = {
@@ -51,7 +51,7 @@ export async function testSet(
 
 export async function testGet(
   expectedSession: { k1: string; state: string },
-  getMethod: () => Promise<LightningAuthSession | null | undefined>,
+  getMethod: () => Promise<StorageSession | null | undefined>,
   config: Config
 ): Promise<Check[]> {
   const checks: Check[] = [];
@@ -92,7 +92,7 @@ export async function testGet(
 export async function testUpdate(
   expectedSession: { k1: string; state: string },
   updateMethod: () => Promise<undefined>,
-  getMethod: () => Promise<LightningAuthSession | null | undefined>,
+  getMethod: () => Promise<StorageSession | null | undefined>,
   config: Config
 ): Promise<Check[]> {
   const checks: Check[] = [];
@@ -149,7 +149,7 @@ export async function testUpdate(
 
 export async function testDelete(
   deleteMethod: () => Promise<undefined>,
-  getMethod: () => Promise<LightningAuthSession | null | undefined>,
+  getMethod: () => Promise<StorageSession | null | undefined>,
   config: Config
 ): Promise<Check[]> {
   const checks: Check[] = [];

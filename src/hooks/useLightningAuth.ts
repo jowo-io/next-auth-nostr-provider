@@ -6,8 +6,7 @@ import { useRouter } from "next/router";
 import { hardConfig } from "../main/config/hard";
 import { cleanParams } from "../main/utils/params";
 import { formatLightningAuth } from "../utils/lnurl";
-
-const maxNetworkRequestsFailures = 3;
+import { maxNetworkRequestsFailures } from "./constants";
 
 /**
  * A React hook that, on mount, will trigger an API request and create a new Lightning auth session.

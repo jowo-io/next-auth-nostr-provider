@@ -1,3 +1,9 @@
+import {
+  QRGenerator,
+  AvatarGenerator,
+  NameGenerator,
+} from "../../generators/types";
+
 export type HardConfig = {
   apis: {
     // apis
@@ -28,7 +34,7 @@ export type HardConfig = {
   };
 };
 
-export type LightningAuthSession = {
+export type StorageSession = {
   k1: string;
   state: string;
 
@@ -39,19 +45,6 @@ export type LightningAuthSession = {
   // allow any other fields, they'll be ignored
   [key: string | number | symbol]: unknown;
 };
-
-export type QRGenerator = (
-  data: string,
-  config: Config
-) => Promise<{ data: string; type: "svg" | "png" | "jpg" }>;
-export type AvatarGenerator = (
-  seed: string,
-  config: Config
-) => Promise<{ data: string; type: "svg" | "png" | "jpg" }>;
-export type NameGenerator = (
-  seed: string,
-  config: Config
-) => Promise<{ name: string }>;
 
 export type RequiredConfig = {
   siteUrl: string;
@@ -72,7 +65,7 @@ export type RequiredConfig = {
       args: { k1: string },
       url: URL,
       config: Config
-    ) => Promise<LightningAuthSession | null | undefined>;
+    ) => Promise<StorageSession | null | undefined>;
     update: (
       args: {
         k1: string;

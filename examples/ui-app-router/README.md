@@ -49,9 +49,13 @@ export default async function SignIn({
 "use client";
 
 import { useLightningPolling } from "next-auth-lightning-provider/hooks";
-import { ClientSession } from "next-auth-lightning-provider/server";
+import { NextAuthLightningClientSession } from "next-auth-lightning-provider/server";
 
-export default function LightningAuth({ session }: { session: ClientSession }) {
+export default function LightningAuth({
+  session,
+}: {
+  session: NextAuthLightningClientSession;
+}) {
   const { lnurl, qr, button } = useLightningPolling(session);
 
   return (

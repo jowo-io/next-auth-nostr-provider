@@ -1,4 +1,3 @@
-export {
-  default as createLightningAuth,
-  LightningAuthClientSession,
-} from "./createLightningAuth";
+export type { ClientSession as NextAuthLightningClientSession } from "./types";
+
+export { default as createLightningAuth } from "./createLightningAuth";

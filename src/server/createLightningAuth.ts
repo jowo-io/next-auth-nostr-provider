@@ -1,24 +1,10 @@
 import { cleanParams } from "../main/utils/params";
 import { hardConfig } from "../main/config";
-
-export type LightningAuthClientSession = {
-  data: {
-    k1: string;
-    lnurl: string;
-  };
-  intervals: {
-    poll: number;
-    create: number;
-  };
-  query: {
-    state: string;
-    redirectUri: string;
-  };
-};
+import { ClientSession } from "./types";
 
 export default async function createLightningAuth(
-  searchParams: any
-): Promise<LightningAuthClientSession> {
+  searchParams: Record<string, any>
+): Promise<ClientSession> {
   const {
     client_id: siteUrl = "",
     state = "",
