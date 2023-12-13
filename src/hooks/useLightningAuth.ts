@@ -14,6 +14,8 @@ import { maxNetworkRequestsFailures } from "./constants";
  * If enough time elapses without a sign in attempt, the Lightning auth session will be refreshed.
  * Once a success status is received from polling, the user will be redirected to the `next-auth` redirect url.
  *
+ * This hook is designed for use in the pages router, it's not recommended for use in the app router.
+ *
  * @returns {Object}
  * @returns {String} lnurl - the raw LNURL, should be made available for copy-pasting
  * @returns {String} qr - a url pointing the lnurl-auth QR Code image, should be used in the src prop of img tags
@@ -24,12 +26,14 @@ export function useLightningAuth(): {
   qr: string;
   button: string;
 } {
-  const { isReady, query } = useRouter();
+  const router = useRouter();
   const [lnurl, setUrl] = useState<string>("");
 
   useEffect(() => {
-    if (!isReady) return;
-    const { state = "", redirect_uri: redirectUri = "" } = cleanParams(query);
+    if (!router.isReady) return;
+    const { state = "", redirect_uri: redirectUri = "" } = cleanParams(
+      router.query
+    );
 
     let session: {
       k1: string;
@@ -56,12 +60,12 @@ export function useLightningAuth(): {
     function error(e: any) {
       console.error(e);
       if (errorUrl) {
-        window.location.replace(errorUrl);
+        router.replace(errorUrl);
       } else {
         // if no errorUrl exists send to defaul `next-auth` error page
         const params = new URLSearchParams();
         params.append("error", "OAuthSignin");
-        window.location.replace(`/api/auth/error?${params.toString()}`);
+        router.replace(`/api/auth/error?${params.toString()}`);
       }
     }
 
@@ -111,7 +115,7 @@ export function useLightningAuth(): {
             let url = new URL(redirectUri);
             url.searchParams.append("state", state);
             url.searchParams.append("code", k1);
-            window.location.replace(url);
+            router.replace(url);
           }
         })
         .catch((e) => {
@@ -160,7 +164,7 @@ export function useLightningAuth(): {
     create();
 
     return () => cleanup();
-  }, [isReady]);
+  }, [router.isReady]);
 
   const { qr, button } = formatLightningAuth(lnurl);
 
