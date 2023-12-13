@@ -1,7 +1,7 @@
 import { createAvatar } from "@dicebear/core";
 import { bottts } from "@dicebear/collection";
 
-import { AvatarGenerator } from "../main/config/types";
+import { AvatarGenerator } from "./types";
 
 /**
  * An async function that generates a user avatar.
