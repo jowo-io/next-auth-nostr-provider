@@ -4,6 +4,7 @@ Below is a TODO list for further development of `next-auth-lightning-provider`.
 
 ### Alpha
 
+- add `createLightningAuth.test.ts` test file
 - test deploy all the various example apps
   - ar-generic
   - ar-custom
