@@ -4,9 +4,6 @@ Below is a TODO list for further development of `next-auth-lightning-provider`.
 
 ### Alpha
 
-- consider ssr pages router (getServerSideProps)
-- consider using next router for redirect instead of window navigator
-- `Response body object should not be disturbed or locked` in `ui-app-router` example create request
 - test deploy all the various example apps
   - ar-generic
   - ar-custom
