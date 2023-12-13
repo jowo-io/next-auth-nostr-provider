@@ -13,7 +13,7 @@ This example demonstrates implementing a custom Lightning auth page UI.
 ## Example
 
 ```tsx
-// @see app/signin/page.tsx
+// @see app/signin/page.tsx for working example
 
 import { createLightningAuth } from "next-auth-lightning-provider/server";
 
@@ -44,7 +44,7 @@ export default async function SignIn({
 ```
 
 ```tsx
-// @see app/components/LightningAuth.tsx
+// @see app/components/LightningAuth.tsx for working example
 
 "use client";
 

@@ -10,10 +10,12 @@ This example demonstrates implementing a custom Lightning auth page UI.
 >
 > See the other examples in the examples folder for more info.
 
-## Example
+## Examples
+
+#### Client-side
 
 ```tsx
-// @see pages/signin.tsx
+// @see pages/signin.tsx for working example
 
 import { useSession } from "next-auth/react";
 import { useLightningAuth } from "next-auth-lightning-provider/hooks";
@@ -40,6 +42,61 @@ export default function SignIn() {
       {/* ... */}
     </div>
   );
+}
+```
+
+#### Server-side
+
+```tsx
+import {
+  NextAuthLightningClientSession,
+  createLightningAuth,
+} from "next-auth-lightning-provider/server";
+import { useLightningPolling } from "next-auth-lightning-provider/hooks";
+
+export const getServerSideProps = async (context: any) => {
+  let session = null,
+    error = null;
+  try {
+    session = await createLightningAuth(context.query);
+  } catch (e: any) {
+    error = e.message || "Something went wrong";
+  }
+
+  return {
+    props: { s: session, e: error },
+  };
+};
+
+function SignIn({ session }: { session: NextAuthLightningClientSession }) {
+  const { lnurl, qr, button } = useLightningPolling(session);
+
+  return (
+    <div>
+      {/* ... */}
+      <img
+        width={500}
+        height={500}
+        alt="Login with Lightning QR Code"
+        src={qr}
+      />
+      {/* ... */}
+    </div>
+  );
+}
+
+export default function SignInPage({
+  s: session,
+  e: error,
+}: {
+  s: NextAuthLightningClientSession | null;
+  e: string | null;
+}) {
+  if (error || !session) {
+    return <div style={{ textAlign: "center", color: "black" }}>{error}</div>;
+  }
+
+  return <SignIn session={session} />;
 }
 ```
 
