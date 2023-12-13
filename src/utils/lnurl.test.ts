@@ -18,7 +18,7 @@ describe("formatLightningAuth", () => {
 
   test("formats null correctly", () => {
     const output = formatLightningAuth(null);
-    const expected = { lnurl: null, qr: "", button: "" };
+    const expected = { lnurl: "", qr: "", button: "" };
     expect(output).toEqual(expected);
   });
 });
