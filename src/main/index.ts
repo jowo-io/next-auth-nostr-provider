@@ -98,5 +98,7 @@ export default function NextAuthLightning(userConfig: UserConfig) {
   return {
     provider,
     handler,
+    GET: async (req: NextRequest, res: NextResponse) => handler(req, res),
+    POST: async (req: NextRequest, res: NextResponse) => handler(req, res),
   };
 }

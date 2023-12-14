@@ -49,8 +49,8 @@ const config: NextAuthLightningConfig = {
   },
 };
 
-const { provider, handler } = NextAuthLightning(config);
+const { provider, GET, POST } = NextAuthLightning(config);
 
 export const lightningProvider = provider;
 
-export { handler };
+export { GET, POST };

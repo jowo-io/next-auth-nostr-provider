@@ -1,3 +1,3 @@
-import { handler } from "./config";
+import { GET, POST } from "./config";
 
-export { handler as GET, handler as POST };
+export { GET, POST };
