@@ -2,6 +2,9 @@ import LightningAuth from "@/app/components/LightningAuth";
 
 import { createLightningAuth } from "next-auth-lightning-provider/server";
 
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 export default async function SignIn({
   searchParams,
 }: {
