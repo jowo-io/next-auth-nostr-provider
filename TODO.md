@@ -14,6 +14,13 @@ Below is a TODO list for further development of `next-auth-lightning-provider`.
   - add BTC address to contributors section of readme
   - add suggestion: cleaning up old and unused lnauth session data that was created but never reached success state.
   - update readme warning to BETA
+- create a release on GitHub
+- create a release checklist
+  - bump version
+  - commit with git
+  - build with npm
+  - publish with npm
+  - release on github
 - publish SN post
 
 ### Release
