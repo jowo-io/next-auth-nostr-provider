@@ -3,7 +3,7 @@ import merge from "lodash.merge";
 import { NextApiRequest, NextApiResponse } from "next/types";
 import { NextRequest, NextResponse } from "next/server";
 
-import dynamicHandler, { HandlerErrorCodes } from "./handlers";
+import { pagesHandler, appHandler, HandlerErrorCodes } from "./handlers";
 import { Config } from "../config";
 import { defaultConfig } from "../config/default";
 
@@ -62,7 +62,7 @@ describe("generateQr", () => {
       } as unknown as NextApiResponse;
 
       const handler = jest.fn(async () => handlerResponse);
-      const output = await dynamicHandler(req, res, config, handler);
+      const output = await pagesHandler(req, res, config, handler);
       expect(handler).toHaveBeenCalledWith(args);
       expect(output).toEqual("send-output");
     });
@@ -78,7 +78,7 @@ describe("generateQr", () => {
       } as unknown as NextResponse;
 
       const handler = jest.fn(async () => handlerResponse);
-      await dynamicHandler(req, res, config, handler);
+      await appHandler(req, res, config, handler);
       expect(handler).toHaveBeenCalledWith(args);
     });
   });
@@ -101,7 +101,7 @@ describe("generateQr", () => {
       } as unknown as NextApiResponse;
 
       const handler = jest.fn(async () => handlerResponse);
-      const output = await dynamicHandler(req, res, config, handler);
+      const output = await pagesHandler(req, res, config, handler);
       expect(res.send).toHaveBeenCalledWith(
         JSON.stringify(handlerResponse.response)
       );
@@ -121,7 +121,7 @@ describe("generateQr", () => {
       } as unknown as NextResponse;
 
       const handler = jest.fn(async () => handlerResponse);
-      const output = await dynamicHandler(req, res, config, handler);
+      const output = await appHandler(req, res, config, handler);
       // @ts-ignore
       expect(MockResponse.json).toHaveBeenCalledWith(
         { data: "data" },
@@ -150,7 +150,7 @@ describe("generateQr", () => {
       } as unknown as NextApiResponse;
 
       const handler = jest.fn(async () => handlerResponse);
-      const output = await dynamicHandler(req, res, config, handler);
+      const output = await pagesHandler(req, res, config, handler);
       expect(res.send).toHaveBeenCalledWith(
         JSON.stringify(handlerResponse.response)
       );
@@ -170,7 +170,7 @@ describe("generateQr", () => {
       } as unknown as NextResponse;
 
       const handler = jest.fn(async () => handlerResponse);
-      const output = await dynamicHandler(req, res, config, handler);
+      const output = await appHandler(req, res, config, handler);
       // @ts-ignore
       expect(MockResponse.json).toHaveBeenCalledWith(
         { data: "data" },
@@ -198,7 +198,7 @@ describe("generateQr", () => {
       } as unknown as NextApiResponse;
 
       const handler = jest.fn(async () => handlerResponse);
-      const output = await dynamicHandler(req, res, config, handler);
+      const output = await pagesHandler(req, res, config, handler);
       expect(res.send).toHaveBeenCalledWith(handlerResponse.response);
       expect(output).toEqual("send-output");
       expect(res.setHeader).not.toHaveBeenCalled();
@@ -216,7 +216,7 @@ describe("generateQr", () => {
       } as unknown as NextResponse;
 
       const handler = jest.fn(async () => handlerResponse);
-      const output = await dynamicHandler(req, res, config, handler);
+      const output = await appHandler(req, res, config, handler);
       expect(output).toEqual(
         new Response(handlerResponse.response, { headers: {}, status: 200 })
       );
@@ -239,7 +239,7 @@ describe("generateQr", () => {
       const res = { redirect } as unknown as NextApiResponse;
 
       const handler = jest.fn(async () => handlerResponse);
-      const output = await dynamicHandler(req, res, config, handler);
+      const output = await pagesHandler(req, res, config, handler);
       expect(redirect).toHaveBeenCalledWith(
         handlerResponse.redirect.toString()
       );
@@ -258,7 +258,7 @@ describe("generateQr", () => {
       } as unknown as NextResponse;
 
       const handler = jest.fn(async () => handlerResponse);
-      const output = await dynamicHandler(req, res, config, handler);
+      const output = await appHandler(req, res, config, handler);
       // @ts-ignore
       expect(MockResponse.redirect).toHaveBeenCalledWith(
         handlerResponse.redirect.toString()
@@ -287,7 +287,7 @@ describe("generateQr", () => {
       const redirect = jest.fn(() => ({ end }));
       const res = { redirect } as unknown as NextApiResponse;
       const handler = jest.fn(async () => handlerResponse);
-      const output = await dynamicHandler(req, res, config, handler);
+      const output = await pagesHandler(req, res, config, handler);
       expect(redirect).toHaveBeenCalledWith(expected.toString());
       expect(end).toHaveBeenCalled();
       expect(output).toEqual("redirect-output");
@@ -303,7 +303,7 @@ describe("generateQr", () => {
         params: {},
       } as unknown as NextResponse;
       const handler = jest.fn(async () => handlerResponse);
-      const output = await dynamicHandler(req, res, config, handler);
+      const output = await appHandler(req, res, config, handler);
       // @ts-ignore
       expect(MockResponse.redirect).toHaveBeenCalledWith(expected.toString());
       expect(output).toEqual("redirect-output");
@@ -342,7 +342,7 @@ describe("generateQr", () => {
       const redirect = jest.fn(() => ({ end }));
       const res = { redirect } as unknown as NextApiResponse;
       const handler = jest.fn(async () => handlerResponse);
-      const output = await dynamicHandler(req, res, config, handler);
+      const output = await pagesHandler(req, res, config, handler);
       expect(redirect).toHaveBeenCalledWith(expected.toString());
       expect(end).toHaveBeenCalled();
       expect(output).toEqual("redirect-output");
@@ -358,7 +358,7 @@ describe("generateQr", () => {
         params: {},
       } as unknown as NextResponse;
       const handler = jest.fn(async () => handlerResponse);
-      const output = await dynamicHandler(req, res, config, handler);
+      const output = await appHandler(req, res, config, handler);
       // @ts-ignore
       expect(MockResponse.redirect).toHaveBeenCalledWith(expected.toString());
       expect(output).toEqual("redirect-output");
@@ -384,7 +384,7 @@ describe("generateQr", () => {
       } as unknown as NextApiResponse;
 
       const handler = jest.fn(async () => handlerResponse);
-      const output = await dynamicHandler(req, res, config, handler);
+      const output = await pagesHandler(req, res, config, handler);
       expect(res.send).toHaveBeenCalledWith(
         JSON.stringify({
           error: "Default",
@@ -410,7 +410,7 @@ describe("generateQr", () => {
       } as unknown as NextResponse;
 
       const handler = jest.fn(async () => handlerResponse);
-      const output = await dynamicHandler(req, res, config, handler);
+      const output = await appHandler(req, res, config, handler);
       // @ts-ignore
       expect(MockResponse.json).toHaveBeenCalledWith(
         {
@@ -448,7 +448,7 @@ describe("generateQr", () => {
       } as unknown as NextApiResponse;
 
       const handler = jest.fn(async () => handlerResponse);
-      const output = await dynamicHandler(req, res, config, handler);
+      const output = await pagesHandler(req, res, config, handler);
       expect(res.send).toHaveBeenCalledWith(
         JSON.stringify({
           error: "Default",
@@ -474,7 +474,7 @@ describe("generateQr", () => {
       } as unknown as NextResponse;
 
       const handler = jest.fn(async () => handlerResponse);
-      const output = await dynamicHandler(req, res, config, handler);
+      const output = await appHandler(req, res, config, handler);
       // @ts-ignore
       expect(MockResponse.json).toHaveBeenCalledWith(
         {

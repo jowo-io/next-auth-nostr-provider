@@ -1,10 +1,14 @@
 import { NextApiRequest, NextApiResponse } from "next/types";
 import { OAuthConfig } from "next-auth/providers/oauth";
 
-import { formatConfig, UserConfig } from "./config/index";
+import { Config, formatConfig, UserConfig } from "./config/index";
 import { NextRequest, NextResponse } from "next/server";
-import { formatRouter } from "./utils/router";
-import dynamicHandler from "./utils/handlers";
+import {
+  pagesHandler,
+  appHandler,
+  HandlerArguments,
+  HandlerReturn,
+} from "./utils/handlers";
 
 // auth apis
 import createHandler from "./handlers/create";
@@ -62,34 +66,42 @@ export default function NextAuthLightning(userConfig: UserConfig) {
     },
   };
 
-  const handler = async function lnAuthHandler(
-    req: NextApiRequest | NextRequest,
-    res: NextApiResponse | NextResponse
+  const dynamicHandler = async function lnAuthHandler<Req, Res, Return>(
+    req: Req,
+    res: Res,
+    handler: (
+      req: Req,
+      res: Res,
+      config: Config,
+      handler: (args: HandlerArguments) => Promise<HandlerReturn>
+    ) => Promise<Return>
   ) {
-    const { path } = formatRouter(req, res);
+    let path = (res as any)?.params
+      ? new URL((req as NextRequest).nextUrl).pathname
+      : (req as any)?.url;
 
     if (path?.indexOf(config.apis.create) === 0) {
-      return await dynamicHandler(req, res, config, createHandler);
+      return await handler(req, res, config, createHandler);
     } else if (path?.indexOf(config.apis.poll) === 0) {
-      return await dynamicHandler(req, res, config, pollHandler);
+      return await handler(req, res, config, pollHandler);
     } else if (path?.indexOf(config.apis.callback) === 0) {
-      return await dynamicHandler(req, res, config, callbackHandler);
+      return await handler(req, res, config, callbackHandler);
     } else if (path?.indexOf(config.apis.token) === 0) {
-      return await dynamicHandler(req, res, config, tokenHandler);
+      return await handler(req, res, config, tokenHandler);
     } else if (path?.indexOf(config.apis.signIn) === 0) {
-      return await dynamicHandler(req, res, config, signInHandler);
+      return await handler(req, res, config, signInHandler);
     } else if (path?.indexOf(config.apis.avatar) === 0) {
-      return await dynamicHandler(req, res, config, avatarHandler);
+      return await handler(req, res, config, avatarHandler);
     } else if (path?.indexOf(config.apis.qr) === 0) {
-      return await dynamicHandler(req, res, config, qrHandler);
+      return await handler(req, res, config, qrHandler);
     } else if (
       path?.indexOf(config.apis.diagnostics) === 0 &&
       config.flags.diagnostics
     ) {
-      return await dynamicHandler(req, res, config, diagnosticsHandler);
+      return await handler(req, res, config, diagnosticsHandler);
     }
 
-    return await dynamicHandler(req, res, config, async () => ({
+    return await handler(req, res, config, async () => ({
       error: "NotFound",
       status: 404,
     }));
@@ -97,8 +109,11 @@ export default function NextAuthLightning(userConfig: UserConfig) {
 
   return {
     provider,
-    handler,
-    GET: async (req: NextRequest, res: NextResponse) => handler(req, res),
-    POST: async (req: NextRequest, res: NextResponse) => handler(req, res),
+    handler: async (req: NextApiRequest, res: NextApiResponse) =>
+      dynamicHandler(req, res, pagesHandler),
+    GET: async (req: NextRequest, res: NextResponse) =>
+      dynamicHandler(req, res, appHandler),
+    POST: async (req: NextRequest, res: NextResponse) =>
+      dynamicHandler(req, res, appHandler),
   };
 }

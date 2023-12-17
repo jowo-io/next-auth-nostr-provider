@@ -3,7 +3,6 @@ import { NextRequest, NextResponse } from "next/server";
 
 import { Config } from "../config/index";
 
-import { formatRouter } from "../utils/router";
 import { cleanParams, paramsToObject } from "./params";
 
 export type HandlerArguments = {
@@ -62,7 +61,7 @@ type HandlerResponse = {
 
 export type HandlerReturn = HandlerRedirect | HandlerError | HandlerResponse;
 
-async function pagesHandler(
+export async function pagesHandler(
   req: NextApiRequest,
   res: NextApiResponse,
   config: Config,
@@ -148,8 +147,9 @@ async function pagesHandler(
   }
 }
 
-async function appHandler(
+export async function appHandler(
   req: NextRequest,
+  res: NextResponse,
   config: Config,
   handler: (args: HandlerArguments) => Promise<HandlerReturn>
 ) {
@@ -231,20 +231,5 @@ async function appHandler(
     } else if (typeof output.response === "object") {
       return Response.json(output.response, options);
     }
-  }
-}
-
-export default async function dynamicHandler(
-  request: NextApiRequest | NextRequest,
-  response: NextApiResponse | NextResponse,
-  config: Config,
-  handler: (args: HandlerArguments) => Promise<HandlerReturn>
-) {
-  const { req, res, routerType } = formatRouter(request, response);
-
-  if (routerType === "APP") {
-    return await appHandler(req, config, handler);
-  } else {
-    return await pagesHandler(req, res, config, handler);
   }
 }
