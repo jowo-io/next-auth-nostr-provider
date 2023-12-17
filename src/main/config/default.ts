@@ -59,11 +59,20 @@ export function formatConfig(userConfig: UserConfig): Config {
     },
   });
 
+  const baseUrl = (
+    /^((http|https):\/\/)/.test(userConfig.baseUrl)
+      ? // return unmodified url if already prefixed with protocol
+        userConfig.baseUrl
+      : // append protocol prefix of https if missing
+        `https://${userConfig.baseUrl}`
+  ).replace(/\/$/, ""); // remove trailing slash if exists
+
   return merge(
     {}, // empty object to merge into
     defaultConfig,
     { theme, flags },
     userConfig,
+    { baseUrl },
     hardConfig
   ) as Config;
 }

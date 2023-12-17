@@ -118,11 +118,11 @@ describe("baseUrl", () => {
     const expected: any = [
       {
         code: "too_small",
-        minimum: 10,
+        minimum: 5,
         type: "string",
         inclusive: true,
         exact: false,
-        message: "String must contain at least 10 character(s)",
+        message: "String must contain at least 5 character(s)",
         path: ["baseUrl"],
       },
     ];
@@ -133,16 +133,16 @@ describe("baseUrl", () => {
 
   test("throws when baseUrl is too short", () => {
     const userConfig = merge({}, requiredConfig, {
-      baseUrl: "http://a",
+      baseUrl: "a.b",
     });
     const expected: any = [
       {
         code: "too_small",
-        minimum: 10,
+        minimum: 5,
         type: "string",
         inclusive: true,
         exact: false,
-        message: "String must contain at least 10 character(s)",
+        message: "String must contain at least 5 character(s)",
         path: ["baseUrl"],
       },
     ];
@@ -150,9 +150,9 @@ describe("baseUrl", () => {
     expect(output).toEqual(expected);
   });
 
-  test("passes when baseUrl is longer than 10 characters", () => {
+  test("passes when baseUrl is longer than 4 characters", () => {
     const userConfig = merge({}, requiredConfig, {
-      baseUrl: "http://a.b",
+      baseUrl: "ab.cd",
     });
     const expected: any = [];
     const output = parse(configValidation, userConfig);

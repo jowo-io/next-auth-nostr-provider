@@ -5,7 +5,7 @@ const leadingSlashRegex = new RegExp("^(/+)");
 export const configValidation = z
   .object({
     // required
-    baseUrl: z.string().min(10),
+    baseUrl: z.string().min(5),
     secret: z.string().min(10),
     storage: z
       .object({

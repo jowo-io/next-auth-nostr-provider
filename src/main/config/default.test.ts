@@ -126,6 +126,44 @@ describe("formatConfig", () => {
   });
 });
 
+describe("baseUrl", () => {
+  test("returns unchanged baseUrl value", () => {
+    const userConfig = merge({}, requiredConfig, {
+      baseUrl: "https://foo.bar",
+    }) as UserConfig;
+    const { baseUrl } = formatConfig(userConfig);
+    const expected = "https://foo.bar";
+    expect(baseUrl).toEqual(expected);
+  });
+
+  test("returns baseUrl with prefixed protocol", () => {
+    const userConfig = merge({}, requiredConfig, {
+      baseUrl: "foo.bar",
+    }) as UserConfig;
+    const { baseUrl } = formatConfig(userConfig);
+    const expected = "https://foo.bar";
+    expect(baseUrl).toEqual(expected);
+  });
+
+  test("returns baseUrl without trailing slash", () => {
+    const userConfig = merge({}, requiredConfig, {
+      baseUrl: "https://foo.bar/",
+    }) as UserConfig;
+    const { baseUrl } = formatConfig(userConfig);
+    const expected = "https://foo.bar";
+    expect(baseUrl).toEqual(expected);
+  });
+
+  test("returns baseUrl with prefixed protocol and without trailing slash", () => {
+    const userConfig = merge({}, requiredConfig, {
+      baseUrl: "foo.bar/",
+    }) as UserConfig;
+    const { baseUrl } = formatConfig(userConfig);
+    const expected = "https://foo.bar";
+    expect(baseUrl).toEqual(expected);
+  });
+});
+
 describe("theme", () => {
   test("returns correct default color scheme", () => {
     const userConfig = merge({}, requiredConfig, {}) as UserConfig;
