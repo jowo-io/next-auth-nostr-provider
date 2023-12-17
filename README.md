@@ -184,7 +184,7 @@ const config: NextAuthLightningConfig = {
   siteUrl: process.env.NEXTAUTH_URL,
 
   /**
-   * @param {string} siteUrl
+   * @param {string} secret
    *
    * Must be defined as a securely generated random string. Used to sign the
    * JWT token that authenticates users who have logged in with Lightning.
