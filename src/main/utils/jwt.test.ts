@@ -11,7 +11,7 @@ import { Config } from "../config";
 const pubkey = "0123456789";
 
 const config = {
-  siteUrl: "http://a.b",
+  baseUrl: "http://a.b",
   secret: "secret",
   intervals: {
     refreshToken: 99999999,
@@ -77,7 +77,7 @@ describe("jwt", () => {
       const output = await generateIdToken(
         pubkey,
         "foo-bar",
-        `${config.siteUrl}/api/lnauth/avatar/${pubkey}`,
+        `${config.baseUrl}/api/lnauth/avatar/${pubkey}`,
         config
       );
       const decoded = await jose.jwtVerify(output, secret);
@@ -87,7 +87,7 @@ describe("jwt", () => {
           exp: 1799999999,
           iat: 1700000000,
           id: "0123456789",
-          image: `${config.siteUrl}/api/lnauth/avatar/${pubkey}`,
+          image: `${config.baseUrl}/api/lnauth/avatar/${pubkey}`,
           iss: "http://a.b",
           name: "foo-bar",
           sub: "0123456789",

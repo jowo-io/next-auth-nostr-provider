@@ -34,7 +34,7 @@ export default async function handler({
       if (config.flags.diagnostics && config.flags.logs) {
         console.warn(
           `An error occurred in the storage.delete method. To debug the error see: ${
-            config.siteUrl + config.apis.diagnostics
+            config.baseUrl + config.apis.diagnostics
           }`
         );
       }
@@ -53,7 +53,7 @@ export default async function handler({
     if (config.flags.diagnostics && config.flags.logs) {
       console.warn(
         `An error occurred in the storage.update method. To debug the error see: ${
-          config.siteUrl + config.apis.diagnostics
+          config.baseUrl + config.apis.diagnostics
         }`
       );
     }

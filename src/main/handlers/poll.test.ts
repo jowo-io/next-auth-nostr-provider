@@ -26,7 +26,7 @@ const storage = {
 };
 
 const requiredConfig = {
-  siteUrl: "http://a.b",
+  baseUrl: "http://a.b",
   secret: "1234567890",
   storage,
   generateQr,
@@ -42,7 +42,7 @@ describe("poll handler", () => {
     const config = formatConfig({
       ...requiredConfig,
     }) as Config;
-    const url = new URL(`${requiredConfig.siteUrl}/api/lnauth/poll`);
+    const url = new URL(`${requiredConfig.baseUrl}/api/lnauth/poll`);
     await handler({
       body: { k1 },
       cookies: {},
@@ -66,7 +66,7 @@ describe("poll handler", () => {
         },
       })
     ) as Config;
-    const url = new URL(`${requiredConfig.siteUrl}/api/lnauth/poll`);
+    const url = new URL(`${requiredConfig.baseUrl}/api/lnauth/poll`);
     const output = await handler({
       body: { k1 },
       cookies: {},
@@ -88,7 +88,7 @@ describe("poll handler", () => {
         },
       })
     ) as Config;
-    const url = new URL(`${requiredConfig.siteUrl}/api/lnauth/poll`);
+    const url = new URL(`${requiredConfig.baseUrl}/api/lnauth/poll`);
     const output = await handler({
       body: { k1 },
       cookies: {},
@@ -110,7 +110,7 @@ describe("poll handler", () => {
         },
       })
     ) as Config;
-    const url = new URL(`${requiredConfig.siteUrl}/api/lnauth/poll`);
+    const url = new URL(`${requiredConfig.baseUrl}/api/lnauth/poll`);
     const output = await handler({
       body: { k1 },
       cookies: {},
@@ -133,7 +133,7 @@ describe("poll handler", () => {
         },
       })
     ) as Config;
-    const url = new URL(`${requiredConfig.siteUrl}/api/lnauth/poll`);
+    const url = new URL(`${requiredConfig.baseUrl}/api/lnauth/poll`);
     const output = await handler({
       body: { k1 },
       cookies: {},

@@ -22,7 +22,7 @@ const storage = {
 };
 
 const requiredConfig = {
-  siteUrl: "http://a.b",
+  baseUrl: "http://a.b",
   secret: "1234567890",
   storage,
   generateQr,
@@ -50,7 +50,7 @@ describe("callback handler", () => {
     const output = await handler({
       query: { k1: "invalid-k1", key: pubkey, sig },
       cookies: {},
-      url: new URL(`${requiredConfig.siteUrl}/api/lnauth/callback`),
+      url: new URL(`${requiredConfig.baseUrl}/api/lnauth/callback`),
       config,
     });
     const expected = {
@@ -71,7 +71,7 @@ describe("callback handler", () => {
         sig,
       },
       cookies: {},
-      url: new URL(`${requiredConfig.siteUrl}/api/lnauth/callback`),
+      url: new URL(`${requiredConfig.baseUrl}/api/lnauth/callback`),
       config,
     });
     const expected = {
@@ -84,7 +84,7 @@ describe("callback handler", () => {
     const config = formatConfig({
       ...requiredConfig,
     }) as Config;
-    const url = new URL(`${requiredConfig.siteUrl}/api/lnauth/callback`);
+    const url = new URL(`${requiredConfig.baseUrl}/api/lnauth/callback`);
     await handler({
       query: {
         k1: invalidK1,
@@ -112,7 +112,7 @@ describe("callback handler", () => {
         },
       })
     ) as Config;
-    const url = new URL(`${requiredConfig.siteUrl}/api/lnauth/callback`);
+    const url = new URL(`${requiredConfig.baseUrl}/api/lnauth/callback`);
     const output = await handler({
       query: {
         k1: validK1,
@@ -144,7 +144,7 @@ describe("callback handler", () => {
         sig,
       },
       cookies: {},
-      url: new URL(`${requiredConfig.siteUrl}/api/lnauth/callback`),
+      url: new URL(`${requiredConfig.baseUrl}/api/lnauth/callback`),
       config,
     });
     const expected = {
@@ -161,7 +161,7 @@ describe("callback handler", () => {
     const config = formatConfig({
       ...requiredConfig,
     }) as Config;
-    const url = new URL(`${requiredConfig.siteUrl}/api/lnauth/callback`);
+    const url = new URL(`${requiredConfig.baseUrl}/api/lnauth/callback`);
     await handler({
       query: {
         k1: validK1,
@@ -189,7 +189,7 @@ describe("callback handler", () => {
         },
       })
     ) as Config;
-    const url = new URL(`${requiredConfig.siteUrl}/api/lnauth/callback`);
+    const url = new URL(`${requiredConfig.baseUrl}/api/lnauth/callback`);
     const output = await handler({
       query: {
         k1: validK1,

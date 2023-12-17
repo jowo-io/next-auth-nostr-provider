@@ -71,7 +71,7 @@ async function pagesHandler(
   const query = cleanParams(req.query);
   const body = req.body || {};
 
-  const url = new URL(config.siteUrl + req.url);
+  const url = new URL(config.baseUrl + req.url);
 
   const args: HandlerArguments = {
     query,
@@ -100,7 +100,7 @@ async function pagesHandler(
       console.error(output.log);
     }
 
-    const errorUrl = new URL(config.siteUrl + config.pages.error);
+    const errorUrl = new URL(config.baseUrl + config.pages.error);
     if (config.pages.error === "/api/auth/error") {
       // if using default next-auth error screen
       errorUrl.searchParams.append("error", "OAuthSignin");
@@ -158,7 +158,7 @@ async function appHandler(
   const params = new URLSearchParams(text);
   const body = paramsToObject(params);
 
-  const url = new URL(config.siteUrl + req.nextUrl.pathname);
+  const url = new URL(config.baseUrl + req.nextUrl.pathname);
 
   const args: HandlerArguments = {
     query,
@@ -187,7 +187,7 @@ async function appHandler(
       console.error(output.log);
     }
 
-    const errorUrl = new URL(config.siteUrl + config.pages.error);
+    const errorUrl = new URL(config.baseUrl + config.pages.error);
     if (config.pages.error === "/api/auth/error") {
       // if using default next-auth error screen
       errorUrl.searchParams.append("error", "OAuthSignin");

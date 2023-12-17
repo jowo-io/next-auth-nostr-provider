@@ -29,7 +29,7 @@ const storage = {
 };
 
 const requiredConfig = {
-  siteUrl: "http://a.b",
+  baseUrl: "http://a.b",
   secret: "1234567890",
   storage,
   generateQr,
@@ -45,7 +45,7 @@ describe("create handler", () => {
     const config = formatConfig({
       ...requiredConfig,
     }) as Config;
-    const url = new URL(`${requiredConfig.siteUrl}/api/lnauth/create`);
+    const url = new URL(`${requiredConfig.baseUrl}/api/lnauth/create`);
     await handler({
       body: { state },
       cookies: {},
@@ -59,7 +59,7 @@ describe("create handler", () => {
     const config = formatConfig({
       ...requiredConfig,
     }) as Config;
-    const url = new URL(`${requiredConfig.siteUrl}/api/lnauth/create`);
+    const url = new URL(`${requiredConfig.baseUrl}/api/lnauth/create`);
     await handler({
       body: { state, k1: oldK1 },
       cookies: {},
@@ -87,7 +87,7 @@ describe("create handler", () => {
         },
       })
     ) as Config;
-    const url = new URL(`${requiredConfig.siteUrl}/api/lnauth/create`);
+    const url = new URL(`${requiredConfig.baseUrl}/api/lnauth/create`);
     const output = await handler({
       body: { state, k1: oldK1 },
       cookies: {},
@@ -110,7 +110,7 @@ describe("create handler", () => {
     const config = formatConfig({
       ...requiredConfig,
     }) as Config;
-    const url = new URL(`${requiredConfig.siteUrl}/api/lnauth/create`);
+    const url = new URL(`${requiredConfig.baseUrl}/api/lnauth/create`);
     await handler({
       body: { state },
       cookies: {},
@@ -134,7 +134,7 @@ describe("create handler", () => {
         },
       })
     ) as Config;
-    const url = new URL(`${requiredConfig.siteUrl}/api/lnauth/create`);
+    const url = new URL(`${requiredConfig.baseUrl}/api/lnauth/create`);
     const output = await handler({
       body: {
         state,
@@ -159,7 +159,7 @@ describe("create handler", () => {
         },
       })
     ) as Config;
-    const url = new URL(`${requiredConfig.siteUrl}/api/lnauth/create`);
+    const url = new URL(`${requiredConfig.baseUrl}/api/lnauth/create`);
     const output = await handler({
       body: { state },
       cookies: {},

@@ -8,7 +8,7 @@ import { Config } from "../config";
 import { defaultConfig } from "../config/default";
 
 const config = merge({}, defaultConfig, {
-  siteUrl: "http://a.b",
+  baseUrl: "http://a.b",
   theme: { qrForeground: "#fff", qrBackground: "#000", qrMargin: 1 },
 }) as Config;
 
@@ -42,7 +42,7 @@ describe("generateQr", () => {
       query: { hello: "world" },
       body: { foo: "bar" },
       cookies: { sessionToken: "cookie" },
-      url: new URL(config.siteUrl + "/foo/bar"),
+      url: new URL(config.baseUrl + "/foo/bar"),
       config,
     };
     test("pages router triggers output with args", async () => {
@@ -70,7 +70,7 @@ describe("generateQr", () => {
     test("app router triggers output with args", async () => {
       const req = {
         text: jest.fn(async () => "foo=bar"),
-        nextUrl: new URL(config.siteUrl + "/foo/bar" + "?hello=world"),
+        nextUrl: new URL(config.baseUrl + "/foo/bar" + "?hello=world"),
         cookies: { get: jest.fn(() => ({ value: "cookie" })) },
       } as unknown as NextRequest;
       const res = {
@@ -113,7 +113,7 @@ describe("generateQr", () => {
     test("app router response", async () => {
       const req = {
         text: jest.fn(async () => "foo=bar"),
-        nextUrl: new URL(config.siteUrl + "/foo/bar" + "?hello=world"),
+        nextUrl: new URL(config.baseUrl + "/foo/bar" + "?hello=world"),
         cookies: { get: jest.fn() },
       } as unknown as NextRequest;
       const res = {
@@ -162,7 +162,7 @@ describe("generateQr", () => {
     test("app router response", async () => {
       const req = {
         text: jest.fn(async () => "foo=bar"),
-        nextUrl: new URL(config.siteUrl + "/foo/bar" + "?hello=world"),
+        nextUrl: new URL(config.baseUrl + "/foo/bar" + "?hello=world"),
         cookies: { get: jest.fn() },
       } as unknown as NextRequest;
       const res = {
@@ -208,7 +208,7 @@ describe("generateQr", () => {
     test("app router response", async () => {
       const req = {
         text: jest.fn(async () => "foo=bar"),
-        nextUrl: new URL(config.siteUrl + "/foo/bar" + "?hello=world"),
+        nextUrl: new URL(config.baseUrl + "/foo/bar" + "?hello=world"),
         cookies: { get: jest.fn() },
       } as unknown as NextRequest;
       const res = {
@@ -225,7 +225,7 @@ describe("generateQr", () => {
 
   describe("returns redirect", () => {
     const handlerResponse = {
-      redirect: new URL(config.siteUrl + "/hello/world"),
+      redirect: new URL(config.baseUrl + "/hello/world"),
     };
     test("pages router response", async () => {
       const req = {
@@ -250,7 +250,7 @@ describe("generateQr", () => {
     test("app router response", async () => {
       const req = {
         text: jest.fn(async () => "foo=bar"),
-        nextUrl: new URL(config.siteUrl + "/foo/bar" + "?hello=world"),
+        nextUrl: new URL(config.baseUrl + "/foo/bar" + "?hello=world"),
         cookies: { get: jest.fn() },
       } as unknown as NextRequest;
       const res = {
@@ -273,7 +273,7 @@ describe("generateQr", () => {
       error: "Default" as "Default",
     };
 
-    const expected = new URL(config.siteUrl + config.pages.error);
+    const expected = new URL(config.baseUrl + config.pages.error);
     expected.searchParams.append("error", "OAuthSignin");
 
     test("pages router response", async () => {
@@ -296,7 +296,7 @@ describe("generateQr", () => {
     test("app router response", async () => {
       const req = {
         text: jest.fn(async () => "foo=bar"),
-        nextUrl: new URL(config.siteUrl + "/foo/bar" + "?hello=world"),
+        nextUrl: new URL(config.baseUrl + "/foo/bar" + "?hello=world"),
         cookies: { get: jest.fn() },
       } as unknown as NextRequest;
       const res = {
@@ -317,7 +317,7 @@ describe("generateQr", () => {
       error: "Default" as "Default",
     };
 
-    const expected = new URL(config.siteUrl + errorPage);
+    const expected = new URL(config.baseUrl + errorPage);
     expected.searchParams.append("error", handlerResponse.error);
     expected.searchParams.append(
       "message",
@@ -351,7 +351,7 @@ describe("generateQr", () => {
     test("app router response", async () => {
       const req = {
         text: jest.fn(async () => "foo=bar"),
-        nextUrl: new URL(config.siteUrl + "/foo/bar" + "?hello=world"),
+        nextUrl: new URL(config.baseUrl + "/foo/bar" + "?hello=world"),
         cookies: { get: jest.fn() },
       } as unknown as NextRequest;
       const res = {
@@ -402,7 +402,7 @@ describe("generateQr", () => {
       jest.spyOn(console, "error").mockImplementation();
       const req = {
         text: jest.fn(async () => "foo=bar"),
-        nextUrl: new URL(config.siteUrl + "/foo/bar" + "?hello=world"),
+        nextUrl: new URL(config.baseUrl + "/foo/bar" + "?hello=world"),
         cookies: { get: jest.fn() },
       } as unknown as NextRequest;
       const res = {
@@ -466,7 +466,7 @@ describe("generateQr", () => {
       jest.spyOn(console, "error").mockImplementation();
       const req = {
         text: jest.fn(async () => "foo=bar"),
-        nextUrl: new URL(config.siteUrl + "/foo/bar" + "?hello=world"),
+        nextUrl: new URL(config.baseUrl + "/foo/bar" + "?hello=world"),
         cookies: { get: jest.fn() },
       } as unknown as NextRequest;
       const res = {

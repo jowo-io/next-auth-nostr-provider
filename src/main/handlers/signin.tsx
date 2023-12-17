@@ -126,11 +126,11 @@ export default async function handler({
     if (config.pages.signIn !== config.apis.signIn) {
       const params = url.searchParams.toString();
       return {
-        redirect: new URL(`${config.siteUrl}${config.pages.signIn}?${params}`),
+        redirect: new URL(`${config.baseUrl}${config.pages.signIn}?${params}`),
       };
     }
 
-    const title = config.title || config.siteUrl;
+    const title = config.title || config.baseUrl;
     const html = renderToStaticMarkup(<LightningAuthPage config={config} />);
 
     return {

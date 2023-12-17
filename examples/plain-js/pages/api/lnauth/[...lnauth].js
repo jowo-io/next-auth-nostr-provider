@@ -9,7 +9,7 @@ await storage.init();
 
 const config = {
   // required
-  siteUrl: process.env.NEXTAUTH_URL,
+  baseUrl: process.env.NEXTAUTH_URL,
   secret: process.env.NEXTAUTH_SECRET,
   storage: {
     async set({ k1, data }) {

@@ -33,7 +33,7 @@ const storage = {
 };
 
 const requiredConfig = {
-  siteUrl: "http://a.b",
+  baseUrl: "http://a.b",
   secret: "1234567890",
   storage,
   generateQr,

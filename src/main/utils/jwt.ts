@@ -18,8 +18,8 @@ export async function generateIdToken(
   })
     .setProtectedHeader({ alg: "HS256" })
     .setIssuedAt(Math.floor(Date.now() / 1000))
-    .setIssuer(config.siteUrl)
-    .setAudience(config.siteUrl)
+    .setIssuer(config.baseUrl)
+    .setAudience(config.baseUrl)
     .setExpirationTime(expires)
     .setSubject(pubkey)
     .sign(secret, {});
@@ -37,8 +37,8 @@ export async function generateRefreshToken(pubkey: string, config: Config) {
   })
     .setProtectedHeader({ alg: "HS256" })
     .setIssuedAt(Math.floor(Date.now() / 1000))
-    .setIssuer(config.siteUrl)
-    .setAudience(config.siteUrl)
+    .setIssuer(config.baseUrl)
+    .setAudience(config.baseUrl)
     .setExpirationTime(expires)
     .setSubject(pubkey)
     .sign(secret, {});

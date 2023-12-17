@@ -27,7 +27,7 @@ export default async function handler({
       if (config.flags.diagnostics && config.flags.logs) {
         console.warn(
           `An error occurred in the storage.delete method. To debug the error see: ${
-            config.siteUrl + config.apis.diagnostics
+            config.baseUrl + config.apis.diagnostics
           }`
         );
       }
@@ -36,7 +36,7 @@ export default async function handler({
 
   const k1 = randomBytes(32).toString("hex");
 
-  const callbackUrl = new URL(config.siteUrl + config.apis.callback);
+  const callbackUrl = new URL(config.baseUrl + config.apis.callback);
   callbackUrl.searchParams.append("k1", k1);
   callbackUrl.searchParams.append("tag", "login");
 
@@ -50,7 +50,7 @@ export default async function handler({
     if (config.flags.diagnostics && config.flags.logs) {
       console.warn(
         `An error occurred in the storage.set method. To debug the error see: ${
-          config.siteUrl + config.apis.diagnostics
+          config.baseUrl + config.apis.diagnostics
         }`
       );
     }

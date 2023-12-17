@@ -21,7 +21,7 @@ const storage = {
 };
 
 const requiredConfig = {
-  siteUrl: "http://a.b",
+  baseUrl: "http://a.b",
   secret: "1234567890",
   storage,
   generateQr,
@@ -42,7 +42,7 @@ describe("qr handler", () => {
     const output = await handler({
       query: {},
       cookies: {},
-      url: new URL(`${requiredConfig.siteUrl}/`),
+      url: new URL(`${requiredConfig.baseUrl}/`),
       config,
     });
     const expected = { error: "NotFound", status: 404 };
@@ -58,7 +58,7 @@ describe("qr handler", () => {
     const output = await handler({
       query: {},
       cookies: {},
-      url: new URL(`${requiredConfig.siteUrl}/api/lnauth/qr/${k1}`),
+      url: new URL(`${requiredConfig.baseUrl}/api/lnauth/qr/${k1}`),
       config,
     });
     const expected = {
@@ -78,7 +78,7 @@ describe("qr handler", () => {
     const output = await handler({
       query: {},
       cookies: {},
-      url: new URL(`${requiredConfig.siteUrl}/api/lnauth/qr/${k1}`),
+      url: new URL(`${requiredConfig.baseUrl}/api/lnauth/qr/${k1}`),
       config,
     });
     const expected = {
@@ -100,7 +100,7 @@ describe("qr handler", () => {
     const output = await handler({
       query: {},
       cookies: {},
-      url: new URL(`${requiredConfig.siteUrl}/api/lnauth/qr/${k1}`),
+      url: new URL(`${requiredConfig.baseUrl}/api/lnauth/qr/${k1}`),
       config,
     });
     const expected = {
@@ -122,7 +122,7 @@ describe("qr handler", () => {
     const output = await handler({
       query: {},
       cookies: {},
-      url: new URL(`${requiredConfig.siteUrl}/api/lnauth/qr/${k1}`),
+      url: new URL(`${requiredConfig.baseUrl}/api/lnauth/qr/${k1}`),
       config,
     });
     const expected = {
@@ -143,7 +143,7 @@ describe("qr handler", () => {
     const output = await handler({
       query: {},
       cookies: {},
-      url: new URL(`${requiredConfig.siteUrl}/api/lnauth/qr/${k1}`),
+      url: new URL(`${requiredConfig.baseUrl}/api/lnauth/qr/${k1}`),
       config,
     });
     const expected = {
@@ -167,7 +167,7 @@ describe("qr handler", () => {
     const output = await handler({
       query: {},
       cookies: {},
-      url: new URL(`${requiredConfig.siteUrl}/api/lnauth/qr/${k1}`),
+      url: new URL(`${requiredConfig.baseUrl}/api/lnauth/qr/${k1}`),
       config,
     });
     const expected = {

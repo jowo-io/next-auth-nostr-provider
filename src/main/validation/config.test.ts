@@ -5,7 +5,7 @@ import merge from "lodash.merge";
 import { configValidation } from "./config";
 
 const requiredConfig = {
-  siteUrl: "http://a.b",
+  baseUrl: "http://a.b",
   secret: "1234567890",
   storage: {
     set: async () => undefined,
@@ -41,7 +41,7 @@ describe("empty", () => {
         code: "invalid_type",
         expected: "string",
         received: "undefined",
-        path: ["siteUrl"],
+        path: ["baseUrl"],
         message: "Required",
       },
       {
@@ -93,17 +93,17 @@ describe("unknown keys", () => {
   });
 });
 
-describe("siteUrl", () => {
-  test("throws when siteUrl is missing", () => {
+describe("baseUrl", () => {
+  test("throws when baseUrl is missing", () => {
     const userConfig = merge({}, requiredConfig, {});
     // @ts-ignore
-    delete userConfig.siteUrl;
+    delete userConfig.baseUrl;
     const expected: any = [
       {
         code: "invalid_type",
         expected: "string",
         received: "undefined",
-        path: ["siteUrl"],
+        path: ["baseUrl"],
         message: "Required",
       },
     ];
@@ -111,9 +111,9 @@ describe("siteUrl", () => {
     expect(output).toEqual(expected);
   });
 
-  test("throws when siteUrl is empty string", () => {
+  test("throws when baseUrl is empty string", () => {
     const userConfig = merge({}, requiredConfig, {
-      siteUrl: "",
+      baseUrl: "",
     });
     const expected: any = [
       {
@@ -123,7 +123,7 @@ describe("siteUrl", () => {
         inclusive: true,
         exact: false,
         message: "String must contain at least 10 character(s)",
-        path: ["siteUrl"],
+        path: ["baseUrl"],
       },
     ];
 
@@ -131,9 +131,9 @@ describe("siteUrl", () => {
     expect(output).toEqual(expected);
   });
 
-  test("throws when siteUrl is too short", () => {
+  test("throws when baseUrl is too short", () => {
     const userConfig = merge({}, requiredConfig, {
-      siteUrl: "http://a",
+      baseUrl: "http://a",
     });
     const expected: any = [
       {
@@ -143,16 +143,16 @@ describe("siteUrl", () => {
         inclusive: true,
         exact: false,
         message: "String must contain at least 10 character(s)",
-        path: ["siteUrl"],
+        path: ["baseUrl"],
       },
     ];
     const output = parse(configValidation, userConfig);
     expect(output).toEqual(expected);
   });
 
-  test("passes when siteUrl is longer than 10 characters", () => {
+  test("passes when baseUrl is longer than 10 characters", () => {
     const userConfig = merge({}, requiredConfig, {
-      siteUrl: "http://a.b",
+      baseUrl: "http://a.b",
     });
     const expected: any = [];
     const output = parse(configValidation, userConfig);

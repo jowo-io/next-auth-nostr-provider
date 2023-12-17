@@ -88,7 +88,7 @@ import generateAvatar from "next-auth-lightning-provider/generators/avatar";
 
 const config: NextAuthLightningConfig = {
   // required
-  siteUrl: process.env.NEXTAUTH_URL,
+  baseUrl: process.env.NEXTAUTH_URL,
   secret: process.env.NEXTAUTH_SECRET,
   storage: {
     async set({ k1, session }) {
@@ -175,13 +175,13 @@ There are various configurations available to you. Some are required, some are o
 
 const config: NextAuthLightningConfig = {
   /**
-   * @param {string} siteUrl
+   * @param {string} baseUrl
    *
    * Must be defined as the canonical URL of your site. It's used in
    * various places under the hood, such as for generating callback URLs and
    * in the headers of JWT tokens that are issued to logged in user.
    */
-  siteUrl: process.env.NEXTAUTH_URL,
+  baseUrl: process.env.NEXTAUTH_URL,
 
   /**
    * @param {string} secret

@@ -13,7 +13,7 @@ import { env } from "@/env.mjs";
 
 const config: NextAuthLightningConfig = {
   // required
-  siteUrl: env.NEXTAUTH_URL,
+  baseUrl: env.NEXTAUTH_URL,
   secret: env.NEXTAUTH_SECRET,
   storage: {
     async set({ k1, session }) {

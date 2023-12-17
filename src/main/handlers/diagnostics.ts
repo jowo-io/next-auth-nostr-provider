@@ -284,11 +284,11 @@ export default async function handler({
 
   const generators = {
     generateQr: `<img onerror="handleError(this)" src="${
-      config.siteUrl + config.apis.qr + "/" + qr
+      config.baseUrl + config.apis.qr + "/" + qr
     }" width="200px" height="200px" />`,
     generateAvatar: config.generateAvatar
       ? `<img onerror="handleError(this)" src="${
-          config.siteUrl + config.apis.avatar + "/" + pubkey
+          config.baseUrl + config.apis.avatar + "/" + pubkey
         }" width="200px" height="200px" />`
       : null,
     generateName: name ? `<div class="name"><span>${name}</span></div>` : null,

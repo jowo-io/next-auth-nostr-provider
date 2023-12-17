@@ -6,16 +6,16 @@ export default async function createLightningAuth(
   searchParams: Record<string, any>
 ): Promise<ClientSession> {
   const {
-    client_id: siteUrl = "",
+    client_id: baseUrl = "",
     state = "",
     redirect_uri: redirectUri = "",
   } = cleanParams(searchParams);
-  if (!siteUrl || !redirectUri || !state) {
+  if (!baseUrl || !redirectUri || !state) {
     throw new Error("Missing query params");
   }
 
   const params = new URLSearchParams({ state });
-  const response = await fetch(siteUrl + hardConfig.apis.create, {
+  const response = await fetch(baseUrl + hardConfig.apis.create, {
     method: "POST",
     headers: { "content-type": "application/x-www-form-urlencoded" },
     body: params,

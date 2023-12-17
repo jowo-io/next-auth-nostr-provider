@@ -38,7 +38,7 @@ export default async function handler({
       if (config.flags.diagnostics && config.flags.logs) {
         console.warn(
           `An error occurred in the storage.get method. To debug the error see: ${
-            config.siteUrl + config.apis.diagnostics
+            config.baseUrl + config.apis.diagnostics
           }`
         );
       }
@@ -64,7 +64,7 @@ export default async function handler({
       if (config.flags.diagnostics && config.flags.logs) {
         console.warn(
           `An error occurred in the storage.delete method. To debug the error see: ${
-            config.siteUrl + config.apis.diagnostics
+            config.baseUrl + config.apis.diagnostics
           }`
         );
       }
@@ -104,7 +104,7 @@ export default async function handler({
       if (config.flags.diagnostics && config.flags.logs) {
         console.warn(
           `An error occurred in the generateName method. To debug the error see: ${
-            config.siteUrl + config.apis.diagnostics
+            config.baseUrl + config.apis.diagnostics
           }`
         );
       }
@@ -112,7 +112,7 @@ export default async function handler({
     }
   }
   const image = config?.generateAvatar
-    ? `${config.siteUrl}${config.apis.avatar}/${pubkey}`
+    ? `${config.baseUrl}${config.apis.avatar}/${pubkey}`
     : "";
 
   const token = {

@@ -47,7 +47,7 @@ export type StorageSession = {
 };
 
 export type RequiredConfig = {
-  siteUrl: string;
+  baseUrl: string;
   secret: string;
   storage: {
     set: (
