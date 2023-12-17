@@ -612,12 +612,16 @@ Here's a diagram illustrating what's happening under the hood during the Lightni
 
 ![diagram of Lightning OAuth authorization flow](https://github.com/jowo-io/next-auth-lightning-provider/blob/main/diagram.jpeg?raw=true)
 
-# Contributors
+# Contributing
 
-If you would like to contribute to this project, please feel free to open an [issue](https://github.com/jowo-io/next-auth-lightning-provider/issues).
+If you would like to contribute to this project, please open an [issue](https://github.com/jowo-io/next-auth-lightning-provider/issues) before making a pull request.
 
----
+# Sponsors
 
 Many thanks to [OpenSats](https://opensats.org/) for funding the development of this project!
 
 ![OpenSats card](https://opensats.org/static/images/twitter.png)
+
+# License
+
+**ISC**
