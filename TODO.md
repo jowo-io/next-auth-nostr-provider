@@ -2,17 +2,8 @@
 
 Below is a TODO list for further development of `next-auth-lightning-provider`.
 
-### Alpha
-
-- test deploy all the various example apps
-  - ar-generic
-  - ar-custom
-  - pr-generic
-  - pr-custom
-
 ### Beta
 
-- test diagnostics API with KV and
 - manual testing. pre beta release make list of all test criteria and go through them
   - test node, next, next-auth versions for compatibility (including deployed)
   - test all user configuration options
@@ -20,10 +11,10 @@ Below is a TODO list for further development of `next-auth-lightning-provider`.
   - add yellow notes to diagram.
   - carefully scan for errors and typos
   - ensure consistent formatting is used. full stops, caps, etc
+  - add BTC address to contributors section of readme
   - add suggestion: cleaning up old and unused lnauth session data that was created but never reached success state.
-  - add OpenSats logo
-- write SN post and publish it
-- update readme warning to BETA
+  - update readme warning to BETA
+- publish SN post
 
 ### Release
 
