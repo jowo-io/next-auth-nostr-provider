@@ -4,7 +4,7 @@ This example demonstrates configuring `next-auth-lightning-provider` using the N
 
 > ⚠️ WARNING using `node-persist` is not recommended in lambda or edge environments.
 >
-> The reason not to use `node-persist` is that it stores session data locally in files, and in most lambda / cloud environments those files will not persist across sessions.
+> The reason not to use `node-persist` is that it stores session data locally in files, and in most lambda / cloud environments those files will not persist across invocations.
 >
 > Instead you should use persistent storage such as a database, a document store, or session storage.
 >
@@ -14,12 +14,16 @@ This example demonstrates configuring `next-auth-lightning-provider` using the N
 
 #### Building `next-auth-lightning-provider`
 
-Before you can run this example, you must build `next-auth-lightning-provider`.
+Before you can run this example locally, you must clone and build `next-auth-lightning-provider`.
 
 Essentially all that's required is running `npm i` and `npm run build` from the directory root.
 
+#### Create env vars
+
+Along side the `.env.example` file in this example app, create a `.env` file with the same contents and fill all of the variables with real values.
+
 #### Running this examples
 
-Run `npm i` to install dependencies
+Run `npm i` to install dependencies.
 
 Run `npm run dev` to launch the dev server and visit `localhost:3000` to view the app.

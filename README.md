@@ -1,10 +1,8 @@
-> ⚠️ WARNING ⚠️
+> ℹ️ Beta notice
 >
-> This project is currently under construction 👷🏗️🚧
+> This project is currently in beta. A stable release will land by February 2024.
 >
-> It is not recommended to use it in production apps. It may be buggy or insecure!
->
-> See [this issue](https://github.com/nextauthjs/next-auth/issues/7872) for updates and more info.
+> If you encounter any issues during installation and configuration, or in development and production environments, it'd be greatly appreciated if you report them [here](https://github.com/jowo-io/next-auth-lightning-provider/issues).
 
 # About
 
@@ -14,26 +12,26 @@ A light-weight Lightning auth provider for your Next.js app that's entirely self
 
 # How it works
 
-Install the package and add two code snippets to your app (as shown below). It's that simple.
+Install the package, add two code snippets to your app (as shown below). It's that simple.
 
-Your users will then be shown an additional auth option in the `next-auth` sign in page. When they click the new option they'll be presented with a QR code. The QR code can be scanned with any Bitcoin Lightning wallet that supports `lnurl-auth`. After scanning, they'll be securely logged in! No username or password required.
+Your users will then be shown an additional authentication option in the provider list on the `next-auth` sign in page. When they click the new option they'll be presented with a QR code. The QR code can be scanned with any Bitcoin Lightning wallet that supports [lnurl-auth](https://fiatjaf.com/e0a35204.html). After scanning, they'll be securely logged in! No usernames, no passwords and no third party providers required.
 
-Behind the scenes `next-auth-lightning-provider` sets up several API endpoint which act as a basic OAuth server. The API will authorize users with [lnurl-auth](https://fiatjaf.com/e0a35204.html) and then issue a JWT token to them.
+The `next-auth-lightning-provider` package extends `lnurl-auth` by wrapping it in an OAuth API. `lnurl-auth` is used to authenticate your users, and OAuth is wrapped around it to make integration with `next-auth` seamless.
 
-As well as providing the basic authentication functionality that you'd expect, `next-auth-lightning-provider` also offers some extra functionality such as deterministicly generating avatars and usernames for authenticated users!
+As well as providing the basic authentication functionality that you'd expect, `next-auth-lightning-provider` also offers some extra functionality, such as deterministically generating avatars and usernames for authenticated users! (These extra features can be disabled if not required)
 
 # Compatibility
 
 ```json
 {
+  "engines": {
+    "node": ">=14"
+  },
   "peerDependencies": {
     "next": "^12.2.5 || ^13 || ^14",
     "next-auth": "^4",
     "react": "^17.0.2 || ^18",
     "react-dom": "^17.0.2 || ^18"
-  },
-  "engines": {
-    "node": ">=14"
   }
 }
 ```
@@ -46,16 +44,16 @@ As well as providing the basic authentication functionality that you'd expect, `
 npm i next-auth-lightning-provider
 ```
 
-### Env
+### .env
 
-You'll need to setup a couple of env vars in your project's `.env` file. You may already have them defined as part of your `next-auth` configuration. This package also requires them.
+You'll need to setup a couple of env vars in your project's `.env` file. However, you may already have them defined as part of your `next-auth` configuration.
 
 ---
 
 The `NEXTAUTH_URL` env var must be defined as the canonical URL of your site.
 
 ```bash
-NEXTAUTH_URL=http://localhost:3000
+NEXTAUTH_URL="http://localhost:3000"
 ```
 
 ---
@@ -75,6 +73,8 @@ openssl rand -base64 32
 ### API
 
 Create a new API route under `pages/api/lnauth/[...lnauth].ts`
+
+This API will handle all of the Lightning auth API requests, such as generating QRs, handling callbacks, polling and issuing JWT auth tokens.
 
 ```typescript
 // @/pages/api/lnauth/[...lnauth].ts
@@ -123,8 +123,6 @@ export default handler;
 
 > ℹ️ The above example uses the Pages Router. If your app uses the App Router then take a look at the [examples/app-router/](https://github.com/jowo-io/next-auth-lightning-provider/tree/main/examples/app-router/) example app.
 
-This API will handle all of the Lightning auth API requests, such as generating QRs, handling callbacks, polling and issuing JWT auth tokens.
-
 ### Provider
 
 In your existing `pages/api/auth/[...nextauth].ts` config file, import and add the Lightning provider to the provider array.
@@ -145,7 +143,7 @@ export default NextAuth(authOptions);
 
 # Generators
 
-Normally if you authenticate a user with `lnurl-auth`, all you'd know about the user is their unique ID (a `pubkey`). This package goes a step further and provides several generator functions that can be used to deterministically (the `pubkey` is used as a seed) generate avatars and usernames. That means you can show users a unique name and image that'll be associated with their account!
+If you were to authenticate a user with only `lnurl-auth`, all you'd know about them is their unique ID (a `pubkey`). The `next-auth-lightning-provider` package goes a step further and provides several generator functions that can be used to deterministically (the `pubkey` is used as a seed) generate avatars and usernames. This means you can show users a unique name and image that'll be associated with their account!
 
 As well as the avatar and image generators, there's also a QR code generator.
 
@@ -159,11 +157,11 @@ import generateAvatar from "next-auth-lightning-provider/generators/avatar";
 
 > ℹ️ You can write your own generator functions if those provided don't suit your needs!
 >
-> Once you have configured the generator methods you can launch your dev server and test them locally on the diagnostics page:
->
-> ```
-> http://localhost:3000/api/lnauth/diagnostics
-> ```
+> Once you have configured the generator functions you can launch your dev server and test them locally on the diagnostics page:
+
+```
+http://localhost:3000/api/lnauth/diagnostics
+```
 
 # Configuration
 
@@ -199,7 +197,7 @@ const config: NextAuthLightningConfig = {
    * persist some data and ensure it's available when the callback is triggered.
    * Data can be stored in a medium of your choice.
    *
-   * Once you have configured the storage methods you can test them on the diagnostics page:
+   * Once you have configured the storage functions you should test them on the diagnostics page:
    * @see http://localhost:3000/api/lnauth/diagnostics
    *
    * @see https://github.com/jowo-io/next-auth-lightning-provider/tree/main/examples/
@@ -208,8 +206,9 @@ const config: NextAuthLightningConfig = {
     /**
      * @param {function} set
      *
-     * An async function that receives a k1 and data arguments.
-     * The k1 is a unique key that's used to store the data for later use.
+     * An async function that receives a k1 and a data argument.
+     * The k1 is a unique key that's used to store the
+     * data for later use.
      */
     async set({ k1, session }) {
       // save lnurl auth session data based on k1 id
@@ -219,7 +218,8 @@ const config: NextAuthLightningConfig = {
      * @param {function} get
      *
      * An async function that receives a k1 argument.
-     * The k1 is used to find and return data previously stored under it.
+     * The k1 is a unique key that's used to find
+     * and return data previously stored under it.
      */
     async get({ k1 }) {
       // lookup and return lnurl auth session data based on k1 id
@@ -228,8 +228,9 @@ const config: NextAuthLightningConfig = {
     /**
      * @param {function} update
      *
-     * An async function that receives a k1 and data arguments.
-     * The k1 is used to find and update data previously stored under it.
+     * An async function that receives a k1 and a data argument.
+     * The k1 is a unique key that's used to find and
+     * update data previously stored under it.
      */
     async update({ k1, session }) {
       // update lnurl auth session data based on k1 id
@@ -238,8 +239,9 @@ const config: NextAuthLightningConfig = {
     /**
      * @param {function} delete
      *
-     * An async function that receives a k1.
-     * The k1 is a unique key that's used to find and delete data previously saved data.
+     * An async function that receives a k1 argument.
+     * The k1 is a unique key that's used to find and
+     * delete data previously saved data.
      */
     async delete({ k1 }) {
       // delete lnurl auth session data based on k1 id
@@ -290,9 +292,9 @@ const config: NextAuthLightningConfig = {
     /**
      * @param {string} error
      *
-     * By default users will be redirected to the `next-auth` sign in page
+     * By default users will be redirected to the `next-auth` error page
      * and shown an error message there. If you want a custom error page,
-     * you can define the path here.
+     * you can define a custom path.
      *
      * @note the path must begin with a leading `/`. For example, `/error`, not `error`.
      *
@@ -316,19 +318,16 @@ const config: NextAuthLightningConfig = {
   title: "Your custom title",
 
   /**
-   * @param {function | null} generateAvatar
+   * @param {function} generateAvatar
    *
    * Define the deterministic avatar generator.
    * It must return a base64 encoded png/jpg OR svg XML markup.
-   * Or, it can be set to null to disable avatars.
    *
    * A default avatar generator is provided. It can be imported from:
    * import generateAvatar from "next-auth-lightning-provider/generators/avatar";
    *
    * The default avatar generation library that's used is dicebear's bottts style.
    * @see https://www.dicebear.com/styles/bottts/
-   *
-   * @default null
    */
   async generateAvatar(data, config) {
     return {
@@ -341,18 +340,15 @@ const config: NextAuthLightningConfig = {
   },
 
   /**
-   * @param {function | null} generateName
+   * @param {function} generateName
    *
    * Define the deterministic name generator.
-   * Or, it can be set to null to disable names
    *
    * A default name generator is provided. It can be imported from:
    * import generateName from "next-auth-lightning-provider/generators/name";
    *
    * The default name generation library used is `unique-names-generator`
    * @see https://www.npmjs.com/package/unique-names-generator
-   *
-   * @default null
    */
   async generateName(seed) {
     return {
@@ -367,7 +363,8 @@ const config: NextAuthLightningConfig = {
     /**
      * @param {string} diagnostics
      *
-     * Toggle on / off the diagnostics page.
+     * Toggle on / off the diagnostics page found at:
+     * http://localhost:3000/api/lnauth/diagnostics
      *
      * @default enabled for development build only
      */
@@ -376,7 +373,7 @@ const config: NextAuthLightningConfig = {
     /**
      * @param {string} logs
      *
-     * Toggle on / off the error logging.
+     * Toggle on / off the logging of console errors.
      *
      * @default enabled for development build only
      */
@@ -429,8 +426,9 @@ const config: NextAuthLightningConfig = {
     /**
      * @param {string} signInButtonBackground
      *
-     * Override the theme's button background color. This is the button that's shown in the
-     * `next-auth` auth page alongside your other providers.
+     * Override the background color of the sign in button.
+     * This is the button that's shown in the provider list on the
+     * `next-auth` sign in page alongside your other providers.
      *
      * @default light "#24292f"
      * @default dark "#24292f"
@@ -440,8 +438,9 @@ const config: NextAuthLightningConfig = {
     /**
      * @param {string} signInButtonText
      *
-     * Override the theme's button text color. This is the button that's shown in the
-     * `next-auth` auth page alongside your other providers.
+     * Override the text color of the sign in button.
+     * This is the button that's shown in the provider list on the
+     * `next-auth` sign in page alongside your other providers.
      *
      * @default light "#ffffff"
      * @default dark "#ffffff"
@@ -449,9 +448,9 @@ const config: NextAuthLightningConfig = {
     signInButtonText: "#ff00ff",
 
     /**
-     * @param {object} color
+     * @param {object} qrBackground
      *
-     * Override the theme's background color.
+     * Override the theme's QR code background color.
      *
      * @default light "#ffffff"
      * @default dark "#0d1117"
@@ -459,7 +458,7 @@ const config: NextAuthLightningConfig = {
     qrBackground: "#ff0000",
 
     /**
-     * @param {object} color
+     * @param {object} qrForeground
      *
      * Override the theme's QR code foreground color.
      *
@@ -469,7 +468,7 @@ const config: NextAuthLightningConfig = {
     qrForeground: "#0000ff",
 
     /**
-     * @param {number} margin
+     * @param {number} qrMargin
      *
      * Override the theme's QR code margin value.
      * Scale factor. A value of `1` means 1px per modules (black dots).
@@ -488,7 +487,7 @@ const config: NextAuthLightningConfig = {
      * @param {number} poll
      *
      * Override the poll interval to increase or decrease the speed at which
-     * polling occurs on the QR Login page. If decreased, the login page will
+     * API polling occurs on the QR Login page. If decreased, the login page will
      * feel more responsive. If increased, the user may be waiting a bit longer
      * before being redirected after a successful login.
      *
@@ -503,7 +502,7 @@ const config: NextAuthLightningConfig = {
      * @param {number} create
      *
      * Override the create interval to increase or decrease the speed at which
-     * QR codes are refreshed.
+     * QR codes are refreshed at.
      *
      * @min 30,000 ms (30 seconds)
      * @max 3,600,000 ms (1 hour)
@@ -517,9 +516,9 @@ const config: NextAuthLightningConfig = {
 
 # Storage
 
-The `lnurl-auth` spec requires that a user's Lightning wallet trigger a callback as part of the authentication flow. For this reason, it may be that the device that scan the QR (e.g. a mobile) is not the same device that's trying to authenticate (e.g. a desktop). So, we require session storage to persist some data and make it available across devices and ensure it's available when the callback is triggered.
+The `lnurl-auth` spec requires that a user's Lightning wallet trigger a callback as part of the authentication flow. For this reason, it may be that the device scanning the QR (e.g. a mobile) is not the same device that's trying to authenticate (e.g. a desktop). So, we require session storage to persist some data and make it available across devices and ensure it's available when the callback is triggered.
 
-Data can be stored in a medium of your choice. For example a database, a document store, or a session store. Here's an example using [Vercel KV](https://vercel.com/docs/storage/vercel-kv):
+Data can be stored in a medium of your choice. For example: a database, a document store, or a session store. Here's an example using [Vercel KV](https://vercel.com/docs/storage/vercel-kv):
 
 ```typescript
 import { kv } from "@vercel/kv";
@@ -534,7 +533,8 @@ const config: NextAuthLightningConfig = {
       return await kv.get(`k1:${k1}`);
     },
     async update({ k1, session }) {
-      await kv.set(`k1:${k1}`, session);
+      const old = (await kv.get(`k1:${k1}`)) || {};
+      await kv.set(`k1:${k1}`, { ...old, ...session });
     },
     async delete({ k1 }) {
       await kv.del(`k1:${k1}`);
@@ -546,27 +546,27 @@ const config: NextAuthLightningConfig = {
 
 See more working examples in the [examples/](https://github.com/jowo-io/next-auth-lightning-provider/tree/main/examples) folder.
 
-Once you have configured the storage methods you can launch your dev server and test them locally on the diagnostics page:
+Once you have configured the storage functions you can launch your dev server and test them locally on the diagnostics page:
 
 ```
 http://localhost:3000/api/lnauth/diagnostics
 ```
 
-You can also pass in your own custom session values via the query params:
+On the diagnostic page you can optionally pass in your own custom session values via query param:
 
 ```
 http://localhost:3000/api/lnauth/diagnostics?k1=custom-k1&state=custom-state&pubkey=custom-pubkey&sig=custom-sig
 ```
 
-> ℹ️ The diagnostics page will be **disabled** by default for production builds. To enable on production see the flags config options.
+> ℹ️ The diagnostics page will be **disabled** by default for production builds. To enable on production see the `flags` config options.
 
 ### Error page
 
 By default users are sent to the default `next-auth` error page and a generic error message is shown.
 
-The error page path can be overridden and a custom error page can be configured (See the pages config options).
+The error page path can be overridden and a custom error page can be configured (See the `pages` config options).
 
-The following error codes are passed via query parameter to the error page:
+If you define a custom error page, the following error codes are passed in via query param:
 
 ```typescript
 enum ErrorCodes {
@@ -600,7 +600,7 @@ This package supports both the [Pages Router](https://nextjs.org/docs/pages) and
 
 If your app uses the App Router, see the [examples/app-router/](https://github.com/jowo-io/next-auth-lightning-provider/tree/main/examples/app-router/) app.
 
-If your app uses the Pages Router, see any of the other [examples/](https://github.com/jowo-io/next-auth-lightning-provider/tree/main/examples/) apps.
+If your app uses the Pages Router, see the other apps in the [examples/](https://github.com/jowo-io/next-auth-lightning-provider/tree/main/examples/) folder.
 
 # Examples
 
