@@ -12,13 +12,13 @@ const config = {
   baseUrl: process.env.NEXTAUTH_URL,
   secret: process.env.NEXTAUTH_SECRET,
   storage: {
-    async set({ k1, data }) {
-      await storage.setItem(`k1:${k1}`, data);
+    async set({ k1, session }) {
+      await storage.setItem(`k1:${k1}`, session);
     },
     async get({ k1 }) {
       return await storage.getItem(`k1:${k1}`);
     },
-    async update({ k1, data }) {
+    async update({ k1, session }) {
       const old = await storage.getItem(`k1:${k1}`);
       await storage.updateItem(`k1:${k1}`, { ...old, ...session });
     },
