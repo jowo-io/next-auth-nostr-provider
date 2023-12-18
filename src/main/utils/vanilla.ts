@@ -1,7 +1,5 @@
 import { HardConfig } from "../config/index";
 
-const maxNetworkRequestsFailures = 3;
-
 export const vanilla = function ({
   hardConfig,
   query,
@@ -21,6 +19,7 @@ export const vanilla = function ({
   let errorUrl: string | undefined;
   const pollController = new AbortController();
   const createController = new AbortController();
+  const maxNetworkRequestsFailures = 3;
 
   // cleanup when the hook unmounts of polling is successful
   function cleanup() {
