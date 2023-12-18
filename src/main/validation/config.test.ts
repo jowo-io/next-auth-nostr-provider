@@ -478,9 +478,17 @@ describe("generateAvatar", () => {
     expect(output).toEqual(expected);
   });
 
-  test("passes when generateAvatar is null", () => {
+  test("throws when generateAvatar is null", () => {
     const userConfig = merge({}, requiredConfig, { generateAvatar: null });
-    const expected: any = [];
+    const expected: any = [
+      {
+        code: "invalid_type",
+        expected: "function",
+        received: "null",
+        path: ["generateAvatar"],
+        message: "Expected function, received null",
+      },
+    ];
     const output = parse(configValidation, userConfig);
     expect(output).toEqual(expected);
   });
@@ -516,9 +524,17 @@ describe("generateName", () => {
     expect(output).toEqual(expected);
   });
 
-  test("passes when generateName is null", () => {
+  test("throws when generateName is null", () => {
     const userConfig = merge({}, requiredConfig, { generateName: null });
-    const expected: any = [];
+    const expected: any = [
+      {
+        code: "invalid_type",
+        expected: "function",
+        received: "null",
+        path: ["generateName"],
+        message: "Expected function, received null",
+      },
+    ];
     const output = parse(configValidation, userConfig);
     expect(output).toEqual(expected);
   });

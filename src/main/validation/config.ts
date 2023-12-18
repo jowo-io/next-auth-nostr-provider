@@ -18,8 +18,8 @@ export const configValidation = z
     generateQr: z.function(),
 
     // optional
-    generateAvatar: z.function().nullable().optional(),
-    generateName: z.function().nullable().optional(),
+    generateAvatar: z.function().optional(),
+    generateName: z.function().optional(),
     pages: z
       .object({
         signIn: z.string().regex(leadingSlashRegex).min(1).optional(),
