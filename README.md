@@ -287,7 +287,7 @@ const config: NextAuthLightningConfig = {
      *
      * @default "/api/lnauth/signin"
      */
-    signIn: "/example-custom-signin"
+    signIn: "/example-custom-signin",
 
     /**
      * @param {string} error
@@ -391,7 +391,7 @@ const config: NextAuthLightningConfig = {
      *
      * @default "light"
      */
-    colorScheme: "dark" | "light";
+    colorScheme: "dark" | "light",
 
     /**
      * @param {string} background
