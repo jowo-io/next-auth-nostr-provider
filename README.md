@@ -170,7 +170,6 @@ There are various configurations available to you. Some are required, some are o
 ###
 
 ```typescript
-
 const config: NextAuthLightningConfig = {
   /**
    * @param {string} baseUrl
@@ -266,7 +265,7 @@ const config: NextAuthLightningConfig = {
       type: "png",
       // or
       data: "<svg>.....</svg>",
-      type: "svg"
+      type: "svg",
     };
   },
 
@@ -304,7 +303,7 @@ const config: NextAuthLightningConfig = {
      *
      * @default "/api/auth/error"
      */
-    error: "/example-custom-error"
+    error: "/example-custom-error",
   },
 
   /**
@@ -312,8 +311,8 @@ const config: NextAuthLightningConfig = {
    *
    * Override the default title shown above the QR code in the
    * Lighting auth page. Or, it can be set to null to hide the title.
-     *
-     * @default "Login with Lightning"
+   *
+   * @default "Login with Lightning"
    */
   title: "Your custom title",
 
@@ -335,7 +334,7 @@ const config: NextAuthLightningConfig = {
       type: "png",
       // or
       data: "<svg>.....</svg>",
-      type: "svg"
+      type: "svg",
     };
   },
 
@@ -368,7 +367,7 @@ const config: NextAuthLightningConfig = {
      *
      * @default enabled for development build only
      */
-    diagnostics: true | false
+    diagnostics: true | false,
 
     /**
      * @param {string} logs
@@ -377,7 +376,7 @@ const config: NextAuthLightningConfig = {
      *
      * @default enabled for development build only
      */
-    logs: true | false
+    logs: true | false,
   },
 
   /**
