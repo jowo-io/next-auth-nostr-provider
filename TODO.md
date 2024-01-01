@@ -7,7 +7,6 @@ Below is a TODO list for further development of `next-auth-lightning-provider`.
 - (await import("lnurl/lib/encode.js")).default;
   - test
   - comment
-- casting TS
 - difference between set and update? does it throw if there isn't already an entry for k1? Is it supposed to? etc
 - manual testing
   - test node, next, next-auth versions for compatibility (including deployed)
@@ -46,3 +45,4 @@ Stuff I may or may not get around to:
 - look into dicebear console warnings in `ui-pages-router` example when running when running locally (they don't appear when when installed via npm, so low priority)
 - implement CSRF for poll and create endpoints (the rest are either GET requests or made under the `next-auth` hood, e.g. `token` request)
 - add yellow notes to diagram in README
+- tidy up usage of type casting
