@@ -4,6 +4,13 @@ Below is a TODO list for further development of `next-auth-lightning-provider`.
 
 ### Beta
 
+- 410 status?
+- (await import("lnurl/lib/encode.js")).default;
+  - test
+  - comment
+- innerHTML -> textContent
+- any + as TS
+- difference between set and update? does it throw if there isn't already an entry for k1? Is it supposed to? etc
 - manual testing
   - test node, next, next-auth versions for compatibility (including deployed)
   - test all user configuration options
