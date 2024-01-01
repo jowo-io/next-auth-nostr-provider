@@ -18,8 +18,11 @@ export default async function handler({
   let authorize;
   try {
     authorize = await lnurlVerifyAuthorizationSignature(sig, k1, pubkey);
-  } catch (e) {
-    return { error: "Unauthorized", log: e instanceof Error ? e.message : "" };
+  } catch (e: any) {
+    return {
+      error: "Unauthorized",
+      log: e?.message ? e.message : "",
+    };
   }
 
   if (!authorize) {
