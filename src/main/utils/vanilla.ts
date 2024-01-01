@@ -134,7 +134,7 @@ export const vanilla = function ({
         // inject copy text
         const copy = document.getElementById(hardConfig.ids.copy);
         if (copy) {
-          copy.innerHTML = session.lnurl;
+          copy.textContent = session.lnurl;
         }
 
         // inject qr src

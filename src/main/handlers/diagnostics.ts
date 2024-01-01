@@ -409,7 +409,7 @@ export default async function handler({
       function handleError(target){
         const a = document.createElement("span");
         a.className = "empty"
-        a.innerHTML = "Failed to load"
+        a.textContent = "Failed to load"
         target.replaceWith(a);
       }
     </script>
