@@ -13,7 +13,7 @@ import { QRGenerator } from "./types";
  * @returns {String} type - image type: "svg" | "png" | "jpg"
  */
 const generateQr: QRGenerator = async (data, config) => {
-  const options: any = {
+  const options = {
     color: {
       dark: config.theme.qrForeground,
       light: config.theme.qrBackground,

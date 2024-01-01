@@ -2,7 +2,9 @@ import { useRouter } from "next/router";
 
 import { ErrorCodes } from "next-auth-lightning-provider";
 
-function formatErrorCode(value: any): keyof typeof ErrorCodes {
+function formatErrorCode(
+  value: string | string[] | undefined
+): keyof typeof ErrorCodes {
   if (Array.isArray(value)) value = value[0];
   if (value && ErrorCodes.hasOwnProperty(value)) {
     return value as keyof typeof ErrorCodes;

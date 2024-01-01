@@ -3,7 +3,7 @@ import { hardConfig } from "../main/config";
 import { ClientSession } from "./types";
 
 export default async function createLightningAuth(
-  searchParams: Record<string, any>
+  searchParams: Record<string, string | string[] | undefined | null>
 ): Promise<ClientSession> {
   const {
     client_id: baseUrl = "",

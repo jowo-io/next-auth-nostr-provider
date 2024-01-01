@@ -10,15 +10,15 @@ type Check = {
 };
 
 export function testField(
-  received: Record<string, any>,
-  expected: Record<string, any>,
+  received: StorageSession | null | undefined,
+  expected: StorageSession | null | undefined,
   field: "k1" | "state" | "pubkey" | "sig" | "success"
 ): Check {
-  const state = received[field] !== expected[field] ? "failed" : "success";
+  const state = received?.[field] !== expected?.[field] ? "failed" : "success";
   return {
     state,
     method: "get",
-    message: `Expected 'session.${field}' to be '${expected[field]}', received '${received[field]}'.`,
+    message: `Expected 'session.${field}' to be '${expected?.[field]}', received '${received?.[field]}'.`,
   };
 }
 

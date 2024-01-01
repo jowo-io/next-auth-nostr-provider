@@ -1,6 +1,6 @@
 export function pickFirstQueryParam(
-  queryParam: string | string[] | undefined
-): string {
+  queryParam: string | string[] | undefined | null
+): string | number {
   if (Array.isArray(queryParam)) {
     return queryParam[0] || "";
   }
@@ -11,7 +11,7 @@ export function paramsToObject(params?: URLSearchParams) {
   if (!params) return {};
 
   const entries = params.entries();
-  const result: Record<string, any> = {};
+  const result: Record<string, string | number> = {};
   for (const [key, value] of entries) {
     result[key] = pickFirstQueryParam(value);
   }
@@ -19,7 +19,7 @@ export function paramsToObject(params?: URLSearchParams) {
 }
 
 export function cleanParams(
-  params?: Record<string, any>
+  params?: Record<string, string | string[] | undefined | null>
 ): Record<string, string | undefined> {
   if (!params) return {};
 

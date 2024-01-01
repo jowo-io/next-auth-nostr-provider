@@ -1,12 +1,15 @@
 // to enable this SSR sign in page, update the `config.signIn` options to `/signin-ssr` in the `/pages/api/lnauth/[...lnauth].ts` file
 
+import { GetServerSidePropsContext } from "next";
 import {
   NextAuthLightningClientSession,
   createLightningAuth,
 } from "next-auth-lightning-provider/server";
 import { useLightningPolling } from "next-auth-lightning-provider/hooks";
 
-export const getServerSideProps = async (context: any) => {
+export const getServerSideProps = async (
+  context: GetServerSidePropsContext
+) => {
   let session = null,
     error = null;
   try {

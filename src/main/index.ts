@@ -24,7 +24,8 @@ import avatarHandler from "./handlers/avatar";
 import qrHandler from "./handlers/qr";
 import diagnosticsHandler from "./handlers/diagnostics";
 
-export interface LightningProfile extends Record<string, any> {
+export interface LightningProfile
+  extends Record<string, string | number | null> {
   id: string;
   image: string | null;
   name: string | null;
@@ -86,6 +87,7 @@ export default function NextAuthLightning(userConfig: UserConfig) {
       handler: (args: HandlerArguments) => Promise<HandlerReturn>
     ) => Promise<Return>
   ) {
+    // get path from either pages or app router req/res objects
     let path = (res as any)?.params
       ? new URL((req as NextRequest).nextUrl).pathname
       : (req as any)?.url;
