@@ -25,20 +25,22 @@
     "baseUrl": "./",
   },
   "include": [
-    "src"
+    "src",
   ],
   "exclude": [
     "**/*.jsx",
     "**/*.js",
-    "**/*.d.ts",
     "**/*.test.ts",
-    "main",
+    "index.js",
+    "index.d.ts",
+    "index.d.ts.map",
+    "examples",
     "generators",
     "hooks",
+    "main",
+    "node_modules",
     "server",
     "utils",
-    "examples",
-    "node_modules"
   ],
   "tsc-alias": {
     "resolveFullPaths": true,

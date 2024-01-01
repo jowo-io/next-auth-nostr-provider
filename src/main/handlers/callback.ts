@@ -1,5 +1,6 @@
 import { callbackValidation } from "../validation/lnauth";
 import { HandlerArguments, HandlerReturn } from "../utils/handlers";
+import lnurlVerifyAuthorizationSignature from "lnurl/lib/verifyAuthorizationSignature.js";
 
 export default async function handler({
   query,
@@ -13,9 +14,6 @@ export default async function handler({
   } catch (e) {
     return { error: "BadRequest", log: e instanceof Error ? e.message : "" };
   }
-
-  const lnurlVerifyAuthorizationSignature = // @ts-ignore
-    (await import("lnurl/lib/verifyAuthorizationSignature.js")).default;
 
   let authorize;
   try {

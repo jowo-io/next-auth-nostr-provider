@@ -1,4 +1,5 @@
 import { randomBytes } from "crypto";
+import lnurlEncode from "lnurl/lib/encode.js";
 
 import { createValidation } from "../validation/lnauth";
 import { HandlerArguments, HandlerReturn } from "../utils/handlers";
@@ -40,8 +41,6 @@ export default async function handler({
   callbackUrl.searchParams.append("k1", k1);
   callbackUrl.searchParams.append("tag", "login");
 
-  const lnurlEncode = // @ts-ignore
-    (await import("lnurl/lib/encode.js")).default;
   const encoded = lnurlEncode(callbackUrl.toString()).toUpperCase();
 
   try {
