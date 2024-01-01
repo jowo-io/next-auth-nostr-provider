@@ -4,8 +4,8 @@ import { Config } from "../config/index";
 
 export async function generateIdToken(
   pubkey: string,
-  name: string,
-  image: string,
+  name: string | null,
+  image: string | null,
   config: Config
 ) {
   const secret = Buffer.from(config.secret);
@@ -51,7 +51,7 @@ export async function verifyRefreshToken(
   config: Config
 ): Promise<{
   pubkey?: string;
-  jwt: any;
+  jwt: jose.JWTVerifyResult["payload"];
 }> {
   const secret = Buffer.from(config.secret);
 

@@ -91,7 +91,7 @@ export default async function handler({
     };
   }
 
-  let name = "";
+  let name = null;
   if (config.generateName) {
     try {
       name = (await config.generateName(pubkey, config))?.name;
@@ -113,7 +113,7 @@ export default async function handler({
   }
   const image = config?.generateAvatar
     ? `${config.baseUrl}${config.apis.avatar}/${pubkey}`
-    : "";
+    : null;
 
   const token = {
     // meta

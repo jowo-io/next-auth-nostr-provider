@@ -24,6 +24,17 @@ import avatarHandler from "./handlers/avatar";
 import qrHandler from "./handlers/qr";
 import diagnosticsHandler from "./handlers/diagnostics";
 
+export interface LightningProfile extends Record<string, any> {
+  id: string;
+  image: string | null;
+  name: string | null;
+  iat: number;
+  iss: string;
+  aud: string;
+  exp: number;
+  sub: string;
+}
+
 /**
  * Generate a provider and handler to setup Lightning auth.
  *
@@ -36,7 +47,7 @@ import diagnosticsHandler from "./handlers/diagnostics";
 export default function NextAuthLightning(userConfig: UserConfig) {
   const config = formatConfig(userConfig);
 
-  const provider: OAuthConfig<any> = {
+  const provider: OAuthConfig<LightningProfile> = {
     id: "lightning",
     name: "Lightning",
     type: "oauth",
@@ -45,12 +56,11 @@ export default function NextAuthLightning(userConfig: UserConfig) {
     issuer: config.baseUrl,
     token: config.baseUrl + config.apis.token,
     authorization: config.baseUrl + config.pages.signIn,
-    profile(profile: any) {
+    profile(profile) {
       return {
         id: profile.id,
-        name: profile.name,
+        name: profile.name || profile.id,
         image: profile.image,
-        email: "",
       };
     },
     idToken: true,
