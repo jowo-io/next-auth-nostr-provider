@@ -10,14 +10,14 @@ export default async function handler({
   let k1;
   try {
     ({ k1 } = pollValidation.parse(body));
-  } catch (e: any) {
-    return { error: "BadRequest", log: e.message };
+  } catch (e) {
+    return { error: "BadRequest", log: e instanceof Error ? e.message : "" };
   }
 
   let session;
   try {
     session = await config.storage.get({ k1 }, url, config);
-  } catch (e: any) {
+  } catch (e) {
     if (config.flags.diagnostics && config.flags.logs) {
       console.warn(
         `An error occurred in the storage.get get. To debug the error see: ${
@@ -25,7 +25,7 @@ export default async function handler({
         }`
       );
     }
-    return { error: "Default", log: e.message };
+    return { error: "Default", log: e instanceof Error ? e.message : "" };
   }
 
   if (!session) {

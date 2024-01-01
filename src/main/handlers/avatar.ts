@@ -40,7 +40,7 @@ export default async function handler({
         `Invalid 'data' property returned from the generateAvatar method.`
       );
     }
-  } catch (e: any) {
+  } catch (e) {
     if (config.flags.diagnostics && config.flags.logs) {
       console.warn(
         `An error occurred in the generateAvatar method. To debug the error see: ${
@@ -48,7 +48,7 @@ export default async function handler({
         }`
       );
     }
-    return { error: "Default", log: e.message };
+    return { error: "Default", log: e instanceof Error ? e.message : "" };
   }
 
   if (base64Regex.test(generation.data)) {

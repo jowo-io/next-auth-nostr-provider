@@ -36,7 +36,7 @@ export async function testSet(
     });
 
     return checks;
-  } catch (e: any) {
+  } catch (e) {
     if (config.flags.logs) {
       console.error(e);
     }
@@ -76,7 +76,7 @@ export async function testGet(
     checks.push(testField(receivedSession, expectedSession, "state"));
 
     return checks;
-  } catch (e: any) {
+  } catch (e) {
     if (config.flags.logs) {
       console.error(e);
     }
@@ -107,7 +107,7 @@ export async function testUpdate(
     let receivedSession;
     try {
       receivedSession = await getMethod();
-    } catch (e: any) {
+    } catch (e) {
       if (config.flags.logs) {
         console.error(e);
       }
@@ -134,7 +134,7 @@ export async function testUpdate(
     checks.push(testField(receivedSession, expectedSession, "success"));
 
     return checks;
-  } catch (e: any) {
+  } catch (e) {
     if (config.flags.logs) {
       console.error(e);
     }
@@ -166,7 +166,7 @@ export async function testDelete(
     let receivedSession;
     try {
       receivedSession = await getMethod();
-    } catch (e: any) {
+    } catch (e) {
       if (config.flags.logs) {
         console.error(e);
       }
@@ -193,7 +193,7 @@ export async function testDelete(
       message: "Session data was deleted.",
     });
     return checks;
-  } catch (e: any) {
+  } catch (e) {
     if (config.flags.logs) {
       console.error(e);
     }
@@ -261,7 +261,7 @@ export default async function handler({
     checks.push(...(await testDelete(deleteMethod, getMethod, config)));
 
     // generic throw
-  } catch (e: any) {
+  } catch (e) {
     if (config.flags.logs) {
       console.error(e);
     }

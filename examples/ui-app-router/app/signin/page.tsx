@@ -13,8 +13,8 @@ export default async function SignIn({
   let session, error;
   try {
     session = await createLightningAuth(searchParams);
-  } catch (e: any) {
-    error = e.message || "Something went wrong";
+  } catch (e) {
+    error = e instanceof Error ? e.message : "Something went wrong";
   }
 
   if (error || !session) {

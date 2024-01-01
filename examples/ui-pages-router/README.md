@@ -62,8 +62,8 @@ export const getServerSideProps = async (
     error = null;
   try {
     session = await createLightningAuth(context.query);
-  } catch (e: any) {
-    error = e.message || "Something went wrong";
+  } catch (e) {
+    error = e instanceof Error ? e.message : "Something went wrong";
   }
 
   return {

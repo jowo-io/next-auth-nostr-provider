@@ -107,11 +107,11 @@ export default async function handler({
   try {
     try {
       signInValidation.parse(query);
-    } catch (e: any) {
+    } catch (e) {
       return {
         error: "BadRequest",
         status: 302, // 302 trigger a redirect
-        log: e.message,
+        log: e instanceof Error ? e.message : "",
       };
     }
 
@@ -167,10 +167,10 @@ export default async function handler({
     </script>
     </html>`,
     };
-  } catch (e: any) {
+  } catch (e) {
     return {
       error: "Default",
-      message: e.message,
+      message: e instanceof Error ? e.message : "",
       status: 302, // 302 trigger a redirect
     };
   }

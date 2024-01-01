@@ -19,8 +19,8 @@ export default async function handler({
       code: k1,
       refresh_token: refreshToken,
     } = tokenValidation.parse(body));
-  } catch (e: any) {
-    return { error: "BadRequest", log: e.message };
+  } catch (e) {
+    return { error: "BadRequest", log: e instanceof Error ? e.message : "" };
   }
 
   let pubkey: string;
@@ -34,7 +34,7 @@ export default async function handler({
     let session;
     try {
       session = await config.storage.get({ k1 }, url, config);
-    } catch (e: any) {
+    } catch (e) {
       if (config.flags.diagnostics && config.flags.logs) {
         console.warn(
           `An error occurred in the storage.get method. To debug the error see: ${
@@ -42,7 +42,7 @@ export default async function handler({
           }`
         );
       }
-      return { error: "Default", log: e.message };
+      return { error: "Default", log: e instanceof Error ? e.message : "" };
     }
     if (!session?.success) {
       return {
@@ -57,7 +57,7 @@ export default async function handler({
 
     try {
       await config.storage.delete({ k1 }, url, config);
-    } catch (e: any) {
+    } catch (e) {
       if (config.flags.logs) {
         console.error(e);
       }
@@ -100,7 +100,7 @@ export default async function handler({
           `Invalid 'name' property returned from the generateName method.`
         );
       }
-    } catch (e: any) {
+    } catch (e) {
       if (config.flags.diagnostics && config.flags.logs) {
         console.warn(
           `An error occurred in the generateName method. To debug the error see: ${
@@ -108,7 +108,7 @@ export default async function handler({
           }`
         );
       }
-      return { error: "Default", log: e.message };
+      return { error: "Default", log: e instanceof Error ? e.message : "" };
     }
   }
   const image = config?.generateAvatar

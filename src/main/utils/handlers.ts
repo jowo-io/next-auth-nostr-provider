@@ -85,12 +85,12 @@ export async function pagesHandler(
   let output: HandlerReturn;
   try {
     output = await handler(args);
-  } catch (e: any) {
+  } catch (e) {
     output = {
       error: "Default",
       message: HandlerErrorCodes.Default,
       status: 500,
-      log: e.message,
+      log: e instanceof Error ? e.message : "",
     };
   }
 
@@ -173,12 +173,12 @@ export async function appHandler(
   let output: HandlerReturn;
   try {
     output = await handler(args);
-  } catch (e: any) {
+  } catch (e) {
     output = {
       error: "Default",
       message: HandlerErrorCodes.Default,
       status: 500,
-      log: e.message,
+      log: e instanceof Error ? e.message : "",
     };
   }
 

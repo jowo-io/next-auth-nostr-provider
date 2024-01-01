@@ -12,15 +12,15 @@ export default async function handler({
   let state, oldK1;
   try {
     ({ state, k1: oldK1 } = createValidation.parse(body));
-  } catch (e: any) {
-    return { error: "BadRequest", log: e.message };
+  } catch (e) {
+    return { error: "BadRequest", log: e instanceof Error ? e.message : "" };
   }
 
   // if an old k1 is provided, delete it
   if (typeof oldK1 === "string") {
     try {
       await config.storage.delete({ k1: oldK1 }, url, config);
-    } catch (e: any) {
+    } catch (e) {
       if (config.flags.logs) {
         console.error(e);
       }
@@ -46,7 +46,7 @@ export default async function handler({
 
   try {
     await config.storage.set({ k1, session: { k1, state } }, url, config);
-  } catch (e: any) {
+  } catch (e) {
     if (config.flags.diagnostics && config.flags.logs) {
       console.warn(
         `An error occurred in the storage.set method. To debug the error see: ${
@@ -54,7 +54,7 @@ export default async function handler({
         }`
       );
     }
-    return { error: "Default", log: e.message };
+    return { error: "Default", log: e instanceof Error ? e.message : "" };
   }
 
   return {

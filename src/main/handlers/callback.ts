@@ -10,8 +10,8 @@ export default async function handler({
   let k1, pubkey, sig;
   try {
     ({ k1, key: pubkey, sig } = callbackValidation.parse(query));
-  } catch (e: any) {
-    return { error: "BadRequest", log: e.message };
+  } catch (e) {
+    return { error: "BadRequest", log: e instanceof Error ? e.message : "" };
   }
 
   const lnurlVerifyAuthorizationSignature = // @ts-ignore
@@ -20,14 +20,14 @@ export default async function handler({
   let authorize;
   try {
     authorize = await lnurlVerifyAuthorizationSignature(sig, k1, pubkey);
-  } catch (e: any) {
-    return { error: "Unauthorized", log: e.message };
+  } catch (e) {
+    return { error: "Unauthorized", log: e instanceof Error ? e.message : "" };
   }
 
   if (!authorize) {
     try {
       await config.storage.delete({ k1 }, url, config);
-    } catch (e: any) {
+    } catch (e) {
       if (config.flags.logs) {
         console.error(e);
       }
@@ -49,7 +49,7 @@ export default async function handler({
       url,
       config
     );
-  } catch (e: any) {
+  } catch (e) {
     if (config.flags.diagnostics && config.flags.logs) {
       console.warn(
         `An error occurred in the storage.update method. To debug the error see: ${
@@ -57,7 +57,7 @@ export default async function handler({
         }`
       );
     }
-    return { error: "Default", log: e.message };
+    return { error: "Default", log: e instanceof Error ? e.message : "" };
   }
 
   return {
