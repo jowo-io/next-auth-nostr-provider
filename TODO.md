@@ -20,6 +20,7 @@ Below is a TODO list for further development of `next-auth-lightning-provider`.
 ##### Checklist
 
 - bump version
+- run `npm i` to update lock file
 - commit with git
 - build with npm
 - publish with npm
