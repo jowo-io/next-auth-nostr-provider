@@ -28,7 +28,11 @@ const config: NextAuthLightningConfig = {
       return results[0];
     },
     async update({ k1, session }) {
-      await db.update(lnAuthTable).set(session).where(eq(lnAuthTable.k1, k1));
+      const results = await db
+        .update(lnAuthTable)
+        .set(session)
+        .where(eq(lnAuthTable.k1, k1));
+      if (!results[0].affectedRows) throw new Error(`Could not find k1:${k1}`);
     },
     async delete({ k1 }) {
       await db.delete(lnAuthTable).where(eq(lnAuthTable.k1, k1));
