@@ -24,6 +24,7 @@ const config: NextAuthLightningConfig = {
     },
     async update({ k1, session }) {
       const old = await storage.getItem(`k1:${k1}`);
+      if (!old) throw new Error(`Could not find k1:${k1}`);
       await storage.updateItem(`k1:${k1}`, { ...old, ...session });
     },
     async delete({ k1 }) {

@@ -4,7 +4,6 @@ Below is a TODO list for further development of `next-auth-lightning-provider`.
 
 ### Beta
 
-- difference between set and update? does it throw if there isn't already an entry for k1? Is it supposed to? etc
 - manual testing
   - test node, next, next-auth versions for compatibility (including deployed)
   - test all user configuration options

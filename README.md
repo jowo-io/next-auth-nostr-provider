@@ -230,6 +230,9 @@ const config: NextAuthLightningConfig = {
      * An async function that receives a k1 and a data argument.
      * The k1 is a unique key that's used to find and
      * update data previously stored under it.
+     *
+     * @note the storage.update method should throw an error if
+     * an existing session is not already stored under the k1.
      */
     async update({ k1, session }) {
       // update lnurl auth session data based on k1 id

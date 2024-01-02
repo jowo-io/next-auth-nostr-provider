@@ -91,17 +91,41 @@ export async function testGet(
 
 export async function testUpdate(
   expectedSession: { k1: string; state: string },
-  updateMethod: () => Promise<undefined>,
+  updateMethod: (override?: string) => Promise<undefined>,
   getMethod: () => Promise<StorageSession | null | undefined>,
   config: Config
 ): Promise<Check[]> {
   const checks: Check[] = [];
   try {
+    const rand = randomBytes(20).toString("hex").toUpperCase();
+    await updateMethod(`NON_EXISTING_K1_${rand}_NON_EXISTING_K1`);
+    if (config.flags.logs) {
+      console.error(
+        new Error(
+          "The storage.update method should throw an error if an existing session is not already stored under the k1."
+        )
+      );
+    }
+    checks.push({
+      state: "failed",
+      method: "update",
+      message:
+        "Invoked on a non-existing k1 without throwing. Expected an error to be thrown when session doesn't exist.",
+    });
+    return checks;
+  } catch (e) {
+    checks.push({
+      state: "success",
+      method: "update",
+      message: "Invoked on a non-existing k1 and threw an error.",
+    });
+  }
+  try {
     await updateMethod();
     checks.push({
       state: "success",
       method: "update",
-      message: "Invoked without throwing an error.",
+      message: "Invoked on existing k1 without throwing an error.",
     });
 
     let receivedSession;
@@ -236,8 +260,12 @@ export default async function handler({
     const setMethod = async () =>
       await config.storage.set({ k1, session: setSession }, url, config);
     const getMethod = async () => await config.storage.get({ k1 }, url, config);
-    const updateMethod = async () =>
-      await config.storage.update({ k1, session: updateSession }, url, config);
+    const updateMethod = async (override?: string) =>
+      await config.storage.update(
+        { k1: override || k1, session: updateSession },
+        url,
+        config
+      );
     const deleteMethod = async () =>
       await config.storage.delete({ k1 }, url, config);
 
