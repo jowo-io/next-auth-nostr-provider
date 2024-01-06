@@ -6,6 +6,7 @@ Below is a TODO list for further development of `next-auth-lightning-provider`.
 
 - https://github.com/orgs/dicebear/discussions/324
 - tree-shake collection, import only robots
+- flags are not optional
 
 ### Beta
 
