@@ -2,6 +2,10 @@
 
 Below is a TODO list for further development of `next-auth-lightning-provider`.
 
+### Bugs
+
+- https://github.com/orgs/dicebear/discussions/324
+
 ### Beta
 
 - manual testing
